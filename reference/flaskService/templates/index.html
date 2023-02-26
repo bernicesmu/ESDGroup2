@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Message Sender</title>
+  </head>
+  <body>
+    <h1>Message Sender</h1>
+    <form method="POST" action="/submit">
+      <label for="message">Message:</label><br>
+      <input type="text" id="message" name="message"><br><br>
+      <label for="routing_key">Routing Key:</label><br>
+      <input type="text" id="routing_key" name="routing_key"><br><br>
+      <label for="exchange">Exchange:</label><br>
+      <input type="text" id="exchange" name="exchange"><br><br>
+      <input type="submit" value="Send Message">
+    </form>
+  </body>
+</html>
