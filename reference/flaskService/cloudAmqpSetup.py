@@ -24,6 +24,9 @@ exchangename="ex_student"
 exchangetype="topic"
 channel.exchange_declare(exchange=exchangename, exchange_type=exchangetype, durable=True)
 
+exchangename="ex_student2"
+exchangetype="topic"
+channel.exchange_declare(exchange=exchangename, exchange_type=exchangetype, durable=True)
 #Setting up Command Queue and binding queue
 queue_name = "q_student_command"
 channel.queue_declare(queue=queue_name, durable=True)

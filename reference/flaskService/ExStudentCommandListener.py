@@ -26,4 +26,4 @@ def callback(ch, method, properties, body):
 # Start consuming messages from the queue
 channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
 print('Waiting for messages...')
-channel.start_consuming()
+channel.start_consuming() 
