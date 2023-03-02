@@ -10,6 +10,8 @@ class ClubMembers extends Model
 {
     use SoftDeletes;
 
+    protected $table = 'club_members';
+
     protected $fillable = [ 
         'id', 'clubId', 'studentMatricNum', 'yearJoined'
     ];

@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Club extends Model
 {
     use SoftDeletes;
-
+    
+    protected $table = 'club';
+    
     protected $fillable = [ 
         'id', 'clubName', 'clubCategory', 'cbd'
     ];
