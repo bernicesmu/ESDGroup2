@@ -1,19 +1,43 @@
 package com.clubmgmt.clubmgmtstudentservice.student;
 
+import java.util.Arrays;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+
+@Entity //For db
+@Table //By default use Student class name
 public class Student {
     //Default class for student
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column
     private String smuEmail;
+    @Transient
+    private String smuEmailNoFac;
+    @Column
     private int matricNum;
+    @Column
     private String matriculatedName;
+    @Column
     private String gender;
+    @Column
     private String degree;
+    @Column
     private String intakeYear;
+    @Column
     private String telegramUser;
+    @Column
     private int phoneNum;
+    @Column
     private boolean vaccinationStatus;
 
-    
     public Student(){
         // Null Constructor
     }
@@ -37,16 +61,24 @@ public class Student {
         this.nokNumber = builder.nokNumber;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
     public String getSmuEmail() {
         return smuEmail;
+    }
+
+    public String getSmuEmailNoFac(){
+        String firstPart = smuEmail.split("@")[0];
+        String[] secondPartSplit = smuEmail.split("@")[1].split("\\.");
+        String[] secondPart = Arrays.copyOfRange(secondPartSplit, 1, secondPartSplit.length);
+        String output = firstPart + "@" + String.join(".",secondPart);
+        return output;
     }
 
     public void setSmuEmail(String smuEmail) {
@@ -157,6 +189,12 @@ public class Student {
         this.nokNumber = nokNumber;
     }
 
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return super.toString();
+    }
+
     private String medicalHistory;
     private String bloodType;
     private String nokName;
@@ -166,7 +204,7 @@ public class Student {
 
     // Following builder pattern
     public static class StudentBuilder{
-        private String id;
+        private int id;
         private String smuEmail;
         private int matricNumber;
         private String matriculatedName;
