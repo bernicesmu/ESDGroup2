@@ -17,3 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Route::get('clubs', "ClubController@index"); // Get club members
+// Route::post('clubs', "ClubController@store"); // Create club
+// Route::get('clubs/{id}', "ClubController@show"); // Detail of club
+// Route::put('clubs/{id}', "ClubController@update"); // Update club
+// Route::delete('clubs/{id}', "ClubController@destroy"); // Delete club
+
+Route::resource('clubs','ClubController');

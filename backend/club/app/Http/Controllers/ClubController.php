@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Club;
 
 use Illuminate\Http\Request;
 
@@ -11,7 +12,13 @@ class ClubController extends Controller
      */
     public function index()
     {
-        //
+        // Get all clubs
+        $clubs = Club::all();
+
+        // Return Json Response
+        return response()->json([
+            'clubs' => $clubs
+        ],200);
     }
 
     /**
@@ -35,7 +42,19 @@ class ClubController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Club details
+        $club = Club::find($id);
+        if(!$club){
+            return response()->json([
+                'message'=>'Club Not Found.'
+            ],404);
+        }
+
+        // Return Json Response
+        return response()->json([
+            'club' => $club
+        ],200);
+
     }
 
     /**

@@ -10,7 +10,7 @@ class Club extends Model
 {
     use SoftDeletes;
     
-    protected $table = 'club';
+    protected $table = 'clubs';
     
     protected $fillable = [ 
         'id', 'clubName', 'clubCategory', 'cbd'
