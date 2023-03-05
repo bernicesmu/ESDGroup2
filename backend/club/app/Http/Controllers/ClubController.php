@@ -19,6 +19,7 @@ class ClubController extends Controller
         return response()->json([
             'clubs' => $clubs
         ],200);
+        // return view('clubs', ['clubs' => $clubs]);
     }
 
     /**
