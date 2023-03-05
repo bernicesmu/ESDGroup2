@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ClubExco extends Model
 {
     use SoftDeletes;
+    
+    protected $table = 'club_exco';
 
     protected $fillable = [ 
         'id', 'clubMemberId', 'role', 'roleFromDate', 'roleToDate'

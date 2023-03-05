@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Club extends Model
+class ClubMembers extends Model
 {
     use SoftDeletes;
 
+    protected $table = 'club_members';
+
     protected $fillable = [ 
-        'id', 'clubName', 'clubCategory', 'cbd'
+        'id', 'clubId', 'studentMatricNum', 'yearJoined'
     ];
 }
