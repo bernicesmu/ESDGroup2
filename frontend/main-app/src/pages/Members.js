@@ -1,49 +1,19 @@
-import TableData from "../components/TableData";
+import MembersTable from "../components/MembersTable";
+import { Typography, Button, Box } from '@mui/material';
 
 export default function Members() {
-    function createData(id, date, name, shipTo, paymentMethod, amount) {
-        return { id, date, name, shipTo, paymentMethod, amount };
-      }
-
-    const rows = [
-        createData(
-          0,
-          '16 Mar, 2019',
-          'Elvis Presley',
-          'Tupelo, MS',
-          'VISA ⠀•••• 3719',
-          312.44,
-        ),
-        createData(
-          1,
-          '16 Mar, 2019',
-          'Paul McCartney',
-          'London, UK',
-          'VISA ⠀•••• 2574',
-          866.99,
-        ),
-        createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-        createData(
-          3,
-          '16 Mar, 2019',
-          'Michael Jackson',
-          'Gary, IN',
-          'AMEX ⠀•••• 2000',
-          654.39,
-        ),
-        createData(
-          4,
-          '15 Mar, 2019',
-          'Bruce Springsteen',
-          'Long Branch, NJ',
-          'VISA ⠀•••• 5919',
-          212.79,
-        ),
-      ];
-
     return ( 
         <div>
-            <TableData title='Members of XXX' rows={rows}/>
+            <div className="text-center my-5">
+              <Typography variant='h4'>SMUBIA's Members Database</Typography>
+              <Typography variant='p'>View all the information about your club members</Typography>
+            </div>
+            <div className="mx-5 mb-5">
+              <Button variant='contained' component='a' href='/MyClubs'>Go Back to My Clubs</Button>
+            </div>
+            <div className="mx-5">
+              <MembersTable />
+            </div>
         </div>
     )
 }
