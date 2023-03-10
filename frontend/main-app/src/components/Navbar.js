@@ -126,6 +126,7 @@ function Navbar() {
 
         </Toolbar>
       </Container>
+      <Box bgcolor='secondary.main' height={10} display='block'></Box>
     </AppBar>
   );
 }
