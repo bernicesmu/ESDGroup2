@@ -19,3 +19,4 @@ Route::get('/', function () {
 });
 
 Route::get('/clubs', [ClubController::class, 'index']);
+Route::post('/clubs', [ClubController::class, 'store']);

@@ -26,3 +26,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route::delete('clubs/{id}', "ClubController@destroy"); // Delete club
 
 Route::resource('clubs','ClubController');
+
+Route::get('/clubs', [ClubController::class, 'index']);
+Route::post('/clubs', [ClubController::class, 'create']);
