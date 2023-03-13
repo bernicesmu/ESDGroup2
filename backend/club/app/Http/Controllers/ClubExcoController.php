@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Club;
+use App\Models\ClubExco;
 use Illuminate\Http\Request;
-use App\Http\Requests\ClubRequest;
+use App\Http\Requests\ClubExcoRequest;
 
 class ClubExcoController extends Controller
 {
@@ -12,7 +12,14 @@ class ClubExcoController extends Controller
      */
     public function index()
     {
-        //
+        // All club exco
+        $clubExco = ClubExco::all();
+        // $clubExco = ClubExco::table('club_excos')->get();
+
+        // Return Json Response
+        return response()->json([
+            'club_excos' => $clubExco
+        ],200);
     }
 
     /**
@@ -34,9 +41,21 @@ class ClubExcoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        // Exco Detail 
+        $clubExco = ClubExco::find($id);
+        // $clubExco = ClubExco::table('club_excos')->get();
+        if(!$clubExco){
+            return response()->json([
+                'message'=>'Club exco Not Found.'
+            ],404);
+        }
+
+        // Return Json Response
+        return response()->json([
+            'club_exco' => $clubExco
+        ],200);
     }
 
     /**
