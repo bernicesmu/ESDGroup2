@@ -9,6 +9,7 @@ import Events from "./pages/Events";
 import EventIndiv from "./pages/EventIndiv";
 import EventCreate from "./pages/EventCreate";
 import MemberCreate from "./pages/MemberCreate";
+import Calendar from "./pages/Calendar";
 import { createTheme, ThemeProvider } from "@mui/material";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
                 <Route exact path="/Event" element={<EventIndiv />} />
                 <Route exact path="/EventCreate" element={<EventCreate />} />
                 <Route exact path="/MemberCreate" element={<MemberCreate />} />
+                <Route exact path="/Calendar" element={<Calendar />} />
             </Routes>
         </Router>
         </ThemeProvider>
