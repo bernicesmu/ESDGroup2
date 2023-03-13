@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Club;
-use Illuminate\Http\Request\ClubRequest;
+use Illuminate\Http\Request;
+use App\Http\Requests\ClubRequest;
 
 class ClubController extends Controller
 {
@@ -59,7 +60,7 @@ class ClubController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         // Club details
         $club = Club::find($id);
@@ -87,9 +88,33 @@ class ClubController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(\Illuminate\Http\Request $request, $id)
     {
-        //
+        try {
+        $club = Club::find($id);
+        if(!$club){
+          return response()->json([
+            'message'=>'Club Not Found.'
+          ],404);
+        }
+
+        $club->clubName = $request->clubName;
+        $club->clubCategory = $request->clubCategory;
+        $club->cbd = $request->cbd;
+        
+        // Update club
+        $club->save();
+
+        // Return Json Response
+        return response()->json([
+            'message' => "Club successfully updated!"
+        ],200);
+    } catch (\Exception $e) {
+        // Return Json Response
+        return response()->json([
+            'message' => "Opps.. Something went wrong!"
+        ],500);
+        }
     }
 
     /**

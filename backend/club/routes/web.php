@@ -19,4 +19,9 @@ Route::get('/', function () {
 });
 
 Route::get('/clubs', [ClubController::class, 'index']);
+Route::get('/clubs/{id}', [ClubController::class, 'show']);
 Route::post('/clubs', [ClubController::class, 'store']);
+Route::put('/clubs', [ClubController::class, 'update']);
+
+// Route::get('/club_excos', [ClubExcoController::class, 'index']);
+Route::get('/club_excos', 'ClubExcoController@index');
