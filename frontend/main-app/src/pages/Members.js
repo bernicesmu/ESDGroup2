@@ -11,6 +11,10 @@ export default function Members() {
             <div className="mx-5 mb-5">
               <Button variant='contained' component='a' href='/MyClubs'>Go Back to My Clubs</Button>
             </div>
+            {/* XY */}
+            <div className="mx-5 mb-5">
+              <Button variant='contained' component='a' href='/MemberCreate'>Enroll New Member</Button>
+            </div>
             <div className="mx-5">
               <MembersTable />
             </div>
