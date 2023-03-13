@@ -203,8 +203,6 @@ export default function MemberCreateForm(props) {
                 <Grid item xs={12} sm={3}>
                     <TextField id="nokNumber" label="NoK No." name="nokNumber" value={memberDetails.nokNumber} type="text" fullWidth onChange={(event) => handleChange(event)}></TextField>
                 </Grid>
-
-
             </Grid>
 
             <Button variant='contained' sx={{marginTop:3}} className="float-start" component="a" href="/Events">Go Back to Events</Button>
