@@ -39,36 +39,10 @@ export default function Album() {
       <CssBaseline />
       <main>
         {/* Hero unit */}
-        <Box
-          sx={{
-            bgcolor: 'background.paper',
-            pt: 8,
-          }}
-        >
-          <Container maxWidth="sm">
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="text.primary"
-              gutterBottom
-            >
-              My Clubs
-            </Typography>
-            <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              View all the student clubs that you are managing.
-            </Typography>
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-              {/* <Button variant="contained">Main call to action</Button>
-              <Button variant="outlined">Secondary action</Button> */}
-            </Stack>
-          </Container>
-        </Box>
+        <div className="text-center mt-5">
+          <Typography variant='h4'>My Clubs</Typography>
+          <Typography variant='p'>View all the student clubs that you are managing.</Typography>
+        </div>
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>

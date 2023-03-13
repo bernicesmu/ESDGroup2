@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import MyClubs from "./pages/MyClubs";
 import Members from "./pages/Members";
 import Events from "./pages/Events";
+import EventIndiv from "./pages/EventIndiv";
 import EventCreate from "./pages/EventCreate";
 import MemberCreate from "./pages/MemberCreate";
 import { createTheme, ThemeProvider } from "@mui/material";
@@ -20,6 +21,7 @@ function App() {
                 <Route exact path="/MyClubs" element={<MyClubs />} />
                 <Route exact path="/Members" element={<Members />} />
                 <Route exact path="/Events" element={<Events />} />
+                <Route exact path="/Event" element={<EventIndiv />} />
                 <Route exact path="/EventCreate" element={<EventCreate />} />
                 <Route exact path="/MemberCreate" element={<MemberCreate />} />
             </Routes>
