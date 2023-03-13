@@ -8,12 +8,9 @@ export default function Members() {
               <Typography variant='h4'>SMUBIA's Members Database</Typography>
               <Typography variant='p'>View all the information about your club members</Typography>
             </div>
-            <div className="mx-5 mb-5">
+            <div className="mx-5 mb-5 d-flex justify-content-between">
               <Button variant='contained' component='a' href='/MyClubs'>Go Back to My Clubs</Button>
-            </div>
-            {/* XY */}
-            <div className="mx-5 mb-5">
-              <Button variant='contained' component='a' href='/MemberCreate'>Enroll New Member</Button>
+              <Button variant='contained' component='a' href='/MemberCreate'>Add New Member</Button>
             </div>
             <div className="mx-5">
               <MembersTable />
