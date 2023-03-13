@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Club;
-
-use Illuminate\Http\Request;
+use Illuminate\Http\Request\ClubRequest;
 
 class ClubController extends Controller
 {
@@ -25,15 +24,34 @@ class ClubController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(\Illuminate\Http\Request $request)
     {
         //
+        try {
+
+        // Create Club
+        Club::create([
+            'clubName' => $request->clubName,
+            'clubCategory' => $request -> clubCategory,
+            'cbd' => $request->cbd
+        ]);
+
+        // Return Json Response
+        return response()->json([
+            'message' => "Congratulations, club successfully created."
+        ],200);
+    } catch (\Exception $e) {
+        // Return Json Response
+        return response()->json([
+            'message' => "Opps.. Something went wrong!"
+        ],500);
+    }
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ClubRequest $request)
     {
         //
     }
