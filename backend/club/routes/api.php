@@ -28,4 +28,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('clubs','ClubController');
 
 Route::get('/clubs', [ClubController::class, 'index']);
+Route::get('/clubs/{id}', [ClubController::class, 'show']);
 Route::post('/clubs', [ClubController::class, 'create']);
+Route::put('/clubs', [ClubController::class, 'update']);
+
+Route::resource('club_exco','ClubExcoController');
