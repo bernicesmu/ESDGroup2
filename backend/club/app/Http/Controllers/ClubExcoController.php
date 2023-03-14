@@ -48,7 +48,7 @@ class ClubExcoController extends Controller
         // $clubExco = ClubExco::table('club_excos')->get();
         if(!$clubExco){
             return response()->json([
-                'message'=>'Club exco Not Found.'
+                'message'=>'Club exco not found.'
             ],404);
         }
 
