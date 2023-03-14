@@ -9,7 +9,7 @@ import Events from "./pages/Events";
 import EventIndiv from "./pages/EventIndiv";
 import EventCreate from "./pages/EventCreate";
 import MemberCreate from "./pages/MemberCreate";
-import Calendar from "./pages/Calendar";
+import Calendar from "./components/Calendar";
 import { createTheme, ThemeProvider } from "@mui/material";
 
 function App() {
