@@ -26,14 +26,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route::put('clubs/{id}', "ClubController@update"); // Update club
 // Route::delete('clubs/{id}', "ClubController@destroy"); // Delete club
 
-Route::resource('clubs','ClubController');
+// Route::resource('clubs','ClubController');
 
 Route::get('/clubs', [ClubController::class, 'index']);
 Route::get('/clubs/{id}', [ClubController::class, 'show']);
-Route::post('/clubs', [ClubController::class, 'store']);
+Route::post('/clubs', [ClubController::class, 'create']);
 Route::put('/clubs/{id}', [ClubController::class, 'update']);
 
-Route::resource('club_excos','ClubExcoController');
+// Route::resource('club_excos','ClubExcoController');
 
 Route::get('/club_excos', [ClubExcoController::class, 'index']);
 Route::get('/club_excos/{id}', [ClubExcoController::class, 'show']);
