@@ -120,8 +120,22 @@ class ClubController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy( $id)
     {
-        //
+        // Post Detail 
+        $club = Club::find($id);
+        if(!$club){
+        return response()->json([
+            'message'=>'clubs Not Found.'
+        ],404);
+        }
+
+        // Delete Post
+        $club->delete();
+
+        // Return Json Response
+        return response()->json([
+            'message' => "Post successfully deleted."
+        ],200);
     }
 }

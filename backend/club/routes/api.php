@@ -32,6 +32,7 @@ Route::get('/clubs', [ClubController::class, 'index']);
 Route::get('/clubs/{id}', [ClubController::class, 'show']);
 Route::post('/clubs', [ClubController::class, 'create']);
 Route::put('/clubs/{id}', [ClubController::class, 'update']);
+Route::delete('/clubs/{id}', [ClubController::class, 'destroy']);
 
 // Route::resource('club_excos','ClubExcoController');
 
