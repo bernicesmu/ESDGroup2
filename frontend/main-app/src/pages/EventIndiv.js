@@ -15,7 +15,7 @@ export default function EventIndiv() {
                 <Typography variant='p'>Check out the details for this exciting event!</Typography>
               </div>
               <div className="my-auto">
-                <Button variant='contained' component='a' href='/SignUp'>Join this Event</Button>
+                <Button variant='contained' component='a' href='/Attendance'>Check Sign Up Sheet</Button>
               </div>
             </div>
             <EventPhotos></EventPhotos>

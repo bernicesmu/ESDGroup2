@@ -8,7 +8,10 @@ import Members from "./pages/Members";
 import Events from "./pages/Events";
 import EventIndiv from "./pages/EventIndiv";
 import EventCreate from "./pages/EventCreate";
+import Attendance from "./pages/Attendance";
 import MemberCreate from "./pages/MemberCreate";
+import Login from "./pages/Login";
+import MyAccount from "./pages/MyAccount";
 // import Calendar from "./pages/Calendar.js";
 import { createTheme, ThemeProvider } from "@mui/material";
 
@@ -24,7 +27,10 @@ function App() {
                 <Route exact path="/Events" element={<Events />} />
                 <Route exact path="/Event" element={<EventIndiv />} />
                 <Route exact path="/EventCreate" element={<EventCreate />} />
+                <Route exact path="/Attendance" element={<Attendance />} />
                 <Route exact path="/MemberCreate" element={<MemberCreate />} />
+                <Route exact path="/Login" element={<Login />} />
+                <Route exact path="/MyAccount" element={<MyAccount />} />
                 {/* <Route exact path="/Calendar" element={<Calendar />} /> */}
             </Routes>
         </Router>
