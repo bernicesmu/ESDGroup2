@@ -12,7 +12,6 @@ import Attendance from "./pages/Attendance";
 import MemberCreate from "./pages/MemberCreate";
 import Login from "./pages/Login";
 import MyAccount from "./pages/MyAccount";
-// import Calendar from "./pages/Calendar.js";
 import { createTheme, ThemeProvider } from "@mui/material";
 
 function App() {
