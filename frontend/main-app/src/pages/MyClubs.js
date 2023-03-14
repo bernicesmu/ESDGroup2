@@ -32,35 +32,6 @@ export default function MyClubs() {
     let cardNameSmall = card.toLowerCase(); 
     if (cardNameSmall.includes(searchValue)) { 
       return (
-        // <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
-        //   <Card
-        //     sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}
-        //   >
-        //     <CardMedia
-        //       component="img"
-        //       sx={{
-        //         // 16:9
-        //         width: '60%', 
-        //         height: 'auto',
-        //       }}
-        //       image={ClubNotFound}
-        //       alt="random"
-        //     />
-        //     <CardContent sx={{ flexGrow: 1 }}>
-        //       <Typography gutterBottom variant="h5" component="h2" textAlign={'center'}>
-        //         {card}
-        //       </Typography>
-        //       <Typography textAlign={'center'}>
-        //         This is a club description that each student club will have.
-        //       </Typography>
-        //     </CardContent>
-        //     <CardActions>
-        //       {/* remember to add the GET params in the href below so as to retrieve the club name */}
-        //       <Button size="small" href={"/Members"}>View members</Button> 
-        //       <Button size="small" href={"/Events"}>View events</Button>
-        //     </CardActions>
-        //   </Card>
-        // </Grid>
         <CustomCard type='club' name={card} desc="This is a club description that each student club will have."></CustomCard>
       );
     }

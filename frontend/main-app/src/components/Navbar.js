@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import ClumsyLogo from '../assets/ClumsyLogo.PNG';
 
 
 const pages = ['Home', 'Events', 'My Clubs', 'My Account'];
@@ -32,10 +33,11 @@ function Navbar() {
 
 
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Box component='img' src={ClumsyLogo} height={50} marginRight={3}></Box>
+          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap = "false"
@@ -52,7 +54,7 @@ function Navbar() {
             }}
           >
             CLUMSY
-          </Typography>
+          </Typography> */}
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton

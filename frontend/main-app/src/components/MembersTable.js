@@ -73,7 +73,6 @@ export default function MembersTable(props) {
   ];
 
   function isActive(param) { 
-    console.log(param)
     if (param.formattedValue) { 
       return (<CheckCircleIcon color='success'></CheckCircleIcon>);
     } else { 
