@@ -12,9 +12,11 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import ClumsyLogo from '../assets/ClumsyLogo.PNG';
+import Atrayee from '../assets/Atrayee.png';
 
 
-const pages = ['Home', 'Events', 'My Clubs', 'My Account'];
+const pages = ['Home', 'Events', 'My Clubs'];
 
 
 function Navbar() {
@@ -32,10 +34,13 @@ function Navbar() {
 
 
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Box component='a' href="/">
+            <Box component='img' src={ClumsyLogo} height={50} marginRight={3}></Box>
+          </Box>
+          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap = "false"
@@ -52,7 +57,7 @@ function Navbar() {
             }}
           >
             CLUMSY
-          </Typography>
+          </Typography> */}
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -84,7 +89,7 @@ function Navbar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.replace(/ /g, '')} onClick={handleCloseNavMenu}>
+                <MenuItem key={page.replace(/ /g, '').replace('Home', '')} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page.replace(/ /g, '')}</Typography>
                 </MenuItem>
               ))}
@@ -113,17 +118,18 @@ function Navbar() {
             {pages.map((page) => (
 
               <Button
-                href={'/' + page.replace(/ /g, '')}
+                href={'/' + page.replace(/ /g, '').replace('Home', '')}
                 key={page.replace(/ /g, '')}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'white', display: 'block', ":hover": {color: "secondary.main"} }}
               >
                 {page}
               </Button>
             ))}
           </Box>
-
-
+          <Box component='a' href="/MyAccount">
+            <Box component='img' src={Atrayee} height={43} borderRadius='50%' bgcolor='white' marginRight={0}></Box>
+          </Box>
         </Toolbar>
       </Container>
       <Box bgcolor='secondary.main' height={10} display='block'></Box>
