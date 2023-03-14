@@ -4,32 +4,6 @@ import MembersTable from "../components/MembersTable";
 import { Typography, Button, Box, Tab, Tabs } from '@mui/material';
 import MembersMedicalTable from '../components/MembersMedicalTable';
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
 export default function Members() {
     const [value, setValue] = useState(0);
 
@@ -72,12 +46,6 @@ export default function Members() {
                 <Tab label="Medical Records" {...a11yProps(1)} />
               </Tabs>
             </Box>
-            <TabPanel value={1} index={0}>
-              Particulars
-            </TabPanel>
-            <TabPanel value={2} index={1}>
-              Medical Records
-            </TabPanel>
             <div className="m-5">
               {toDisplay()}
             </div>
