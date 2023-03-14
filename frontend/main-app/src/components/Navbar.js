@@ -84,7 +84,7 @@ function Navbar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.replace(/ /g, '')} onClick={handleCloseNavMenu}>
+                <MenuItem key={page.replace(/ /g, '').replace('Home', '')} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page.replace(/ /g, '')}</Typography>
                 </MenuItem>
               ))}
@@ -113,7 +113,7 @@ function Navbar() {
             {pages.map((page) => (
 
               <Button
-                href={'/' + page.replace(/ /g, '')}
+                href={'/' + page.replace(/ /g, '').replace('Home', '')}
                 key={page.replace(/ /g, '')}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}

@@ -9,7 +9,7 @@ import Events from "./pages/Events";
 import EventIndiv from "./pages/EventIndiv";
 import EventCreate from "./pages/EventCreate";
 import MemberCreate from "./pages/MemberCreate";
-import Calendar from "./pages/Calendar";
+// import Calendar from "./pages/Calendar.js";
 import { createTheme, ThemeProvider } from "@mui/material";
 
 function App() {
@@ -18,14 +18,14 @@ function App() {
         <Router>
             <Navbar />
             <Routes>
-                <Route exact path="/Home" element={<Home />} />
+                <Route exact path="/" element={<Home />} />
                 <Route exact path="/MyClubs" element={<MyClubs />} />
                 <Route exact path="/Members" element={<Members />} />
                 <Route exact path="/Events" element={<Events />} />
                 <Route exact path="/Event" element={<EventIndiv />} />
                 <Route exact path="/EventCreate" element={<EventCreate />} />
                 <Route exact path="/MemberCreate" element={<MemberCreate />} />
-                <Route exact path="/Calendar" element={<Calendar />} />
+                {/* <Route exact path="/Calendar" element={<Calendar />} /> */}
             </Routes>
         </Router>
         </ThemeProvider>

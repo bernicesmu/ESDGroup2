@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Button, Grid, TextField } from '@mui/material';
-import EventCard from '../components/EventCard'
+import CustomCard from '../components/CustomCard'
 import SearchIcon from '@mui/icons-material/Search';
 
 export default function Events() {
@@ -20,9 +20,7 @@ export default function Events() {
       let eventNameSmall = event.name.toLowerCase(); 
       if (eventNameSmall.includes(searchValue)) { 
         return (
-        <Grid item key={event.id} xs={4}>
-          <EventCard name={event.name} desc={event.desc} link="/Event"></EventCard>
-        </Grid>
+          <CustomCard type="event" name={event.name} desc={event.desc}></CustomCard>
         );
       }
     }
@@ -45,7 +43,7 @@ export default function Events() {
               <TextField id="eventSearchBar" placeholder="Search Events" variant="outlined" sx={{width: '70%', marginX: 'auto'}} onChange={(event) => handleSearchChange(event)}/>
             </div>
             <div className="mx-5">
-              <Grid container className="mx-auto">
+              <Grid container spacing={4}>
                 {events.map((event)=>(
                   updateEvents(event)
                 ))}
