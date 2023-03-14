@@ -13,9 +13,10 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import ClumsyLogo from '../assets/ClumsyLogo.PNG';
+import Atrayee from '../assets/Atrayee.png';
 
 
-const pages = ['Home', 'Events', 'My Clubs', 'My Account'];
+const pages = ['Home', 'Events', 'My Clubs'];
 
 
 function Navbar() {
@@ -36,7 +37,9 @@ function Navbar() {
     <AppBar position="sticky">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box component='img' src={ClumsyLogo} height={50} marginRight={3}></Box>
+          <Box component='a' href="/">
+            <Box component='img' src={ClumsyLogo} height={50} marginRight={3}></Box>
+          </Box>
           {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
@@ -118,14 +121,15 @@ function Navbar() {
                 href={'/' + page.replace(/ /g, '').replace('Home', '')}
                 key={page.replace(/ /g, '')}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'white', display: 'block', ":hover": {color: "secondary.main"} }}
               >
                 {page}
               </Button>
             ))}
           </Box>
-
-
+          <Box component='a' href="/MyAccount">
+            <Box component='img' src={Atrayee} height={43} borderRadius='50%' bgcolor='white' marginRight={0}></Box>
+          </Box>
         </Toolbar>
       </Container>
       <Box bgcolor='secondary.main' height={10} display='block'></Box>
