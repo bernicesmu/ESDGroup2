@@ -37,7 +37,7 @@ export default function Members() {
                 <Typography variant='p'>View all the information about your club members</Typography>
               </div>
               <div className="my-auto">
-                <Button variant='contained' component='a' href='/MemberCreate'>Add New Member</Button>
+                <Button variant='contained' component='a' href='/MemberEnroll'>Add New Member</Button>
               </div>
             </div>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

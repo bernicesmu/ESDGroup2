@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, TextField, Autocomplete, Select, MenuItem, InputLabel, Checkbox, FormGroup, FormControlLabel, Grid, Button } from '@mui/material';
 
-// Generate Order Data
+//Now defunct, might be used as an "edit account info form in the future."
 
 export default function MemberCreateForm(props) {
     const [memberDetails, setMemberDetails] = useState({

@@ -8,6 +8,7 @@ import Members from "./pages/Members";
 import Events from "./pages/Events";
 import EventIndiv from "./pages/EventIndiv";
 import EventCreate from "./pages/EventCreate";
+import MemberEnroll from "./pages/MemberEnroll";
 import Attendance from "./pages/Attendance";
 import MemberCreate from "./pages/MemberCreate";
 import Login from "./pages/Login";
@@ -26,6 +27,7 @@ function App() {
                 <Route exact path="/Events" element={<Events />} />
                 <Route exact path="/Event" element={<EventIndiv />} />
                 <Route exact path="/EventCreate" element={<EventCreate />} />
+                <Route exact path="/MemberEnroll" element={<MemberEnroll/>} />
                 <Route exact path="/Attendance" element={<Attendance />} />
                 <Route exact path="/MemberCreate" element={<MemberCreate />} />
                 <Route exact path="/Login" element={<Login />} />
