@@ -13,7 +13,7 @@ export default function Members() {
             </div>
             {/* XY */}
             <div className="mx-5 mb-5">
-              <Button variant='contained' component='a' href='/MemberCreate'>Enroll New Member</Button>
+              <Button variant='contained' component='a' href='/MemberEnroll'>Enroll New Member</Button>
             </div>
             <div className="mx-5">
               <MembersTable />

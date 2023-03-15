@@ -1,9 +1,8 @@
 import MembersTable from "../components/MembersTable";
 import { Typography, Box, TextField, Select, MenuItem, Autocomplete, Checkbox, FormGroup, FormControlLabel, Grid } from '@mui/material';
 import { Form } from "react-router-dom";
-import MemberCreateForm from "../components/MemberCreateForm";
-//Defunct for now
-export default function MemberCreate() {
+import MemberEnrollForm from "../components/MemberEnrollForm";
+export default function MemberEnroll() {
     return ( 
         <div>
             <div className="text-center my-5">
@@ -11,7 +10,7 @@ export default function MemberCreate() {
               <Typography variant='p'>Individual Sign Ups</Typography>
             </div>
             <div className="w-75 mx-auto">
-                <MemberCreateForm />
+                <MemberEnrollForm />
             </div>
         </div>
     )

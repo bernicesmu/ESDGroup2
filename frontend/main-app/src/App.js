@@ -7,7 +7,7 @@ import MyClubs from "./pages/MyClubs";
 import Members from "./pages/Members";
 import Events from "./pages/Events";
 import EventCreate from "./pages/EventCreate";
-import MemberCreate from "./pages/MemberCreate";
+import MemberEnroll from "./pages/MemberEnroll";
 import { createTheme, ThemeProvider } from "@mui/material";
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
                 <Route exact path="/Members" element={<Members />} />
                 <Route exact path="/Events" element={<Events />} />
                 <Route exact path="/EventCreate" element={<EventCreate />} />
-                <Route exact path="/MemberCreate" element={<MemberCreate />} />
+                <Route exact path="/MemberEnroll" element={<MemberEnroll/>} />
             </Routes>
         </Router>
         </ThemeProvider>

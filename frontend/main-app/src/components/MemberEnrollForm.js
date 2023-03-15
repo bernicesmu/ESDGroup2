@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, TextField, Autocomplete, Select, MenuItem, InputLabel, Checkbox, FormGroup, FormControlLabel, Grid, Button } from '@mui/material';
 
-//Now defunct, might be used as an "edit account info form in the future."
-
-export default function MemberCreateForm(props) {
+//This is the file used to invite a member by a club exco
+export default function MemberEnrollForm(props) {
     const [memberDetails, setMemberDetails] = useState({
         clubName: "SMUBIA",
         matriculatedName: "",
@@ -26,6 +25,24 @@ export default function MemberCreateForm(props) {
         eventLocation: "", 
     })
 
+    //Ajax code 
+    const [data, setData] = useState([]);
+    const handleClick = () => {
+      fetch('http://localhost:8080/student/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({matricNum: memberDetails.matricNum})
+      })
+      .then(response => response.json())
+      .then(data => {
+        setData(data);
+        console.log(data);
+      })
+      .catch(error => console.error(error));
+    }
+
     const handleSubmit = (event) => {
         // prevents the submit button from refreshing the page
         event.preventDefault();
@@ -44,7 +61,6 @@ export default function MemberCreateForm(props) {
 
     return (
         <form onSubmit={(event) => handleSubmit(event)}> 
-
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={12}>
                     <Typography variant='h5'>Administrative Details</Typography>
@@ -52,7 +68,10 @@ export default function MemberCreateForm(props) {
                 <Grid item xs={12}>
                     <TextField id="clubName" label="Club Name" name="clubName" value={memberDetails.clubName} disabled fullWidth></TextField>
                 </Grid>
-                <Grid item xs={12} sm={9}>
+                <Grid item xs={12} sm={4}>
+                    <TextField id="matricNum" label="Matric Number" name="matricNum" value={memberDetails.matricNum} fullWidth onChange={(event) => handleChange(event)}></TextField>
+                </Grid>
+                {/* <Grid item xs={12} sm={9}>
                     <TextField id="matriculatedName" label="Matriculated Name" name="matriculatedName" value={memberDetails.matriculatedName} fullWidth onChange={(event) => handleChange(event)}></TextField>
                 </Grid>
                 <Grid item xs={12} sm={3}>
@@ -70,16 +89,13 @@ export default function MemberCreateForm(props) {
                         <MenuItem value={'f'}>F</MenuItem>
                     </Select>
                 </Grid>
-                <Grid item xs={12} sm={4}>
-                    <TextField id="matricNum" label="Matric Number" name="matricNum" value={memberDetails.matricNum} fullWidth onChange={(event) => handleChange(event)}></TextField>
-                </Grid>
-                {/* <Grid item xs={12} sm={2}>
+         
+                <Grid item xs={12} sm={2}>
                     <FormGroup>
                         <FormControlLabel control={<Checkbox value={eventDetails.eventConfirmed} />} label="Confirmed"  onChange={(event) => handleChange(event)}/>
                     </FormGroup>
-                </Grid> */}
-                {/* bernice: ensure that the user input is reflected in the Autocomplete component */}
-                {/* <Grid item xs={12} sm={6}>
+                </Grid>
+                <Grid item xs={12} sm={6}>
                     <Autocomplete   disablePortal
                                     fullWidth
                                     id="eventType"
@@ -97,7 +113,7 @@ export default function MemberCreateForm(props) {
                                     onChange={(event) => handleChange(event)}
                                     renderInput={(params) => <TextField {...params} label="Event Type" />}
                     />
-                </Grid> */}
+                </Grid>
                 <Grid item xs={12} sm={2}>
                     <Select
                             displayEmpty
@@ -202,11 +218,11 @@ export default function MemberCreateForm(props) {
                 </Grid>
                 <Grid item xs={12} sm={3}>
                     <TextField id="nokNumber" label="NoK No." name="nokNumber" value={memberDetails.nokNumber} type="text" fullWidth onChange={(event) => handleChange(event)}></TextField>
-                </Grid>
+                </Grid> */}
             </Grid>
 
             <Button variant='contained' sx={{marginTop:3}} className="float-start" component="a" href="/Events">Go Back to Events</Button>
-            <Button type="submit" variant='contained' sx={{marginTop:3}} className="float-end">Register Member</Button>
+            <Button onClick={handleClick} variant='contained' sx={{marginTop:3}} className="float-end">Register Member</Button>
         </form>
   );
 }
