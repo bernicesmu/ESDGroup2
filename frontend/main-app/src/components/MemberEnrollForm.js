@@ -26,8 +26,10 @@ export default function MemberEnrollForm(props) {
     })
 
     //Ajax code 
+    const [showInfo, setShowInfo] = useState(false);
+    const [showError, setError] = useState(false);
     const [data, setData] = useState([]);
-    const handleClick = () => {
+    const getMemberInfo = () => {
       fetch('http://localhost:8080/student/', {
         method: 'POST',
         headers: {
@@ -39,6 +41,14 @@ export default function MemberEnrollForm(props) {
       .then(data => {
         setData(data);
         console.log(data);
+        if (data.hasOwnProperty("error")){
+            console.log("Error");
+            setError(true)
+            setShowInfo(false);
+        } else {
+            setShowInfo(true);
+            setError(false);
+        }
       })
       .catch(error => console.error(error));
     }
@@ -65,164 +75,93 @@ export default function MemberEnrollForm(props) {
                 <Grid item xs={12} sm={12}>
                     <Typography variant='h5'>Administrative Details</Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={3}>
                     <TextField id="clubName" label="Club Name" name="clubName" value={memberDetails.clubName} disabled fullWidth></TextField>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                     <TextField id="matricNum" label="Matric Number" name="matricNum" value={memberDetails.matricNum} fullWidth onChange={(event) => handleChange(event)}></TextField>
                 </Grid>
-                {/* <Grid item xs={12} sm={9}>
-                    <TextField id="matriculatedName" label="Matriculated Name" name="matriculatedName" value={memberDetails.matriculatedName} fullWidth onChange={(event) => handleChange(event)}></TextField>
+
+                {showError && (
+                    <React.Fragment>
+                        <Grid item xs={12}>{/* Force next row */}</Grid>
+                        <Grid item xs={12} sm={12}>
+                            <Typography variant='h5'>No user exists with that matric number! Did you key in the right number?</Typography>
+                        </Grid>
+                    </React.Fragment>
+                )}
+
+                {showInfo && (
+                <React.Fragment>
+                <Grid item xs={12} sm={12}>
+                    <Typography variant='h5'>Review Member Details</Typography>
                 </Grid>
-                <Grid item xs={12} sm={3}>
-                    <Select
-                        displayEmpty
-                        labelId="gender"
-                        id="gender"
-                        name="gender"
-                        value={memberDetails.gender}
-                        label="Age"
-                        onChange={(event) => handleChange(event)}
-                    >
-                        <MenuItem value={''}>Gender</MenuItem>
-                        <MenuItem value={'m'}>M</MenuItem>
-                        <MenuItem value={'f'}>F</MenuItem>
-                    </Select>
+                <Grid item xs={12}>{/* Force next row */}</Grid>
+                
+                <Grid item xs={12} sm={4}>
+                    <TextField disabled={true} id="matriculatedName" label="Matriculated Name" name="matriculatedName" value={data.matriculatedName} fullWidth/>
                 </Grid>
-         
-                <Grid item xs={12} sm={2}>
-                    <FormGroup>
-                        <FormControlLabel control={<Checkbox value={eventDetails.eventConfirmed} />} label="Confirmed"  onChange={(event) => handleChange(event)}/>
-                    </FormGroup>
+                <Grid item xs={12} sm={1}>
+                    <TextField disabled={true} id="gender"  label="Gender" name="gender" value={data.gender} fullWidth/>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                    <Autocomplete   disablePortal
-                                    fullWidth
-                                    id="eventType"
-                                    name="eventType"
-                                    options={['Sports', 'Networking']}
-                                    sx={{width:'100%'}}
-                                    value={eventDetails.eventType}
-                                    // inputValue={userInput.eventType}
-                                    // onInputChange={(event) => handleAutoCompleteChange(event)}
-                                    inputValue={userInput.eventType}
-                                    onInputChange={(event, newInputValue) => {
-                                        setUserInput({ ...userInput, eventType: newInputValue });
-                                        handleChange(event);
-                                    }}
-                                    onChange={(event) => handleChange(event)}
-                                    renderInput={(params) => <TextField {...params} label="Event Type" />}
-                    />
+                <Grid item xs={12} sm={1}>
+                    <TextField disabled={true} id="intakeYear" label="Intake Year" name="intakeYear" value={data.intakeYear} fullWidth/>
                 </Grid>
-                <Grid item xs={12} sm={2}>
-                    <Select
-                            displayEmpty
-                            labelId="intakeYear"
-                            id="intakeYear"
-                            name="intakeYear"
-                            value={memberDetails.intakeYear}
-                            // label="First Degree"
-                            onChange={(event) => handleChange(event)}
-                        >
-                        <MenuItem value={""}>Year</MenuItem>
-                        <MenuItem value={'AY22/23'}>AY22/23</MenuItem>
-                        <MenuItem value={'AY21/22'}>AY21/22</MenuItem>
-                        <MenuItem value={'AY20/21'}>AY20/21</MenuItem>
-                    </Select>
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                    <Select
-                            displayEmpty
-                            labelId="degree"
-                            id="degree"
-                            name="degree"
-                            value={memberDetails.degree}
-                            // label="First Degree"
-                            onChange={(event) => handleChange(event)}
-                        >
-                        <MenuItem value={""}>First Degree</MenuItem>
-                        <MenuItem value={'scis'}>Information Systems</MenuItem>
-                        <MenuItem value={'soa'}>Accountancy</MenuItem>
-                        <MenuItem value={'sol'}>Law</MenuItem>
-                        <MenuItem value={'sob'}>Business</MenuItem>
-                        <MenuItem value={'soss'}>Social Sciences</MenuItem>
-                    </Select>
+                <Grid item xs={12} sm={1}>
+                    <TextField disabled={true} id="degree" label="Degree" name="degree" value={data.degree} fullWidth/>
                 </Grid>
 
+                <Grid item xs={12}>{/* Force next row */}</Grid>
                 <Grid item xs={12} sm={12}>
                     <Typography variant='h5'>Contact Details</Typography>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField id="smuEmail" label="SMU Email (Include in school)" name="smuEmail" value={memberDetails.smuEmail} type='text' fullWidth onChange={(event) => handleChange(event)}></TextField>
+                <Grid item xs={12} sm={4}>
+                    <TextField disabled={true} id="smuEmail"  label="SMU Email" name="smuEmail" value={data.smuEmail} fullWidth/>
                 </Grid>
-                <Grid item xs={12} sm={3}>
-                    <TextField id="telegramUser" label="Telegram Handle (Include @)" name="telegramUser" value={memberDetails.telegramUser} type="text" fullWidth onChange={(event) => handleChange(event)}></TextField>
+                <Grid item xs={12} sm={2}>
+                    <TextField disabled={true} id="telegramUser" label="Telegram Handle" name="telegramUser" value={data.telegramUser} fullWidth/>
                 </Grid>
-                <Grid item xs={12} sm={3}>
-                    <TextField id="phoneNum" label="Phone No." name="phoneNum" value={memberDetails.phoneNum} type="text" fullWidth onChange={(event) => handleChange(event)}></TextField>
+                <Grid item xs={12} sm={2}>
+                    <TextField disabled={true} id="phoneNum"  label="Phone Number" name="phoneNum" value={data.phoneNum} fullWidth/>
                 </Grid>
 
+                <Grid item xs={12}>{/* Force next row */}</Grid>
                 <Grid item xs={12} sm={12}>
                     <Typography variant='h5'>Medical Details</Typography>
                 </Grid>
-                <Grid item xs={12} sm={2}>
-                        <Select
-                            displayEmpty
-                            labelId="bloodType"
-                            id="bloodType"
-                            name="bloodType"
-                            value={memberDetails.bloodType}
-                            // label="First Degree"
-                            onChange={(event) => handleChange(event)}
-                        >
-                        <MenuItem value={""}>Blood Type</MenuItem>
-                        <MenuItem value={'A+'}>A+</MenuItem>
-                        <MenuItem value={'A-'}>A-</MenuItem>
-                        <MenuItem value={'B+'}>B+</MenuItem>
-                        <MenuItem value={'B-'}>B-</MenuItem>
-                        <MenuItem value={'O+'}>O+</MenuItem>
-                        <MenuItem value={'O-'}>O-</MenuItem>
-                        <MenuItem value={'AB+'}>AB+</MenuItem>
-                        <MenuItem value={'AB-'}>AB-</MenuItem>
-                    </Select>
+                <Grid item xs={12} sm={1}>
+                    <TextField disabled={true} id="bloodType" label="Blood Type" name="bloodType" value={data.bloodType} fullWidth/>
                 </Grid>
-                <Grid item xs={12} sm={3}>
-                        <Select
-                            displayEmpty
-                            labelId="vaccinationStatus"
-                            id="vaccinationStatus"
-                            name="vaccinationStatus"
-                            value={memberDetails.vaccinationStatus}
-                            // label="First Degree"
-                            onChange={(event) => handleChange(event)}
-                        >
-                        <MenuItem value={""}>Vaccination Status</MenuItem>
-                        <MenuItem value={'fv'}>Fully Vaccinated</MenuItem>
-                        <MenuItem value={'pv'}>Partially Vaccinated</MenuItem>
-                        <MenuItem value={'nv'}>Not Vaccinated</MenuItem>
-                    </Select>
-                   
+                <Grid item xs={12} sm={1}>
+                    <TextField disabled={true} id="vaccinationStatus" label="Vaccination Status" name="vaccinationStatus" value={data.vaccinationStatus} fullWidth/>
                 </Grid>
-                <Grid item xs={12} sm={3}>
-                    <TextField id="medicalHistory" label="Medical History" name="medicalHistory" value={memberDetails.medicalHistory} type='text' fullWidth onChange={(event) => handleChange(event)}></TextField>
+               
+                <Grid item xs={12} sm={6}>
+                    <TextField disabled={true} id="medicalHistory"  label="Medical History" name="medicalHistory" value={data.medicalHistory} fullWidth/>
                 </Grid>
 
+                <Grid item xs={12}>{/* Force next row */}</Grid>
                 <Grid item xs={12} sm={12}>
                     <Typography variant='h5'>Next-of-Kin Details</Typography>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField id="nokName" label="NoK Name" name="nokName" value={memberDetails.nokName} type='text' fullWidth onChange={(event) => handleChange(event)}></TextField>
+                <Grid item xs={12} sm={4}>
+                    <TextField disabled={true} id="nokName" label="NoK Name" name="nokName" value={data.nokName} fullWidth/>
                 </Grid>
-                <Grid item xs={12} sm={3}>
-                    <TextField id="nokRelationship" label="NoK Relationship" name="nokRelationship" value={memberDetails.nokRelationship} type='text' fullWidth onChange={(event) => handleChange(event)}></TextField>
+                <Grid item xs={12} sm={1}>
+                    <TextField disabled={true} id="nokRelationship" label="NoK Relationship" name="nokRelationship" value={data.nokRelationship} fullWidth/>
                 </Grid>
-                <Grid item xs={12} sm={3}>
-                    <TextField id="nokNumber" label="NoK No." name="nokNumber" value={memberDetails.nokNumber} type="text" fullWidth onChange={(event) => handleChange(event)}></TextField>
-                </Grid> */}
+                <Grid item xs={12} sm={2}>
+                    <TextField disabled={true} id="nokNumber" label="NoK Number"name=" nokNumber" value={data.nokNumber} fullWidth/>
+                </Grid>
+                </React.Fragment>
+                ) }
+               
+                
             </Grid>
-
-            <Button variant='contained' sx={{marginTop:3}} className="float-start" component="a" href="/Events">Go Back to Events</Button>
-            <Button onClick={handleClick} variant='contained' sx={{marginTop:3}} className="float-end">Register Member</Button>
+            <Grid>
+                <Button variant='contained' sx={{marginTop:3}} className="float-start" component="a" href="/Events">Go Back to Events</Button>
+                <Button onClick={getMemberInfo} variant='contained' sx={{marginTop:3}} className="float-end">View Member Info</Button>
+            </Grid>
         </form>
   );
 }
