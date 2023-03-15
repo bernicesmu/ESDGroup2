@@ -1,20 +1,8 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
+import React, { useEffect, useState } from 'react';
+import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography, Link, TextField } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CustomCard from '../components/CustomCard';
+import ClubNotFound from '../assets/ClubNotFound.png';
 
 function Copyright() {
   return (
@@ -29,97 +17,44 @@ function Copyright() {
   );
 }
 
-const cards = ['SMUBIA', 'Volleyball', 'Samba Masala'];
+const cards = ['SMUBIA', 'Volleyball', 'Samba Masala', '.Hack'];
 
 const theme = createTheme();
 
-export default function Album() {
+export default function MyClubs() {
+  const [searchValue, setSearchValue] = useState("");
+
+  function handleSearchChange(event) { 
+    setSearchValue(event.target.value.toLowerCase()); 
+  }
+
+  function updateClubs(card) { 
+    let cardNameSmall = card.toLowerCase(); 
+    if (cardNameSmall.includes(searchValue)) { 
+      return (
+        <CustomCard type='club' name={card} desc="This is a club description that each student club will have."></CustomCard>
+      );
+    }
+  }
+
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
       <main>
         {/* Hero unit */}
-        <Box
-          sx={{
-            bgcolor: 'background.paper',
-            pt: 8,
-          }}
-        >
-          <Container maxWidth="sm">
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="text.primary"
-              gutterBottom
-            >
-              My Clubs
-            </Typography>
-            <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              View all the student clubs that you are managing.
-            </Typography>
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-              {/* <Button variant="contained">Main call to action</Button>
-              <Button variant="outlined">Secondary action</Button> */}
-            </Stack>
-          </Container>
-        </Box>
-        <Container sx={{ py: 8 }} maxWidth="md">
+        <div className="text-center my-5">
+          <Typography variant='h4'>My Clubs</Typography>
+          <Typography variant='p'>View all the student clubs that you are managing.</Typography>
+        </div>
+        <div className="d-flex mx-auto mb-5">
+          <TextField id="eventSearchBar" placeholder="Search My Clubs" variant="outlined" sx={{width: '70%', marginX: 'auto'}} onChange={(event) => handleSearchChange(event)}/>
+        </div>
+        <div className="m-5">
           {/* End hero unit */}
           <Grid container spacing={4}>
             {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
-                <Card
-                  sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}
-                >
-                  <CardMedia
-                    component="img"
-                    sx={{
-                      // 16:9
-                    }}
-                    image="https://source.unsplash.com/random"
-                    alt="random"
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2" textAlign={'center'}>
-                      {card}
-                    </Typography>
-                    <Typography textAlign={'center'}>
-                      This is a club description that each student club will have.
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    {/* remember to add the GET params in the href below so as to retrieve the club name */}
-                    <Button size="small" href={"/Members"}>View members</Button> 
-                    <Button size="small" href={"/Events"}>View events</Button>
-                  </CardActions>
-                </Card>
-              </Grid>
+              updateClubs(card)
             ))}
           </Grid>
-        </Container>
+        </div>
       </main>
-      {/* Footer */}
-      <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
-        <Typography variant="h6" align="center" gutterBottom>
-          CLUMSY
-        </Typography>
-        {/* <Typography
-          variant="subtitle1"
-          align="center"
-          color="text.secondary"
-          component="p"
-        >
-          Something here to give the footer a purpose!
-        </Typography> */}
-        <Copyright />
-      </Box>
-      {/* End footer */}
-    </ThemeProvider>
-  );
+  )
 }

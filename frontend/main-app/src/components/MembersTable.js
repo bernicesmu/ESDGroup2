@@ -7,6 +7,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import MemberPositionPill from './MemberPositionsPill';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 import Title from './Title';
 
 // Generate Order Data
@@ -62,13 +64,26 @@ export default function MembersTable(props) {
       headerName: 'Active',
       flex: 1,
       editable: false, 
+      renderCell: (params) => { 
+        return (
+          isActive(params)
+        )
+      }
     }, 
   ];
 
+  function isActive(param) { 
+    if (param.formattedValue) { 
+      return (<CheckCircleIcon color='success'></CheckCircleIcon>);
+    } else { 
+      return (<CancelIcon color='danger'></CancelIcon>)
+    }
+  }
+
   const rows = [
-    {id: 1, name: "Bernice Teo Wei Shan", email: "bernice.teo.2021@scis.smu.edu.sg", telegram: "@berrrniice", yearJoined: "2021", positions: ["Vice President", "8th DAP Mentor"], active: true},
-    {id: 2, name: "Regine Tan Wei Ting", email: "reginetan.2021@scis.smu.edu.sg", telegram: "@ginxed", yearJoined: "2021", positions: ["CR Director", "8th DAP Mentee"], active: true},
-    {id: 3, name: "Ivan Yeo", email: "ivanyeo.2021@scis.smu.edu.sg", telegram: "@ivanyeo", yearJoined: "2021", positions: ["8th DAP Mentee"], active: false},
+    {id: 1, name: "Bernice Teo Wei Shan", email: "bernice.teo.2021@scis.smu.edu.sg", telegram: "@berrrniice", yearJoined: "2021", positions: ["Vice President", "8th DAP Mentor"], active: 1},
+    {id: 2, name: "Regine Tan Wei Ting", email: "reginetan.2021@scis.smu.edu.sg", telegram: "@ginxed", yearJoined: "2021", positions: ["CR Director", "8th DAP Mentee"], active: 1},
+    {id: 3, name: "Ivan Yeo", email: "ivanyeo.2021@scis.smu.edu.sg", telegram: "@ivanyeo", yearJoined: "2021", positions: ["8th DAP Mentee"], active: 0},
     ];
 
   return (

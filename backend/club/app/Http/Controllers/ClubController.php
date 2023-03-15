@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Club;
-
 use Illuminate\Http\Request;
+use App\Http\Requests\ClubRequest;
 
 class ClubController extends Controller
 {
@@ -25,15 +25,34 @@ class ClubController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(\Illuminate\Http\Request $request)
     {
         //
+        try {
+
+        // Create Club
+        Club::create([
+            'clubName' => $request->clubName,
+            'clubCategory' => $request -> clubCategory,
+            'cbd' => $request->cbd
+        ]);
+
+        // Return Json Response
+        return response()->json([
+            'message' => "Congratulations, club successfully created."
+        ],200);
+    } catch (\Exception $e) {
+        // Return Json Response
+        return response()->json([
+            'message' => "Opps.. Something went wrong!"
+        ],500);
+    }
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ClubRequest $request)
     {
         //
     }
@@ -41,7 +60,7 @@ class ClubController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         // Club details
         $club = Club::find($id);
@@ -69,16 +88,54 @@ class ClubController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(\Illuminate\Http\Request $request, $id)
     {
-        //
+        try {
+        $club = Club::find($id);
+        if(!$club){
+          return response()->json([
+            'message'=>'Club Not Found.'
+          ],404);
+        }
+
+        $club->clubName = $request->clubName;
+        $club->clubCategory = $request->clubCategory;
+        $club->cbd = $request->cbd;
+        
+        // Update club
+        $club->save();
+
+        // Return Json Response
+        return response()->json([
+            'message' => "Club successfully updated!"
+        ],200);
+    } catch (\Exception $e) {
+        // Return Json Response
+        return response()->json([
+            'message' => "Opps.. Something went wrong!"
+        ],500);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy( $id)
     {
-        //
+        // Post Detail 
+        $club = Club::find($id);
+        if(!$club){
+        return response()->json([
+            'message'=>'clubs Not Found.'
+        ],404);
+        }
+
+        // Delete Post
+        $club->delete();
+
+        // Return Json Response
+        return response()->json([
+            'message' => "Post successfully deleted."
+        ],200);
     }
 }

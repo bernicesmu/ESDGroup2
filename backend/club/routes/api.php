@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClubController;
+use App\Http\Controllers\ClubExcoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +26,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route::put('clubs/{id}', "ClubController@update"); // Update club
 // Route::delete('clubs/{id}', "ClubController@destroy"); // Delete club
 
-Route::resource('clubs','ClubController');
+// Route::resource('clubs','ClubController');
+
+Route::get('/clubs', [ClubController::class, 'index']);
+Route::get('/clubs/{id}', [ClubController::class, 'show']);
+Route::post('/clubs', [ClubController::class, 'create']);
+Route::put('/clubs/{id}', [ClubController::class, 'update']);
+Route::delete('/clubs/{id}', [ClubController::class, 'destroy']);
+
+// Route::resource('club_excos','ClubExcoController');
+
+Route::get('/club_excos', [ClubExcoController::class, 'index']);
+Route::get('/club_excos/{id}', [ClubExcoController::class, 'show']);
+Route::post('/club_excos', [ClubExcoController::class, 'store']);
+Route::put('/club_excos/{id}', [ClubExcoController::class, 'update']);
