@@ -40,9 +40,9 @@ export default function MemberEnrollForm(props) {
       .then(response => response.json())
       .then(data => {
         setData(data);
-        console.log(data);
+        // console.log(data);
         if (data.hasOwnProperty("error")){
-            console.log("Error");
+            // console.log("Error");
             setError(true)
             setShowInfo(false);
         } else {
@@ -53,11 +53,18 @@ export default function MemberEnrollForm(props) {
       .catch(error => console.error(error));
     }
 
-    const handleSubmit = (event) => {
+    const enrollMember = (event) => {
         // prevents the submit button from refreshing the page
         event.preventDefault();
-        console.log(memberDetails);
+        console.log("Enrolled " + data.matricNum + "!");
     };
+
+
+    // const handleSubmit = (event) => {
+    //     // prevents the submit button from refreshing the page
+    //     event.preventDefault();
+    //     console.log(memberDetails);
+    // };
 
     function handleChange(event) {
         setMemberDetails({ ...memberDetails, [event.target.name]: event.target.value });
@@ -70,7 +77,7 @@ export default function MemberEnrollForm(props) {
 
 
     return (
-        <form onSubmit={(event) => handleSubmit(event)}> 
+        <form> 
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={12}>
                     <Typography variant='h5'>Administrative Details</Typography>
@@ -156,11 +163,11 @@ export default function MemberEnrollForm(props) {
                 </React.Fragment>
                 ) }
                
-                
             </Grid>
             <Grid>
                 <Button variant='contained' sx={{marginTop:3}} className="float-start" component="a" href="/Events">Go Back to Events</Button>
-                <Button onClick={getMemberInfo} variant='contained' sx={{marginTop:3}} className="float-end">View Member Info</Button>
+                {!showInfo && (<Button onClick={getMemberInfo} variant='contained' sx={{marginTop:3, marginLeft:3}}  alignItems="flex-start">View Member Info</Button>)}
+                {showInfo && (<Button onClick={enrollMember} variant='contained' sx={{marginTop:3, marginLeft:3}} alignItems="flex-start" >Enroll Member</Button>)}
             </Grid>
         </form>
   );
