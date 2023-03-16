@@ -44,7 +44,7 @@ class ClubController extends Controller
     } catch (\Exception $e) {
         // Return Json Response
         return response()->json([
-            'message' => "Opps.. Something went wrong!"
+            'message' => "Opps.. Something went wrong! A club could not be created!"
         ],500);
     }
     }
@@ -139,3 +139,5 @@ class ClubController extends Controller
         ],200);
     }
 }
+
+?>

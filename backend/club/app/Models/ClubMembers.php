@@ -16,3 +16,4 @@ class ClubMembers extends Model
         'id', 'clubId', 'studentMatricNum', 'yearJoined'
     ];
 }
+?>
