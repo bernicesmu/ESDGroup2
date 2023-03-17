@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use App\Rules\UnsignedBigIntegerRule;
 class ClubMemberRequest extends FormRequest
 {
     /**
@@ -11,7 +11,7 @@ class ClubMemberRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,35 @@ class ClubMemberRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        if(request()->isMethod('post')) {
+            return [
+                'clubId' => 'required|integer',
+                'studentMatricNum' => 'required|string',
+                'yearJoined' => 'required|integer|year'
+            ];
+        } else {
+            return [
+                'clubId' => 'required|integer',
+                'studentMatricNum' => 'required|string',
+                'yearJoined' => 'required|integer|year'
+            ];
+        }
+    }
+
+    public function messages()
+    {
+        if(request()->isMethod('post')) {
+            return [
+                'clubId.required' => 'Club ID is required!',
+                'studentMatricNum.required' => 'Student Matriculation Number is required!',
+                'yearJoined.required' => 'Year joined is required!'
+            ];
+        } else {
+            return [
+                'clubId.required' => 'Club ID is required!',
+                'studentMatricNum.required' => 'Student Matriculation Number is required!',
+                'yearJoined.required' => 'Year joined is required!'
+            ];   
+        }
     }
 }
