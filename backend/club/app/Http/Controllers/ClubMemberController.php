@@ -61,7 +61,7 @@ class ClubMemberController extends Controller
     public function show( $id)
     {
         //
-        $clubMembers = ClubMembers::find($id);
+        $clubMembers = ClubMember::find($id);
         if(!$clubMembers){
           return response()->json([
              'message'=>'Club member not found!'
@@ -86,9 +86,33 @@ class ClubMemberController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ClubMemberRequest $request, $id)
     {
-        //
+        try {
+            $clubMembers = ClubMember::find($id);
+            if(!$clubMembers){
+              return response()->json([
+                'message'=>'Club member not found!'
+              ],404);
+            }
+    
+            $clubMembers->clubId = $request->clubId;
+            $clubMembers->studentMatricNum = $request->studentMatricNum;
+            $clubMembers->yearJoined = $request->yearJoined;
+            
+            // Update club
+            $clubMembers->save();
+    
+            // Return Json Response
+            return response()->json([
+                'message' => "Club member successfully updated!"
+            ],200);
+        } catch (\Exception $e) {
+            // Return Json Response
+            return response()->json([
+                'message' => "Opps.. Something went wrong! Unable to update club member."
+            ],500);
+            }
     }
 
     /**
