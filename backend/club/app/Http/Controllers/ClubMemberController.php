@@ -61,8 +61,8 @@ class ClubMemberController extends Controller
     public function show( $id)
     {
         //
-        $clubMembers = ClubMember::find($id);
-        if(!$clubMembers){
+        $clubMember = ClubMember::find($id);
+        if(!$clubMember){
           return response()->json([
              'message'=>'Club member not found!'
           ],404);
@@ -70,7 +70,7 @@ class ClubMemberController extends Controller
      
         // Return Json Response
         return response()->json([
-           'club_members' => $clubMembers
+           'club_members' => $clubMember
         ],200);
         
     }
@@ -89,19 +89,19 @@ class ClubMemberController extends Controller
     public function update(ClubMemberRequest $request, $id)
     {
         try {
-            $clubMembers = ClubMember::find($id);
-            if(!$clubMembers){
+            $clubMember = ClubMember::find($id);
+            if(!$clubMember){
               return response()->json([
                 'message'=>'Club member not found!'
               ],404);
             }
     
-            $clubMembers->clubId = $request->clubId;
-            $clubMembers->studentMatricNum = $request->studentMatricNum;
-            $clubMembers->yearJoined = $request->yearJoined;
+            $clubMember->clubId = $request->clubId;
+            $clubMember->studentMatricNum = $request->studentMatricNum;
+            $clubMember->yearJoined = $request->yearJoined;
             
             // Update club
-            $clubMembers->save();
+            $clubMember->save();
     
             // Return Json Response
             return response()->json([
@@ -118,8 +118,22 @@ class ClubMemberController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        // Club Member Detail 
+        $clubMember = ClubMember::find($id);
+        if(!$clubMember){
+        return response()->json([
+            'message'=>'Club member not found!'
+        ],404);
+        }
+
+        // Delete Club
+        $clubMember->delete();
+
+        // Return Json Response
+        return response()->json([
+            'message' => "Club member successfully deleted!"
+        ],200);
     }
 }

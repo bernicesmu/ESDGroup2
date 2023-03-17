@@ -122,20 +122,20 @@ class ClubController extends Controller
      */
     public function destroy( $id)
     {
-        // Post Detail 
+        // Club Detail 
         $club = Club::find($id);
         if(!$club){
         return response()->json([
-            'message'=>'clubs Not Found.'
+            'message'=>'Club not found!'
         ],404);
         }
 
-        // Delete Post
+        // Delete Club
         $club->delete();
 
         // Return Json Response
         return response()->json([
-            'message' => "Post successfully deleted."
+            'message' => "Club successfully deleted!"
         ],200);
     }
 }
