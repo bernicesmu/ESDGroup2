@@ -19,20 +19,22 @@ def upload():
     df = pd.read_excel(file)
     conn = mysql.connector.connect(host ="localhost", port=8889, user="is213", password='', database="attendance")
     cursor = conn.cursor()
-    cursor.execute('DROP TABLE IF EXISTS my_table2')
-    cursor.execute('CREATE TABLE my_table2 (id INT AUTO_INCREMENT, studentMatricNum INT, signUp BOOLEAN, attended BOOLEAN, late BOOLEAN, PRIMARY KEY (id))')
+    cursor.execute('DROP TABLE IF EXISTS my_table4')
+    cursor.execute('CREATE TABLE my_table4 (id INT AUTO_INCREMENT, studentMatricNum INT, signUp BOOLEAN, attended BOOLEAN, late BOOLEAN, PRIMARY KEY (id))')
 
     for i, row in df.iterrows():
-        cursor.execute('INSERT INTO my_table2 (id, studentMatricNum, signUp, attended, late) VALUES (%s, %s, %s, %s, %s)', (int(row['id']), int(row['studentMatricNum']), int(row['signUp']), int(row['attended']), int(row['late'])))
+        cursor.execute('INSERT INTO my_table4 (id, studentMatricNum, signUp, attended, late) VALUES (%s, %s, %s, %s, %s)', (int(row['id']), int(row['studentMatricNum']), int(row['signUp']), int(row['attended']), int(row['late'])))
 
     conn.commit()
-    """ cursor.execute('SELECT * FROM my_table2')
-    data = cursor.fetchall() """
+    cursor.execute('SELECT * FROM my_table3')
+    data = cursor.fetchall()
     cursor.close()
     conn.close()
-    # return render_template('upload.html', data=data)
-    
-    return {'success': True, 'message': 'File uploaded successfully.'}
+
+    if len(data) >0:
+        return render_template('upload.html', data=data)
+    else:
+        return {'success': True, 'message': 'File uploaded successfully.'}
 
 if __name__ == '__main__':
     app.run(debug=True)

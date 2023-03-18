@@ -21,9 +21,11 @@
     <table>
         <thead>
             <tr>
-                <th>Column 1</th>
-                <th>Column 2</th>
-                <th>Column 3</th>
+                <th>ID</th>
+                <th>Student Matriculation Number</th>
+                <th>Sign Up</th>
+                <th>Attended</th>
+                <th>Late</th>
             </tr>
         </thead>
         <tbody>
@@ -32,6 +34,8 @@
                     <td>{{ row[0] }}</td>
                     <td>{{ row[1] }}</td>
                     <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
                 </tr>
             {% endfor %}
         </tbody>
