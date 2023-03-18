@@ -33,7 +33,7 @@ class ClubExcoController extends Controller
 
         // Create Club exco
         ClubExco::create([
-            'clubMemberId' => $request->clubName,
+            'clubMemberId' => $request->clubMemberId,
             'role' => $request->role,
             'roleFromDate' => $request->roleFromDate,
             'roleToDate' => $request->roleToDate,
