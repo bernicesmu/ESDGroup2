@@ -17,14 +17,16 @@ def upload():
         return {'success': False, 'message': 'Error: No File selected, File must be in .xlsx format'}
 
     df = pd.read_excel(file)
-    conn = mysql.connector.connect(host ="localhost", user="is213", database="attendance")
+    conn = mysql.connector.connect(host ="localhost", port=8889, user="is213", password='', database="attendance")
     cursor = conn.cursor()
-    cursor.execute('DROP TABLE IF EXISTS sign_ups')
-    cursor.execute('CREATE TABLE my_table (column1 INT AUTO INCREMENT, column2 INT, column3 BOOLEAN, column4 BOOLEAN, column5 BOOLEAN)')
+    cursor.execute('DROP TABLE IF EXISTS my_table2')
+    cursor.execute('CREATE TABLE my_table2 (id INT AUTO_INCREMENT, studentMatricNum INT, signUp BOOLEAN, attended BOOLEAN, late BOOLEAN, PRIMARY KEY (id))')
+
     for i, row in df.iterrows():
-        cursor.execute('INSERT INTO my_table (id, studentMatricNum, signUp, attended, late) VALUES (%s, %s, %s, %s, %s)', (row['id'], row['studentMatricNum'], row['signUp'], row['attended'], row['late']))
+        cursor.execute('INSERT INTO my_table2 (id, studentMatricNum, signUp, attended, late) VALUES (%s, %s, %s, %s, %s)', (int(row['id']), int(row['studentMatricNum']), int(row['signUp']), int(row['attended']), int(row['late'])))
+
     conn.commit()
-    """ cursor.execute('SELECT * FROM my_table')
+    """ cursor.execute('SELECT * FROM my_table2')
     data = cursor.fetchall() """
     cursor.close()
     conn.close()
