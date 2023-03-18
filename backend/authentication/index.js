@@ -1,6 +1,6 @@
 
 import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, getDocs } from 'firebase/firestore'
+import { getFirestore, collection, getDocs, query, where, onSnapshot } from 'firebase/firestore'
 import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import jwt from 'jsonwebtoken'
 
@@ -20,6 +20,9 @@ const db = getFirestore()
 const auth = getAuth()
 
 const colRef = collection(db, 'allusers')
+
+//queries
+// const q = query(colRef, where())
 
 import express from 'express';
 import bodyParser from 'body-parser'
@@ -48,91 +51,78 @@ app.get('/', (req, res) => {
 // })
 
 app.post('/authentication', (req, res) => {
-    let loginusername = req.body.username;
+    console.log(req.body);
+    let loginusername = req.body.email;
     let loginpassword = req.body.password;
 
     signInWithEmailAndPassword(auth, loginusername, loginpassword)
         .then((cred) => {
             // console.log('user logged in:', cred.user)
-            getDocs(colRef)
-            .then((snapshot) => {
+            const q = query(colRef, where("email", "==", loginusername));
+            
+            onSnapshot(q, (snapshot) => {
                 let users = []
                 let clubadminList = [];
-                let loginsuccessful = false;
                 snapshot.docs.forEach((doc) => {
                     users.push({ ...doc.data(), id: doc.id })
                 })
-                for (let user of users){
-                    if (user.email == loginusername && user.password == loginpassword) {
-                        // res.json(user)
-                        // console.log('found user')
-                        // res.status(200).json(user);
-                        loginsuccessful = true;
-                        let id = user.id;
-                        let admins = user.clubAdmin;
-                        let clubs = user.clubs;
-                        if (admins.includes(true)){
-                            console.log('admin');
-                            for (let i = 0; i < admins.length; i++) {
-                                if (admins[i] == true){
-                                    clubadminList.push(clubs[i])
-                                }
-                            }
-                            // const expirationseconds = 20 * 60;
-                            // const cookieexpiration = Date.now() + expirationseconds * 1000
 
-                            let token = jwt.sign(
-                                {
-                                    clubadminList,
-                                    "adminRights" : true
-                                },
-                                'userlogin',
-                                {
-                                    expiresIn: "1200000",
-                                }
-                            );
-
-                            res.status(200).json({
-                                "code" : 200,
-                                clubadminList, 
-                                token
-                            });
-                        }
-                        else {
-                            console.log('member');
-                            let clubs = user.clubs;
-                            let clubadminList = [];
-                            let token = jwt.sign(
-                                {
-                                    clubadminList,
-                                    "adminRights" : false
-                                },
-                                'userlogin',
-                                {
-                                    expiresIn: "1200000",
-                                }
-                            );
-                            res.status(200).json({
-                                "code": 200,
-                                clubadminList,
-                                token
-                            });
+                let user = users[0];
+                let id = user.id;
+                let admins = user.clubAdmin;
+                let clubs = user.clubs;
+                if (admins.includes(true)){
+                    console.log('admin');
+                    for (let i = 0; i < admins.length; i++) {
+                        if (admins[i] == true){
+                            clubadminList.push(clubs[i])
                         }
                     }
-                }
-                if (!loginsuccessful){
-                    res.status(404).json({
-                        "code" : 404,
-                        "error" : 'login failed'
+
+                    let token = jwt.sign(
+                        {
+                            clubadminList,
+                            "adminRights" : true
+                        },
+                        'userlogin',
+                        {
+                            expiresIn: "1200000",
+                        }
+                    );
+
+                    res.status(200).json({
+                        "code" : 200,
+                        "data" : {
+                            clubadminList, 
+                            token
+                        },
+                        "message" : "Admin login successful, jwt token created."
                     });
                 }
-                // res.json(users)
-                // console.log(users)
+                else {
+                    console.log('member');
+                    let clubs = user.clubs;
+                    let clubadminList = [];
+                    let token = jwt.sign(
+                        {
+                            clubadminList,
+                            "adminRights" : false
+                        },
+                        'userlogin',
+                        {
+                            expiresIn: "1200000",
+                        }
+                    );
+                    res.status(200).json({
+                        "code": 200,
+                        "data" : {
+                            clubadminList,
+                            token
+                        },
+                        "message" : "Member login successful, jwt token created."
+                    });
+                }
             })
-            .catch(err => {
-                console.log(err.message)
-            })
-            // res.json( {"admin" : false } )
         })
         .catch((err) => {
             console.log(err.message)
@@ -144,26 +134,26 @@ app.post('/authentication', (req, res) => {
 })
 
 app.get('/authentication/logout', (req,res) => {
-    let uid = 'wCrqbbFoBfMlyzCPaaQ2tX4R3rN2';
-    getUser(uid)
-  .then((userRecord) => {
-    // See the UserRecord reference doc for the contents of userRecord.
-    console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
-  })
-  .catch((error) => {
-    console.log('Error fetching user data:', error);
-  });
+//     let uid = 'wCrqbbFoBfMlyzCPaaQ2tX4R3rN2';
+//     getUser(uid)
+//   .then((userRecord) => {
+//     // See the UserRecord reference doc for the contents of userRecord.
+//     console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
+//   })
+//   .catch((error) => {
+//     console.log('Error fetching user data:', error);
+//   });
     // let user = auth.currentUser;
     // console.log(user);
-    // signOut(auth)
-    //     .then(() => {
-    //         console.log('the user signed out');
-    //         res.send('the user logged out');
-    //     })
-    //     .catch((err) =>{ 
-    //         console.log(err.message);
-    //         res.send(err.message);
-    //     })
+    signOut(auth)
+        .then(() => {
+            console.log('the user signed out');
+            res.send('the user signed out');
+        })
+        .catch((err) =>{ 
+            console.log(err.message);
+            res.send(err.message);
+        })
 })
 
 app.get('/authentication/:userid/clubs', (req,res) => {
