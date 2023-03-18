@@ -90,17 +90,57 @@ class ClubExcoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ClubExcoRequest $request, $id)
     {
-        //
+        try {
+            $clubExco = ClubExco::find($id);
+            if(!$clubExco){
+              return response()->json([
+                'message'=>'Club exco not found!'
+              ],404);
+            }
+    
+            $clubExco->clubMemberId = $request->clubMemberId;
+            $clubExco->role = $request->role;
+            $clubExco->roleFromDate = $request->roleFromDate;
+            $clubExco->roleToDate = $request->roleToDate;
+            
+            // Update club exco
+            $clubExco->save();
+    
+            // Return Json Response
+            return response()->json([
+                'message' => "Club exco successfully updated!"
+            ],200);
+        } catch (\Exception $e) {
+            // Return Json Response
+            return response()->json([
+                'message' => "Opps.. Something went wrong! Unable to update club exco."
+            ],500);
+            }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        // Club Exco Detail 
+        $clubExco = ClubExco::find($id);
+        if(!$clubExco){
+        return response()->json([
+            'message'=>'Club exco not found!'
+        ],404);
+        }
+
+        // Delete Club Exco
+        $clubExco->delete();
+
+        // Return Json Response
+        return response()->json([
+            'message' => "Club exco successfully deleted!"
+        ],200);
     }
+    
 }
 ?>

@@ -100,7 +100,7 @@ class ClubMemberController extends Controller
             $clubMember->studentMatricNum = $request->studentMatricNum;
             $clubMember->yearJoined = $request->yearJoined;
             
-            // Update club
+            // Update club member
             $clubMember->save();
     
             // Return Json Response
@@ -128,7 +128,7 @@ class ClubMemberController extends Controller
         ],404);
         }
 
-        // Delete Club
+        // Delete Club Member
         $clubMember->delete();
 
         // Return Json Response
