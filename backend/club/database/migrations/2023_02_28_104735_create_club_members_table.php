@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('club_members', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('clubId');
+            $table->integer('clubId');
             $table->string('studentMatricNum');
             $table->year('yearJoined');
             $table->timestamps();

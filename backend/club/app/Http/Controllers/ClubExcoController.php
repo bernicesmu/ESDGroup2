@@ -20,14 +20,35 @@ class ClubExcoController extends Controller
         return response()->json([
             'club_excos' => $clubExco
         ],200);
+    
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(ClubExcoRequest $request)
     {
-        //
+
+        try {
+
+        // Create Club exco
+        ClubExco::create([
+            'clubMemberId' => $request->clubName,
+            'role' => $request->role,
+            'roleFromDate' => $request->roleFromDate,
+            'roleToDate' => $request->roleToDate,
+        ]);
+
+        // Return Json Response
+        return response()->json([
+            'message' => "Congratulations, new club exco added successfully."
+        ],200);
+    } catch (\Exception $e) {
+        // Return Json Response
+        return response()->json([
+            'message' => "Opps.. Something went wrong! A club exco couldn't be added."
+        ],500);
+    }
     }
 
     /**
@@ -82,3 +103,4 @@ class ClubExcoController extends Controller
         //
     }
 }
+?>

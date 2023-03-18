@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ClubMembers extends Model
+class ClubMember extends Model
 {
     use SoftDeletes;
 
@@ -16,3 +16,4 @@ class ClubMembers extends Model
         'id', 'clubId', 'studentMatricNum', 'yearJoined'
     ];
 }
+?>

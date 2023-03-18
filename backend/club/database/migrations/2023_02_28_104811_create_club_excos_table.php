@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('club_excos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('clubMemberId');
+            $table->integer('clubMemberId');
             $table->string('role');
             $table->date('roleFromDate');
             $table->date('roleToDate');

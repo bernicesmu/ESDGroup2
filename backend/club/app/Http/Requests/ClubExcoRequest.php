@@ -11,7 +11,7 @@ class ClubExcoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,42 @@ class ClubExcoRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+
+        
+        if(request()->isMethod('post')) {
+            return [
+                'clubMemberId' => 'required|unsignedBigInteger',
+                'role' => 'required|string',
+                'roleFromDate' => 'required|date',
+                'roleToDate' => 'required|date'
+            ];
+        } else {
+            return [
+                'clubMemberId' => 'required|unsignedBigInteger',
+                'role' => 'required|string',
+                'roleFromDate' => 'required|date',
+                'roleToDate' => 'required|date'
+            ];
+        }
+    }
+
+    public function messages()
+    {
+        if(request()->isMethod('post')) {
+            return [
+                'clubMemberId.required' => 'Club member ID is required!',
+                'role.required' => 'Role in club is required!',
+                'roleFromDate.required' => 'Starting date in role is required!',
+                'roleToDate.required' => 'End date in role is required!'
+            ];
+        } else {
+            return [
+                'clubMemberId.required' => 'Club member ID is required!',
+                'role.required' => 'Role in club is required!',
+                'roleFromDate.required' => 'Starting date in role is required!',
+                'roleToDate.required' => 'End date in role is required!'
+            ];   
+        }
     }
 }
+?>

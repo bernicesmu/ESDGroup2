@@ -16,3 +16,4 @@ class ClubExco extends Model
         'id', 'clubMemberId', 'role', 'roleFromDate', 'roleToDate'
     ];
 }
+?>
