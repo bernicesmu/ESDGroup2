@@ -1,7 +1,7 @@
 
 import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs } from 'firebase/firestore'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import jwt from 'jsonwebtoken'
 
 const firebaseConfig = {
@@ -140,9 +140,30 @@ app.post('/authentication', (req, res) => {
                 'code' : 404,
                 'error': err.message
             })
-        })
+    })
+})
 
-    
+app.get('/authentication/logout', (req,res) => {
+    let uid = 'wCrqbbFoBfMlyzCPaaQ2tX4R3rN2';
+    getUser(uid)
+  .then((userRecord) => {
+    // See the UserRecord reference doc for the contents of userRecord.
+    console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
+  })
+  .catch((error) => {
+    console.log('Error fetching user data:', error);
+  });
+    // let user = auth.currentUser;
+    // console.log(user);
+    // signOut(auth)
+    //     .then(() => {
+    //         console.log('the user signed out');
+    //         res.send('the user logged out');
+    //     })
+    //     .catch((err) =>{ 
+    //         console.log(err.message);
+    //         res.send(err.message);
+    //     })
 })
 
 app.get('/authentication/:userid/clubs', (req,res) => {
