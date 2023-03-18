@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload File</title>
+</head>
+<body>
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+
+    <p>Retrieve attendance</p>
+    <p>Mark attendance</p>
+    <p>Upload attendance</p>
+    
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('upload') }}">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+
+    {% if data %}
+    <table>
+        <thead>
+            <tr>
+                <th>Column 1</th>
+                <th>Column 2</th>
+                <th>Column 3</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+</body>
+</html>
