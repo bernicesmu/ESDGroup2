@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import pandas as pd
 import mysql.connector
 from flask_cors import CORS
@@ -26,13 +26,25 @@ def upload():
         cursor.execute('INSERT INTO my_table4 (id, studentMatricNum, signUp, attended, late) VALUES (%s, %s, %s, %s, %s)', (int(row['id']), int(row['studentMatricNum']), int(row['signUp']), int(row['attended']), int(row['late'])))
 
     conn.commit()
-    cursor.execute('SELECT * FROM my_table3')
+    cursor.execute('SELECT * FROM my_table4')
     data = cursor.fetchall()
     cursor.close()
     conn.close()
 
+    # Convert the data to a list of dictionaries
+    results = []
+    for row in data:
+        results.append({
+            'id': row[0],
+            'studentMatricNum': row[1],
+            'signUp': bool(row[2]),
+            'attended': bool(row[3]),
+            'late': bool(row[4])
+        })
+
+    # Return the data in JSON format and the rendered HTML template with the table
     if len(data) >0:
-        return render_template('upload.html', data=data)
+        return jsonify({'data': results}), render_template('upload.html', data=data)
     else:
         return {'success': True, 'message': 'File uploaded successfully.'}
 
