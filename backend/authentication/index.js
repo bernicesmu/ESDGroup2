@@ -63,6 +63,7 @@ app.post('/authentication', (req, res) => {
             onSnapshot(q, (snapshot) => {
                 let users = []
                 let clubadminList = [];
+                let clubmemberList = [];
                 snapshot.docs.forEach((doc) => {
                     users.push({ ...doc.data(), id: doc.id })
                 })
@@ -75,7 +76,10 @@ app.post('/authentication', (req, res) => {
                     console.log('admin');
                     for (let i = 0; i < admins.length; i++) {
                         if (admins[i] == true){
-                            clubadminList.push(clubs[i])
+                            clubadminList.push(clubs[i]);
+                        }
+                        else if (admins[i] == false) {
+                            clubmemberList.push(clubs[i]);
                         }
                     }
 
@@ -94,6 +98,7 @@ app.post('/authentication', (req, res) => {
                         "code" : 200,
                         "data" : {
                             clubadminList, 
+                            clubmemberList,
                             token
                         },
                         "message" : "Admin login successful, jwt token created."
@@ -101,8 +106,7 @@ app.post('/authentication', (req, res) => {
                 }
                 else {
                     console.log('member');
-                    let clubs = user.clubs;
-                    let clubadminList = [];
+                    let clubmemberList = user.clubs;
                     let token = jwt.sign(
                         {
                             clubadminList,
@@ -117,6 +121,7 @@ app.post('/authentication', (req, res) => {
                         "code": 200,
                         "data" : {
                             clubadminList,
+                            clubmemberList,
                             token
                         },
                         "message" : "Member login successful, jwt token created."
