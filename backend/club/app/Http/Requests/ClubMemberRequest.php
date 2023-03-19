@@ -23,13 +23,13 @@ class ClubMemberRequest extends FormRequest
     {
         if(request()->isMethod('post')) {
             return [
-                'clubId' => 'required|integer',
+                'clubId' => 'required|unsignedBigInteger',
                 'studentMatricNum' => 'required|string',
                 'yearJoined' => 'required|integer|year'
             ];
         } else {
             return [
-                'clubId' => 'required|integer',
+                'clubId' => 'required|unsignedBigInteger',
                 'studentMatricNum' => 'required|string',
                 'yearJoined' => 'required|integer|year'
             ];

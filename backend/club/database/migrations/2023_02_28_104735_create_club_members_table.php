@@ -10,10 +10,11 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
+    {   
+        Schema::dropIfExists('club_members');
         Schema::create('club_members', function (Blueprint $table) {
             $table->id();
-            $table->integer('clubId');
+            $table->unsignedBigInteger('clubId');
             $table->string('studentMatricNum');
             $table->year('yearJoined');
             $table->timestamps();

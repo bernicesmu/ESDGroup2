@@ -55,5 +55,3 @@ class ClubRequest extends FormRequest
         }
     }
 }
-
-?>
