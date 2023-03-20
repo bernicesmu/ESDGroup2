@@ -1,0 +1,8 @@
+com\clubmgmt\clubmgmtstudentservice\student\StudentService.class
+com\clubmgmt\clubmgmtstudentservice\student\Student$StudentBuilder.class
+com\clubmgmt\clubmgmtstudentservice\student\StudentConfig.class
+com\clubmgmt\clubmgmtstudentservice\student\StudentController.class
+com\clubmgmt\clubmgmtstudentservice\student\Student.class
+com\clubmgmt\clubmgmtstudentservice\student\StudentRepository.class
+com\clubmgmt\clubmgmtstudentservice\student\StudentUpdate.class
+com\clubmgmt\clubmgmtstudentservice\ClubMgmtStudentServiceApplication.class
