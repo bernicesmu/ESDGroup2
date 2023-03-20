@@ -1,0 +1,34 @@
+services:
+  mysqldb:
+    image: mysql
+    restart: always
+    volumes:
+      - studentdb_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_USER: a
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: studentdb
+      hostname: mysqldb
+    networks:
+      - springboot-mysql-net
+
+  springboot-container:
+    image: springboot-studentservice
+    build: .
+    environment:
+      dbname: mysqldb
+    ports:
+      - "8080:8080" #Expose docker port 
+    depends_on:
+      - mysqldb
+    networks:
+      - springboot-mysql-net
+    volumes:
+      - studentdb_data:/var/lib/mysql
+
+networks:
+  springboot-mysql-net:
+    driver: bridge
+volumes:
+  studentdb_data:
