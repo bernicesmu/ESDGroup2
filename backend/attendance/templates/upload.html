@@ -8,8 +8,6 @@
         <p>{{ error }}</p>
     {% endif %}
 
-    <p>Retrieve attendance</p>
-    <p>Mark attendance</p>
     <p>Upload attendance</p>
     <br>
     <br>
@@ -35,6 +33,7 @@
             <tr>
                 <th>ID</th>
                 <th>Student Matriculation Number</th>
+                <th>Telegram ID</th>
                 <th>Sign Up</th>
                 <th>Attended</th>
                 <th>Late</th>
@@ -48,11 +47,18 @@
                     <td>{{ row[2] }}</td>
                     <td>{{ row[3] }}</td>
                     <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
     {% endif %}
+
+
+    <br>
+    <br>
+    <p>Retrieve attendance</p>
+    <p>Mark attendance</p>
 
 </body>
 </html>
