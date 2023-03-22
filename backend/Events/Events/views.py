@@ -5,6 +5,6 @@ from .serialiser import eventSerialiser
 
 # Create your views here.
 
-class eventViewset(viewsets.ModelViewset):
+class eventViewset(viewsets.ModelViewSet):
     serializer=eventSerialiser
     queryset=Event.objects.all()

@@ -1,6 +1,6 @@
 from .models import Event
-from rest_framework import serializer
+from rest_framework import serializers
 
-class eventSerialiser(serializer.ModelSerializer):
+class eventSerialiser(serializers.ModelSerializer):
     model= Event
     fields='__all__'
