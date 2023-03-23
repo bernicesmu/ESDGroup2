@@ -19,7 +19,7 @@ from rest_framework.routers import DefaultRouter
 from Events.views import eventViewset
 
 router=DefaultRouter()
-router.register('/eventList', eventViewset)
+router.register('eventList', eventViewset)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
