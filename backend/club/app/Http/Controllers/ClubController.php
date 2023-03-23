@@ -60,22 +60,50 @@ class ClubController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    // public function show($id)
+    // {
+    //     // Club details
+    //     $club = Club::find($id);
+    //     if(!$club){
+    //         return response()->json([
+    //             'message'=>'Club Not Found.'
+    //         ],404);
+    //     }
+
+    //     // Return Json Response
+    //     return response()->json([
+    //         'club' => $club
+    //     ],200);
+
+    // }
+     public function show($id)
     {
-        // Club details
         $club = Club::find($id);
-        if(!$club){
+        // $club = DB::table('clubs')->find($id);
+        if (!$club) {
             return response()->json([
-                'message'=>'Club Not Found.'
-            ],404);
+                'message' => 'Club not found'
+            ], 404);
         }
-
-        // Return Json Response
-        return response()->json([
-            'club' => $club
-        ],200);
-
+        return response($club->clubName, 200)
+        ->header('Content-Type', 'text/plain');
     }
+    // Function doesn't work..
+    // public function getName($id)
+    // {
+    //     // $club = Club::find($id);
+    //     $club = DB::table('clubs')->find($id);
+    //     if (!$club) {
+    //         return response()->json([
+    //             'message' => 'Club not found'
+    //         ], 404);
+    //     }
+
+    //     return response()->json([
+    //         'clubName' => $club->clubName
+    //     ], 200);
+    // }
+
 
     /**
      * Show the form for editing the specified resource.
