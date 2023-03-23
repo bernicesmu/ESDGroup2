@@ -77,12 +77,12 @@ WSGI_APPLICATION = 'api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'events_db',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-        'USER': 'root',
-        'PASSWORD': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'event-db', 
+        'USER': 'postgres',
+        'PASSWORD': 'rootroot',
+        'HOST': '127.0.0.1', 
+        'PORT': '5432',
     }
 }
 
