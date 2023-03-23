@@ -78,25 +78,46 @@ class ClubMemberController extends Controller
         
     // }
 
+    // CODE THAT WORKS
     // Get club member by passing club id
-    public function show($id)
-    {
-        //
-        // $clubMember = ClubMember::find($id);
-        // $clubMember = ClubMember::where('studentMatricNum', $id)->get();
-        $clubMember = ClubMember::where('clubId',$id)->get();
-        if(!$clubMember){
-          return response()->json([
-             'message'=>'Club member not found!'
-          ],404);
-        }
+    // public function show($id)
+    // {
+    //     //
+    //     // $clubMember = ClubMember::find($id);
+    //     // $clubMember = ClubMember::where('studentMatricNum', $id)->get();
+        // Code to get club members by club ID
+    //     $clubMember = ClubMember::where('clubId',$id)->get();
+    //     if(!$clubMember){
+    //       return response()->json([
+    //          'message'=>'Club member not found!'
+    //       ],404);
+    //     }
      
-        // Return Json Response
-        return response()->json([
-           'club_members' => $clubMember
-        ],200);
+    //     // Return Json Response
+    //     return response()->json([
+    //        'club_members' => $clubMember
+    //     ],200);
 
+    // }
+
+    // Get list of student matric numbers from clubID
+    public function show($id)
+{
+    $clubMembers = ClubMember::where('clubId',$id)->get();
+
+    if($clubMembers->isEmpty()){
+        return response()->json([
+            'message' => 'Club member not found!'
+        ],404);
     }
+
+    $matricNumbers = [];
+    foreach ($clubMembers as $clubMember) {
+        $matricNumbers[] = $clubMember->studentMatricNum;
+    }
+
+    return response()->json($matricNumbers, 200);
+}
     
 
     /**
