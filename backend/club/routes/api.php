@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/clubs', [ClubController::class, 'index']);
 Route::get('/clubs/{id}', [ClubController::class, 'show']);
 Route::post('/clubs', [ClubController::class, 'create']);
+// Route::get('/clubs/get-name/{id}', [ClubController::class, 'getName']);
 Route::put('/clubs/{id}', [ClubController::class, 'update']);
 Route::delete('/clubs/{id}', [ClubController::class, 'destroy']);
 

@@ -58,10 +58,33 @@ class ClubMemberController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show( $id)
+    // Getting club member by matric number
+    // public function show( $id)
+    // {
+    //     //
+    //     // $clubMember = ClubMember::find($id);
+    //     // $clubMember = ClubMember::where('studentMatricNum', $id)->get();
+    //     $clubMember = ClubMember::where($id, 'studentMatricNum', $id)->get();
+    //     if(!$clubMember){
+    //       return response()->json([
+    //          'message'=>'Club member not found!'
+    //       ],404);
+    //     }
+     
+    //     // Return Json Response
+    //     return response()->json([
+    //        'club_members' => $clubMember
+    //     ],200);
+        
+    // }
+
+    // Get club member by passing club id
+    public function show($id)
     {
         //
-        $clubMember = ClubMember::find($id);
+        // $clubMember = ClubMember::find($id);
+        // $clubMember = ClubMember::where('studentMatricNum', $id)->get();
+        $clubMember = ClubMember::where('clubId',$id)->get();
         if(!$clubMember){
           return response()->json([
              'message'=>'Club member not found!'
@@ -72,8 +95,9 @@ class ClubMemberController extends Controller
         return response()->json([
            'club_members' => $clubMember
         ],200);
-        
+
     }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -90,6 +114,8 @@ class ClubMemberController extends Controller
     {
         try {
             $clubMember = ClubMember::find($id);
+            // $clubMember = ClubMember::where('clubId', $id)->first();
+
             if(!$clubMember){
               return response()->json([
                 'message'=>'Club member not found!'
