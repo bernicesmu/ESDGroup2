@@ -1,6 +1,6 @@
-FROM python:3-slim
+FROM python:3.11-slim
 WORKDIR /usr/src/app
-COPY requirements.txt ./
-RUN python -m pip install --no-cache-dir -r requirements.txt
-COPY ./manage.py .
-CMD [ "python", "./manage.py" ]
+COPY . .
+COPY . /usr/src/app
+RUN  pip install --no-cache-dir -r requirements.txt
+CMD [ "python", "manage.py", "runserver"]

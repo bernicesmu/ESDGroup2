@@ -42,7 +42,7 @@ services:
     build: exco:1.0 
     restart: always 
     ports: 
-      - 5104:8888
+      - 5104:3010
 
   attendance: 
     build: attendance:1.0 

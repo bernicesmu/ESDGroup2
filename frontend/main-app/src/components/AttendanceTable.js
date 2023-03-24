@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Checkbox } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import UploadForm from '../pages/UploadForm';
+
+
 
 // Generate Order Data
 
@@ -13,7 +16,6 @@ export default function MembersTable(props) {
       flex: 2,
       editable: false,
     },
-
     {
       field: 'email',
       headerClassName: 'bg-secondary text-white',
@@ -61,10 +63,10 @@ export default function MembersTable(props) {
   ];
 
   const rows = [
-      {id: 1, name: "Bernice Teo Wei Shan", email: "bernice.teo.2021@scis.smu.edu.sg", telegram: "@berrrniice", school: 'SCIS', year: 'Year 3'},
-      {id: 2, name: "Regine Tan Wei Ting", email: "reginetan.2021@scis.smu.edu.sg", telegram: "@ginxed", school: 'SOSS', year: 'Year 1'},
-      {id: 3, name: "Ivan Yeo", email: "ivanyeo.2021@scis.smu.edu.sg", telegram: "@ivanyeo", school: 'CIS', year: 'Year 5'},
-    ];
+    {id: 1, name: "Bernice Teo Wei Shan", email: "bernice.teo.2021@scis.smu.edu.sg", telegram: "@berrrniice", school: 'SCIS', year: 'Year 3'},
+    {id: 2, name: "Regine Tan Wei Ting", email: "reginetan.2021@scis.smu.edu.sg", telegram: "@ginxed", school: 'SOSS', year: 'Year 1'},
+    {id: 3, name: "Ivan Yeo", email: "ivanyeo.2021@scis.smu.edu.sg", telegram: "@ivanyeo", school: 'CIS', year: 'Year 5'},
+  ];
 
   return (
     <DataGrid
@@ -90,4 +92,5 @@ export default function MembersTable(props) {
     disableRowSelectionOnClick
   />
   );
+
 }
