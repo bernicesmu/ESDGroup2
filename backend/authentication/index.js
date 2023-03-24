@@ -33,7 +33,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.json());
-const port = 3000;
+const port = 3010;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : false }))
@@ -90,7 +90,7 @@ app.post('/authentication', (req, res) => {
                         },
                         'userlogin',
                         {
-                            expiresIn: "1200000",
+                            expiresIn: "3600000",
                         }
                     );
 
@@ -114,7 +114,7 @@ app.post('/authentication', (req, res) => {
                         },
                         'userlogin',
                         {
-                            expiresIn: "1200000",
+                            expiresIn: "3600000",
                         }
                     );
                     res.status(200).json({
