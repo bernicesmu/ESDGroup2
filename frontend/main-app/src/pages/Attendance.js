@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { Typography, Button, IconButton, Box, TextField } from '@mui/material';
-import CampaignIcon from '@mui/icons-material/Campaign';
+import { Typography, Button, Box, TextField } from '@mui/material';
 import UploadForm from './UploadForm';
+import CampaignIcon from '@mui/icons-material/Campaign';
 import AttendanceTable from '../components/AttendanceTable';
 import axios from 'axios';
 
 export default function Attendance() {
   const [messageTextArea, setMessageTextArea] = useState(null);
-  const [attendanceData, setAttendanceData] = useState([]);
+  const [attendanceData, setAttendanceData] = useState(['']);
 
   function handleBroadcastClick() {
     setMessageTextArea(
@@ -29,7 +29,7 @@ export default function Attendance() {
   const handleFileUpload = (file) => {
     const formData = new FormData();
     formData.append('file', file);
-    axios.post('http://localhost:5000/upload', formData, {
+    axios.post('http://localhost:5105/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -46,8 +46,8 @@ export default function Attendance() {
       <div className="mx-5 mb-5 justify-content-between d-flex my-5">
         <div className="my-auto">
           <Button variant='contained' component='a' href='/Event'>Go Back to Datathon 2023</Button>
-        </div>
-        <div className="text-center">
+          </div>
+          <div className="text-center">
           <Typography variant='h4'>Datathon 2023 Sign Ups</Typography>
           <Typography variant='p'>Look at who are excited for this event!</Typography>
         </div>

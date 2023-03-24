@@ -29,7 +29,7 @@ export default function UploadForm() {
     event.preventDefault();
     const formData = new FormData();
     formData.append('file', selectedFile);
-    axios.post('http://localhost:5000/upload', formData)
+    axios.post('http://localhost:5105/upload', formData)
       .then(response => {
         console.log(response.data);
         setIsUploaded(true);
