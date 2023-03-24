@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('club_excos');
         Schema::create('club_excos', function (Blueprint $table) {
             $table->id();
-            $table->integer('clubMemberId');
+            $table->unsignedBigInteger('clubMemberId');
             $table->string('role');
             $table->date('roleFromDate');
             $table->date('roleToDate');

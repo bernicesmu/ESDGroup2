@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ClubMgmtStudentServiceApplication<club-mgmt-student-service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.clubmgmt.clubmgmtstudentservice.ClubMgmtStudentServiceApplication",
+            "projectName": "club-mgmt-student-service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

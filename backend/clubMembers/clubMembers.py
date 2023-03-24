@@ -10,24 +10,21 @@ app = Flask(__name__)
 CORS(app)
 
 # bernice to fill
-club_URL = ""
+club_URL = "http://localhost:8001/club_members"
 student_URL = ""
 error_URL = "" 
 
-@app.route("/club_members", methods=['GET'])
-def getClubMembersDetails(): 
-    if request.is_json:
-        try: 
-            clubJSON = request.get_json() 
-            print("\nReceived the club ID in JSON:", clubJSON)
-            clubID = clubJSON['clubID']
-            result = processStudents(clubID)
-
-        except Exception as e: 
-            return jsonify({
-                "code": 500, 
-                "message": "clubMembers.py internal error: "  
-            }), 500 
+@app.route("/club_members/<string:clubID>", methods=['GET'])
+def getClubMembersDetails(clubID): 
+    print("\nReceived Club ID: " + clubID)
+    try: 
+        result = processStudents(clubID)
+        return jsonify(result), result['code']
+    except Exception as e: 
+        return jsonify({
+            "code": 500, 
+            "message": "clubMembers.py internal error: "  
+        }), 500 
         
 def processStudents(clubID): 
     print('\n\n------Invoking Club microservice------')
