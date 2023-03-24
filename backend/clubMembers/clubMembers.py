@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 # bernice to fill
-club_URL = ""
+club_URL = "http://localhost:8001/club_members"
 student_URL = ""
 error_URL = "" 
 

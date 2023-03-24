@@ -1,0 +1,49 @@
+version: "3"
+services:
+  telesqldb-service:
+    image: mysql:latest
+    hostname: telesqldb
+    restart: always
+    volumes:
+      - telesqldb_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_USER: a
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: telesessiondb
+      # hostname: 
+    
+    networks:
+      - tele-mysql-net
+
+  amqplistener-service:
+    image: amqplistener
+    build: ./AMQPListener
+    # environment:
+    #   db_name: telesqldb
+    # ports:
+    #   - "8080:8080" #Expose docker port 
+    depends_on:
+      - telesqldb-service
+    networks:
+      - tele-mysql-net
+    volumes:
+      - telesqldb_data:/var/lib/mysql
+
+  clumsybot-service:
+    image: clumsybot
+    build: ./ClumsyBot/
+    environment:
+      db_name: telesqldb
+
+    depends_on:
+      - telesqldb-service
+    networks:
+      - tele-mysql-net
+    volumes:
+      - telesqldb_data:/var/lib/mysql
+networks:
+  tele-mysql-net:
+    driver: bridge
+volumes:
+  telesqldb_data:
