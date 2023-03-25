@@ -39,12 +39,12 @@ Route::delete('/clubs/{id}', [ClubController::class, 'destroy']);
 
 Route::get('/club_excos', [ClubExcoController::class, 'index']);
 Route::get('/club_excos/{id}', [ClubExcoController::class, 'show']);
-Route::post('/club_excos', [ClubExcoController::class, 'create']);
+Route::post('/club_excos', [ClubExcoController::class, 'store']);
 Route::put('/club_excos/{id}', [ClubExcoController::class, 'update']);
 Route::delete('/club_excos/{id}', [ClubExcoController::class, 'destroy']);
 
 Route::get('/club_members', [ClubMemberController::class, 'index']);
 Route::get('/club_members/{id}', [ClubMemberController::class, 'show']);
-Route::post('/club_members', [ClubMemberController::class, 'create']);
+Route::post('/club_members', [ClubMemberController::class, 'store']);
 Route::put('/club_members/{id}', [ClubMemberController::class, 'update']);
 Route::delete('/club_members/{id}', [ClubMemberController::class, 'destroy']);
