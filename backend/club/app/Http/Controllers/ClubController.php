@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Club;
 use Illuminate\Http\Request;
 use App\Http\Requests\ClubRequest;
+use Illuminate\Validation\ValidationException;
 
 class ClubController extends Controller
 {
@@ -25,38 +26,63 @@ class ClubController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(\Illuminate\Http\Request $request)
-    {
-        //
-        try {
+    // public function create(\Illuminate\Http\Request $request)
+    // {
+    //     //
+    //     try {
 
-        // Create Club
-        Club::create([
-            'clubName' => $request->clubName,
-            'clubCategory' => $request -> clubCategory,
-            'cbd' => $request->cbd
-        ]);
+    //     // Create Club
+    //     Club::create([
+    //         'clubName' => $request->clubName,
+    //         'clubCategory' => $request -> clubCategory,
+    //         'cbd' => $request->cbd
+    //     ]);
 
-        // Return Json Response
-        return response()->json([
-            'message' => "Congratulations, club successfully created."
-        ],200);
-    } catch (\Exception $e) {
-        // Return Json Response
-        return response()->json([
-            'message' => "Opps.. Something went wrong! A club could not be created!"
-        ],500);
-    }
-    }
+    //     // Return Json Response
+    //     return response()->json([
+    //         'message' => "Congratulations, club successfully created."
+    //     ],200);
+    // } catch (\Exception $e) {
+    //     // Return Json Response
+    //     return response()->json([
+    //         'message' => "Opps.. Something went wrong! A club could not be created!"
+    //     ],500);
+    // }
+    // }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ClubRequest $request)
+    public function store(Request $request)
     {
-        //
+        try {
+            $validatedData = $request->validate([
+                'clubName' => 'required|unique:clubs|max:255',
+                'clubCategory' => 'required',
+                'cbd' => 'required',
+            ]);
+    
+            // Create Club
+            Club::create($validatedData);
+    
+            // Return Json Response
+            return response()->json([
+                'message' => "Congratulations, club successfully created."
+            ], 200);
+        } catch (ValidationException $e) {
+            // Return Custom Json Response
+            return response()->json([
+                'message' => "Opps, club could not be created.",
+                'errors' => $e->validator->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            // Return Json Response
+            return response()->json([
+                'message' => "Opps.. Something went wrong! A club could not be created!",
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
-
     /**
      * Display the specified resource.
      */

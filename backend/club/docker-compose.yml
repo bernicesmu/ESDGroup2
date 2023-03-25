@@ -33,17 +33,22 @@ services:
   laravel-docker:
     container_name: club_database
     build: .
+    platform: linux/amd64
     volumes:
       - ./:/var/www/html
     ports:
       - 5102:80
     depends_on:
       - mysql_db
+    environment:
+      - DB_HOST=mysql_db
+      - DB_PORT=3306
     networks:
       - club_net
   
   mysql_db:
     image: mysql
+    platform: linux/amd64
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: club
@@ -54,7 +59,8 @@ services:
       - club_net
   
   phpmyadmin:
-    image: linuxserver/phpmyadmin
+    image: phpmyadmin/phpmyadmin:latest
+    platform: linux/amd64
     ports:
       - 8889:80
     environment:
