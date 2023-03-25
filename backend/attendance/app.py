@@ -1,12 +1,31 @@
 import json
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, request, jsonify
 import pandas as pd
 import mysql.connector
 from flask_cors import CORS
 import os, sys
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:8889/attendance'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 CORS(app)
+
+class Attendance(db.Model):
+    __tablename__ = 'sign_ups'
+
+    eventId = db.Column(db.String(20), nullable=False, primary_key=True)
+    studentMatricNum = db.Column(db.String(20), nullable=False)
+    
+    
+    def __init__(self, eventId, studentMatricNum):
+        self.eventId = eventId
+        self.studentMatricNum = studentMatricNum
+
+    def json(self):
+        return {"eventId": self.eventId, "studentMatricNum": self.studentMatricNum}
 
 # Get the values of the environment variables
 db_host = os.environ.get('db_host', 'localhost')
@@ -19,7 +38,7 @@ db_name = os.environ.get('db_name', 'attendance')
 def upload_form():
     return ('Success')
 
-@app.route('/upload', methods=['POST'])
+@app.route('/upload')
 def upload():
     print("oifjwoi")
     # file = request.files['file']
@@ -49,47 +68,47 @@ def upload():
             )
 
             #### atrayee 
-            cursor = conn.cursor()
-            cursor.execute(f'DROP TABLE IF EXISTS `{filename}`')
-            cursor.execute(f'CREATE TABLE `{filename}` ( name VARCHAR(50), studentMatricNum VARCHAR(50), telegramID VARCHAR(30), smuEmail VARCHAR(50), PRIMARY KEY (studentMatricNum))')
+            # cursor = conn.cursor()
+            # cursor.execute(f'DROP TABLE IF EXISTS `{filename}`')
+            # cursor.execute(f'CREATE TABLE `{filename}` ( name VARCHAR(50), studentMatricNum VARCHAR(50), telegramID VARCHAR(30), smuEmail VARCHAR(50), PRIMARY KEY (studentMatricNum))')
 
-            for row in fileRowData:
-                cursor.execute(f'INSERT INTO `{filename}` (name, studentMatricNum, telegramID, smuEmail) VALUES (%s, %s, %s, %s)', (str(row[0]), str(row[1]), str(row[2]), str(row[3])))
+            # for row in fileRowData:
+            #     cursor.execute(f'INSERT INTO `{filename}` (name, studentMatricNum, telegramID, smuEmail) VALUES (%s, %s, %s, %s)', (str(row[0]), str(row[1]), str(row[2]), str(row[3])))
 
-            conn.commit()
-            cursor.execute(f'SELECT * FROM `{filename}`')
-            data = cursor.fetchall()
-            cursor.close()
-            conn.close()
-
-            # Convert the data to a list of dictionaries
-            results = []
-            for row in data:
-                results.append({
-                    'name': row[0],
-                    'studentMatricNum': row[1],
-                    'telegramID' : row[2],
-                    'smuEmail': row[3]
-                })
-
-            #### bernice
-            # cursor = conn.cursor() 
-            # for row in fileRowData: 
-            #     cursor.execute(f'INSERT INTO sign_ups (eventID, studentMatricNum, signUp) VALUES (%s, %s, %s)', (str(eventID), str(row[1]), '1'))
-            
             # conn.commit()
-            # cursor.execute(f'SELECT * FROM sign_ups WHERE eventID = %s AND signUp = 1', (str(eventID)))
+            # cursor.execute(f'SELECT * FROM `{filename}`')
             # data = cursor.fetchall()
-            # cursor.close() 
-            # conn.close() 
+            # cursor.close()
+            # conn.close()
 
-            # results = [] 
-            # for row in data: 
-            #     results.append({ 
-            #         'eventID': row[0], 
-            #         'studentMatricNum': row[1], 
-            #         'signUp': row[2]
+            # # Convert the data to a list of dictionaries
+            # results = []
+            # for row in data:
+            #     results.append({
+            #         'name': row[0],
+            #         'studentMatricNum': row[1],
+            #         'telegramID' : row[2],
+            #         'smuEmail': row[3]
             #     })
+
+            # #### bernice
+            cursor = conn.cursor() 
+            for row in fileRowData: 
+                cursor.execute(f'INSERT INTO sign_ups (eventID, studentMatricNum, signUp) VALUES (%s, %s, %s)', (str(eventID), str(row[1]), '1'))
+            
+            conn.commit()
+            cursor.execute(f'SELECT * FROM sign_ups WHERE eventID = %s AND signUp = 1', (str(eventID)))
+            data = cursor.fetchall()
+            cursor.close() 
+            conn.close() 
+
+            results = [] 
+            for row in data: 
+                results.append({ 
+                    'eventID': row[0], 
+                    'studentMatricNum': row[1], 
+                    'signUp': row[2]
+                })
 
             print("chuidolks")
             # Return the data in JSON format and the rendered HTML template with the table
@@ -135,7 +154,7 @@ def getEventById(eventID):
         
         cursor = conn.cursor() 
         conn.commit()
-        cursor.execute(f'SELECT * FROM sign_ups WHERE eventID = %s AND signUp = 1', (str(eventID)))
+        cursor.execute(f'SELECT * FROM sign_ups WHERE eventID = %s AND signUp = 1', (eventID,))
         data = cursor.fetchall()
         cursor.close() 
         conn.close() 
