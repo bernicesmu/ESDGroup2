@@ -1,0 +1,69 @@
+version: '3.9'
+
+# services:
+#   database:
+#     image: mysql:latest
+#     container_name: club_database
+#     restart: unless-stopped
+#     environment:
+  
+#       MYSQL_DATABASE: club
+#       MYSQL_USER: root
+#       MYSQL_PASSWORD: root
+ 
+#     volumes:
+#       - ./mysql-data:/var/lib/mysql
+#     ports:
+#       - '5102:5102'
+#   php-apache:
+#     container_name: php-apache
+#     build:
+#       context: .
+#     ports:
+#         - '8890:80'
+#     volumes:
+#       - ./Applications/MAMP/htdocs/ESD/ESDGroup2/backend/club:/var/www/laravel_docker
+#       - ./apache/default.conf:/etc/apache2/sites-enabled/000-default.conf
+#     depends_on:
+#       - database
+
+
+services:
+
+  laravel-docker:
+    container_name: club_database
+    build: .
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 5102:80
+    depends_on:
+      - mysql_db
+    networks:
+      - club_net
+  
+  mysql_db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: club
+    
+    ports:
+    - 3307:3306
+    networks:
+      - club_net
+  
+  phpmyadmin:
+    image: linuxserver/phpmyadmin
+    ports:
+      - 8889:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql_db
+      - PMA_PORT=3306
+    depends_on:
+      - mysql_db
+    networks:
+      - club_net
+networks:
+  club_net:
