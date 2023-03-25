@@ -7,7 +7,8 @@ import os, sys
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:8889/attendance'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance' 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/attendance' 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -18,14 +19,15 @@ class Attendance(db.Model):
 
     eventId = db.Column(db.String(20), nullable=False, primary_key=True)
     studentMatricNum = db.Column(db.String(20), nullable=False)
+    signUp = db.Column(db.Integer)
     
-    
-    def __init__(self, eventId, studentMatricNum):
+    def __init__(self, eventId, studentMatricNum, signUp):
         self.eventId = eventId
         self.studentMatricNum = studentMatricNum
+        self.signUp = signUp
 
     def json(self):
-        return {"eventId": self.eventId, "studentMatricNum": self.studentMatricNum}
+        return {"eventId": self.eventId, "studentMatricNum": self.studentMatricNum, "signUp": self.signUp}
 
 # Get the values of the environment variables
 db_host = os.environ.get('db_host', 'localhost')
@@ -37,6 +39,28 @@ db_name = os.environ.get('db_name', 'attendance')
 @app.route('/')
 def upload_form():
     return ('Success')
+
+@app.route('/getAll')
+def getAll(): 
+    signUpList = Attendance.query.all() 
+    if len(signUpList):
+        result = [] 
+        for signup in signUpList: 
+            result.append(signup.json())
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "attendance": result
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "There are no sign ups."
+        }
+    ), 404
 
 @app.route('/upload')
 def upload():
@@ -59,13 +83,13 @@ def upload():
             eventID = jsonData['eventID']
             print("pipokpodrefvkj")
             # Use the environment variable values to create the database connection
-            conn = mysql.connector.connect(
-                host=db_host,
-                port=db_port,
-                user=db_user,
-                password=db_password,
-                database=db_name
-            )
+            # conn = mysql.connector.connect(
+            #     host=db_host,
+            #     port=db_port,
+            #     user=db_user,
+            #     password=db_password,
+            #     database=db_name
+            # )
 
             #### atrayee 
             # cursor = conn.cursor()
@@ -92,6 +116,42 @@ def upload():
             #     })
 
             # #### bernice
+
+            failedSignUps = []
+            successfulSignUps = [] 
+            for row in fileRowData: 
+                if (Attendance.query.filter_by(eventId=eventID, studentMatricNum=str(row[1])).first()):
+                    failedSignUps.append([eventID, str(row[1])])
+                    continue
+
+                signup = Attendance(eventID, str(row[1]), 1)
+
+                try:
+                    db.session.add(signup)
+                    db.session.commit()
+                except:
+                    return jsonify(
+                        {
+                            "code": 500,
+                            "data": {
+                                "signup": signup
+                            },
+                            "message": "An error occurred creating the signup."
+                        }
+                    ), 500
+        
+                successfulSignUps.append([eventID, str(row[1])])
+
+            return jsonify(
+                {
+                    "code": 201,
+                    "data": {
+                        "failed": failedSignUps, 
+                        "success": successfulSignUps
+                    }
+                }
+            ), 201
+        
             cursor = conn.cursor() 
             for row in fileRowData: 
                 cursor.execute(f'INSERT INTO sign_ups (eventID, studentMatricNum, signUp) VALUES (%s, %s, %s)', (str(eventID), str(row[1]), '1'))
