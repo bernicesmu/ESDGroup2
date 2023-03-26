@@ -18,6 +18,10 @@ def invoke_http(url, method='GET', json=None, **kwargs):
     try:
         if method.upper() in SUPPORTED_HTTP_METHODS:
             r = requests.request(method, url, json = json, **kwargs)
+            print("---invoke working---")
+            print(r)
+            print('what is r?')
+            print(type(r))
         else:
             raise Exception("HTTP method {} unsupported.".format(method))
     except Exception as e:
@@ -29,8 +33,11 @@ def invoke_http(url, method='GET', json=None, **kwargs):
     ## Check http call result
     if r.status_code != requests.codes.ok:
         code = r.status_code
+        print('---status is slaying---')
+        print(r.content)
     try:
         result = r.json() if len(r.content)>0 else ""
+        print(result)
     except Exception as e:
         code = 500
         result = {"code": code, "message": "Invalid JSON output from service: " + url + ". " + str(e)}

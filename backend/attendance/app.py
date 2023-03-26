@@ -6,9 +6,10 @@ from flask_cors import CORS
 import os, sys
 from flask_sqlalchemy import SQLAlchemy
 
+
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance' 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/attendance' 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/attendance' 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -29,9 +30,35 @@ class Attendance(db.Model):
     def json(self):
         return {"eventId": self.eventId, "studentMatricNum": self.studentMatricNum, "signUp": self.signUp}
 
+
+# def attendance_serializer(db):
+#     if isinstance(db, Attendance):
+#         return {
+#             "student_name": db.student_name,
+#             "class_name": db.class_name,
+#             "attendance_date": db_host.attendance_date
+#         }
+#     raise TypeError(f"Object of type {db.__class__.__name__} is not JSON serializable")
+
+# # Convert your Attendance object to JSON using your custom serializer
+# attendance_json = json.dumps(Attendance, default=attendance_serializer)
+
+with app.app_context():
+    db.create_all()
+
+    # # Create a new user
+    # new_user = User(name='is213')
+
+    # # Add the new user to the session
+    # db.session.add(new_user)
+
+    # # Commit the changes to the database
+    # db.session.commit()
+
+
 # Get the values of the environment variables
 db_host = os.environ.get('db_host', 'localhost')
-db_port = os.environ.get('db_port', '8889')
+db_port = os.environ.get('db_port', '3306')
 db_user = os.environ.get('db_user', 'is213')
 db_password = os.environ.get('db_password', '')
 db_name = os.environ.get('db_name', 'attendance')
@@ -62,7 +89,7 @@ def getAll():
         }
     ), 404
 
-@app.route('/upload')
+@app.route('/upload', methods=['POST'])
 def upload():
     print("oifjwoi")
     # file = request.files['file']
@@ -76,11 +103,13 @@ def upload():
 
     if request.is_json: 
         try: 
+            
             jsonData = request.get_json()
             print("\nReceived file data in json:", jsonData) 
             fileRowData = jsonData['fileRowData']
             filename = jsonData['fileName']
-            eventID = jsonData['eventID']
+            eventID = jsonData['eventId']
+            print(jsonData)
             print("pipokpodrefvkj")
             # Use the environment variable values to create the database connection
             # conn = mysql.connector.connect(
@@ -118,17 +147,54 @@ def upload():
             # #### bernice
 
             failedSignUps = []
-            successfulSignUps = [] 
+            successfulSignUps = []
+            
+            # class Attendance(db.Model):
+            #     __tablename__ = 'sign_ups'
+            #     __table_args__ = {'extend_existing': True}
+
+            #     eventId = db.Column(db.String(20), nullable=False, primary_key=True)
+            #     studentMatricNum = db.Column(db.String(20), nullable=False)
+            #     signUp = db.Column(db.Integer)
+                
+            #     def __init__(self, eventId, studentMatricNum, signUp):
+            #         self.eventId = eventId
+            #         self.studentMatricNum = studentMatricNum
+            #         self.signUp = signUp
+
+            #     def json(self):
+            #         return {"eventId": self.eventId, "studentMatricNum": self.studentMatricNum, "signUp": self.signUp}
+            
+
             for row in fileRowData: 
+                # print(Attendance.__table__.columns)
+                # Attendance_json = {}
+                # print(row)
+                # for column in Attendance.__table__.columns:
+                #     name_column = column
+                #     print(name_column)
+                #     Attendance_json[column.name] = str(getattr(row, column.name))
+
+                # print('atdndn json has been created')
+                
+                ## message to anyone debugging this: this attendance is not JSON serializable and we need help - regine & atrayee <3
+                ## everything else should be working :)
+                print(Attendance.query)
+                print(eventID)
                 if (Attendance.query.filter_by(eventId=eventID, studentMatricNum=str(row[1])).first()):
                     failedSignUps.append([eventID, str(row[1])])
+                    print("---sign ups failed---")
                     continue
-
+                
                 signup = Attendance(eventID, str(row[1]), 1)
-
+                print(signup)
+                print('checking on signup')
                 try:
+                    print('adding to db...')
                     db.session.add(signup)
+                    print('committing to db...')
                     db.session.commit()
+                    print('db is committed!')
                 except:
                     return jsonify(
                         {
@@ -141,6 +207,7 @@ def upload():
                     ), 500
         
                 successfulSignUps.append([eventID, str(row[1])])
+                print('---successful, time to sleep---')
 
             return jsonify(
                 {
@@ -196,6 +263,7 @@ def upload():
             }), 500
     
     print("wosaedicfvjk ")
+    print('help')
     return jsonify({
         "code": 400,
         "message": "Invalid JSON input: " + str(request.get_data())
@@ -208,7 +276,7 @@ def getEventById(eventID):
                     host=db_host,
                     port=db_port,
                     user=db_user,
-                    password=db_password,
+                    # password=db_password,
                     database=db_name
                 )
         
