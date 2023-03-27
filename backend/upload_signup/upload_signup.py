@@ -22,7 +22,6 @@ def uploadSignUp():
             filename = os.path.splitext(file.filename)[0] 
             df = pd.read_excel(file)
             dfList = df.values.tolist()
-            print(dfList)
             result = processUploadSignUps(dfList, filename)
             return jsonify(result), result["code"]
         
