@@ -111,16 +111,17 @@ def getSignUpDetails(eventID):
     print('\n\n-----Invoking student microservice-----')
     student_result = invoke_http(studentURL + 'group', method='POST', json=attendance_result['data'])
     print('student_result:', student_result)
-    code = student_result['code']
-    if code not in range(200,300): 
-        return { 
-            'code': 400, 
-            'data': {
-                'attendance_result': attendance_result,
-                'student_result': student_result
-            }, 
-            'message': 'Finding sign up student detais failed.'
-        }
+    #### uncomment the below once xunyi adds a 'code' in his json output
+    # code = student_result['code']
+    # if code not in range(200,300): 
+    #     return { 
+    #         'code': 400, 
+    #         'data': {
+    #             'attendance_result': attendance_result,
+    #             'student_result': student_result
+    #         }, 
+    #         'message': 'Finding sign up student detais failed.'
+    #     }
     
     return {
         "code": 201,

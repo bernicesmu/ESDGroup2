@@ -8,8 +8,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance' 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/attendance' 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance' 
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/attendance' 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -93,6 +93,8 @@ def getAll():
 
 @app.route('/upload', methods=['POST'])
 def upload():
+    # with app.app_context():
+    #     db.create_all()
     print("oifjwoi")
     # file = request.files['file']
     # if not file:
@@ -273,27 +275,28 @@ def upload():
         "message": "Invalid JSON input: " + str(request.get_data())
     }), 400
 
-@app.route('/getSignUpsByEventId/<string:eventID>') 
+@app.route('/getSignUpsByEventId/<string:eventID>', methods=['GET']) 
 def getEventById(eventID): 
     try: 
-        conn = mysql.connector.connect(
-                    host=db_host,
-                    port=db_port,
-                    user=db_user,
-                    # password=db_password,
-                    database=db_name
-                )
+        # conn = mysql.connector.connect(
+        #             host=db_host,
+        #             port=db_port,
+        #             user=db_user,
+        #             # password=db_password,
+        #             database=db_name
+        #         )
         
-        cursor = conn.cursor() 
-        conn.commit()
-        cursor.execute(f'SELECT * FROM sign_ups WHERE eventID = %s AND signUp = 1', (eventID,))
-        data = cursor.fetchall()
-        cursor.close() 
-        conn.close() 
+        # cursor = conn.cursor() 
+        # conn.commit()
+        # cursor.execute(f'SELECT * FROM sign_ups WHERE eventID = %s AND signUp = 1', (eventID,))
+        # data = cursor.fetchall()
+        # cursor.close() 
+        # conn.close() 
 
+        data = Attendance.query.filter_by(eventId=eventID).all()
         results = [] 
         for row in data: 
-            results.append(row[1])
+            results.append(row.json()['studentMatricNum'])
         
         return jsonify({
                     'code': 200,
