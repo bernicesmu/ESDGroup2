@@ -22,7 +22,6 @@ def uploadSignUp():
             filename = os.path.splitext(file.filename)[0] 
             df = pd.read_excel(file)
             dfList = df.values.tolist()
-            print(dfList)
             result = processUploadSignUps(dfList, filename)
             return jsonify(result), result["code"]
         
@@ -77,7 +76,7 @@ def processUploadSignUps(fileRowData, fileName):
     print("wioejfoiwej", {'fileRowData': fileRowData, 'fileName': fileName, 'eventID': 1})
     # headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
-    attendance_result = invoke_http(attendanceURL + 'upload', method='POST', json={"fileRowData": fileRowData, "fileName": fileName, "eventID": 1}, headers=headers)
+    attendance_result = requests.post(attendanceURL + 'upload',  json={"fileRowData": fileRowData, "fileName": fileName, "eventID": 1})
     # attendance_result = requests.request('POST', attendanceURL + 'upload', json={'fileRowData': fileRowData, 'fileName': fileName, 'eventID': 1})
     print('attendance_result:', attendance_result)
     code = attendance_result['code']
