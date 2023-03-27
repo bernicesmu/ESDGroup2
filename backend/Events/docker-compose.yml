@@ -17,10 +17,10 @@ services:
     networks:
       - clumsy-net
     depends_on:
-      - db
-      - migration
+      - eventDb
+      - eventMigration
 
-  migration:
+  eventMigration:
     build: .
     image: regineshalom/event:1.0
     command: python manage.py migrate --noinput
@@ -30,13 +30,13 @@ services:
     networks:
       - clumsy-net
     depends_on:
-      - db
+      - eventDb
   
-  db:
-    container_name: db
+  eventDb:
+    container_name: eventDb
     image: postgres:13
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - event_postgres_data:/var/lib/postgresql/data/
     environment:
       - "POSTGRES_HOST_AUTH_METHOD=trust"
       - POSTGRES_DB=event-db
@@ -48,4 +48,4 @@ services:
       - clumsy-net
 
 volumes:
-  postgres_data:
+  event_postgres_data:
