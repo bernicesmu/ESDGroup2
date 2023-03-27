@@ -18,11 +18,13 @@ CORS(app)
 class Attendance(db.Model):
     __tablename__ = 'sign_ups'
 
-    eventId = db.Column(db.String(20), nullable=False, primary_key=True)
+    id = db.Column(db.Integer, primary_key =True, autoincrement=True)
+    eventId = db.Column(db.String(20), nullable=False)
     studentMatricNum = db.Column(db.String(20), nullable=False)
     signUp = db.Column(db.Integer)
     
     def __init__(self, eventId, studentMatricNum, signUp):
+        # self.id = id
         self.eventId = eventId
         self.studentMatricNum = studentMatricNum
         self.signUp = signUp
@@ -30,7 +32,8 @@ class Attendance(db.Model):
     def json(self):
         return {"eventId": self.eventId, "studentMatricNum": self.studentMatricNum, "signUp": self.signUp}
 
-
+with app.app_context():
+    db.create_all()
 # def attendance_serializer(db):
 #     if isinstance(db, Attendance):
 #         return {
@@ -43,8 +46,7 @@ class Attendance(db.Model):
 # # Convert your Attendance object to JSON using your custom serializer
 # attendance_json = json.dumps(Attendance, default=attendance_serializer)
 
-with app.app_context():
-    db.create_all()
+
 
     # # Create a new user
     # new_user = User(name='is213')
@@ -165,7 +167,8 @@ def upload():
             #     def json(self):
             #         return {"eventId": self.eventId, "studentMatricNum": self.studentMatricNum, "signUp": self.signUp}
             
-
+            # getIndex = Attendance.query.all()
+            # ind = len(getIndex) + 1
             for row in fileRowData: 
                 # print(Attendance.__table__.columns)
                 # Attendance_json = {}
@@ -187,6 +190,7 @@ def upload():
                     continue
                 
                 signup = Attendance(eventID, str(row[1]), 1)
+                # ind += 1
                 print(signup)
                 print('checking on signup')
                 try:

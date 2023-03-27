@@ -77,7 +77,7 @@ def processUploadSignUps(fileRowData, fileName):
     print("wioejfoiwej", {'fileRowData': fileRowData, 'fileName': fileName, 'eventID': 1})
     # headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
-    attendance_result = invoke_http(attendanceURL + 'upload', method='POST', json={"fileRowData": fileRowData, "fileName": fileName, "eventId": 2}, headers=headers)
+    attendance_result = invoke_http(attendanceURL + 'upload', method='POST', json={"fileRowData": fileRowData, "fileName": fileName, "eventId": 3}, headers=headers)
     # attendance_result = requests.request('POST', attendanceURL + 'upload', json={'fileRowData': fileRowData, 'fileName': fileName, 'eventID': 1})
     print('attendance_result:', attendance_result)
     code = attendance_result['code']
