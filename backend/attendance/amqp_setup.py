@@ -1,3 +1,4 @@
+# can delete this file but keeping it here for reference now
 import pika
 import json
 from amqp_setup import channel, queue_name

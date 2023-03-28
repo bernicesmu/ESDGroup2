@@ -1,9 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 import pandas as pd
-
+import pika
 import os, sys
-
 import requests
 from invokes import invoke_http
 
@@ -134,12 +133,47 @@ def getSignUpDetails(eventID):
 
 @app.route('/broadcast', methods=['POST'])
 def broadcast():
+    
+    #changed from telehandles
     message = request.json.get('messageText')
-    teleHandles = request.json.get('teleHandles')
-    # Code to broadcast message to all attendees
+    matricNums = request.json.get('matricNums')
+
+    # data = combine message + matricNums
+
+    #Cloud AMQP
+    hostname = 'mustang-01.rmq.cloudamqp.com'
+    port = 5672
+    virtual_host = 'zmclntbl'
+    username = 'zmclntbl'
+    password = 'ZpPr261W3iWCxoIy1IKCeINZGxK5pXAL'
+
+    # Connect to RabbitMQ
+    credentials = pika.PlainCredentials(username, password)
+    parameters = pika.ConnectionParameters(hostname, port, virtual_host, credentials)
+
+    connection = pika.BlockingConnection(parameters)
+    channel = connection.channel()
+    exchange="ex_events"
+    routing_key ="events.scis.wad"
+    
+    # message={"message":"Glory to God", "matricNums":["2154151", "31415", "Works"]}
+    
+    # Publish message
+    channel.basic_publish(
+        exchange=exchange,
+        routing_key=routing_key,
+        body='{"message":"God is great", "matricNums":["213173"]}'
+        #body=data
+    )
+
+    # Close connection
+    connection.close()
+
+    # # Code to broadcast message to all attendees
     return {'success': True}
 
 if __name__ == "__main__":
+    # broadcast()
     print("This is flask " + os.path.basename(__file__) +
           " for uploading sign up and getting sign up details...")
     app.run(host="0.0.0.0", port=5110, debug=True)
