@@ -1,6 +1,5 @@
 import json
 from flask import Flask, request, jsonify
-import pandas as pd
 import mysql.connector
 from flask_cors import CORS
 import os, sys
@@ -96,15 +95,7 @@ def upload():
     # with app.app_context():
     #     db.create_all()
     print("oifjwoi")
-    # file = request.files['file']
-    # if not file:
-    #     return {'success': False, 'message': 'Error: No File selected.'}
-
-    # # Extract filename without extension (filename will be eventDetID)
-    # filename = os.path.splitext(file.filename)[0] 
-
-    # df = pd.read_excel(file)
-
+    
     if request.is_json: 
         try: 
             
@@ -229,33 +220,41 @@ def upload():
             for row in fileRowData: 
                 cursor.execute(f'INSERT INTO sign_ups (eventID, studentMatricNum, signUp) VALUES (%s, %s, %s)', (str(eventID), str(row[1]), '1'))
             
-            conn.commit()
-            cursor.execute(f'SELECT * FROM sign_ups WHERE eventID = %s AND signUp = 1', (str(eventID)))
-            data = cursor.fetchall()
-            cursor.close() 
-            conn.close() 
+            failedSignUps = []
+            successfulSignUps = [] 
+            for row in fileRowData: 
+                if (Attendance.query.filter_by(eventId=eventID, studentMatricNum=str(row[1])).first()):
+                    failedSignUps.append([eventID, str(row[1])])
+                    continue
 
-            results = [] 
-            for row in data: 
-                results.append({ 
-                    'eventID': row[0], 
-                    'studentMatricNum': row[1], 
-                    'signUp': row[2]
-                })
+                signup = Attendance(eventID, str(row[1]), 1)
 
-            print("chuidolks")
-            # Return the data in JSON format and the rendered HTML template with the table
-            if len(data) > 0:
-                return jsonify({
-                    'code': 200,
-                    'data': results
-                }), 200
-            else:
-                return jsonify({
-                    'code': 400,
-                    'success': False, 
-                    'message': 'Error: File Empty.'
-                }), 400
+                try:
+                    db.session.add(signup)
+                    db.session.commit()
+                except:
+                    return jsonify(
+                        {
+                            "code": 500,
+                            "data": {
+                                "signup": signup
+                            },
+                            "message": "An error occurred creating the signup."
+                        }
+                    ), 500
+        
+                successfulSignUps.append([eventID, str(row[1])])
+
+            return jsonify(
+                {
+                    "code": 201,
+                    "data": {
+                        "failed": failedSignUps, 
+                        "success": successfulSignUps
+                    }
+                }
+            ), 201
+
         except Exception as e:
             print("p098wiueydhjs")
             exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -302,6 +301,7 @@ def getEventById(eventID):
                     'code': 200,
                     'data': results
                 }), 200
+
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]

@@ -1,0 +1,26 @@
+version: "3.9"
+
+
+services:
+
+  # Attendance: The Attendance microservice
+  attendance:
+    container: attendance
+    image: atrayeed/attendance:1.0
+    restart: always
+    # build: .
+    # command: python app.py runserver 0.0.0.0:8000
+    # volumes:
+    #   - .:/code
+    # ports:
+    #   - 8000:8000
+    # networks:
+    #   - clumsy-net
+    # depends_on:
+    #   - eventDb
+    #   - eventMigration
+    environment:
+      dbURL: mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance
+
+
+
