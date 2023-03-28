@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': 'event-db', 
         'USER': 'postgres',
         'PASSWORD': 'rootroot',
-        'HOST': 'db', 
+        'HOST': 'eventDb', 
         'PORT': '5432',
     }
 }
