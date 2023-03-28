@@ -1,43 +1,69 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography, Button, Box, TextField } from '@mui/material';
 import UploadForm from './UploadForm';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import AttendanceTable from '../components/AttendanceTable';
 import { MuiFileInput } from 'mui-file-input'
-import { uploadSignUps } from '../services/UploadSignUpAPI'; 
-import axios from 'axios';
+import { uploadSignUps, getSignUpByEventId } from '../services/UploadSignUpAPI'; 
 
 export default function Attendance() {
   const [messageTextArea, setMessageTextArea] = useState(null);
   const [attendanceData, setAttendanceData] = useState(['']);
+  const [attendanceTable, setAttendanceTable] = useState(null);
   const [fileUploaded, setFileUploaded] = useState(null);
+  const [listOfStudentMatric, setListOfStudentMatric] = useState(Array(0));
+  const [eventId, setEventId] = useState('');
+
+  useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const eventIdFromURL = urlParams.get('eventId')
+    setEventId(eventIdFromURL)
+    getSignUpByEventId(eventIdFromURL)
+      .then(response => { 
+        setAttendanceData(response); 
+        let student_details = response.data.student_result.details;
+        setAttendanceTable(<AttendanceTable data={student_details}></AttendanceTable>)
+        let newListofMatric = [] 
+        for (let stuDet of student_details) { 
+          newListofMatric.push(stuDet.matricNum); 
+        }
+        setListOfStudentMatric(newListofMatric);
+      })
+      .catch(error => {
+        console.log(error.message);
+      })
+  }, [])
 
   function handleBroadcastClick() {
     setMessageTextArea(
-      <Box component="form" onSubmit={handleSubmit} className="w-100 d-flex">
+      <Box component="form" onSubmit={handleBroadcastSubmit} className="w-100 d-flex">
         <TextField id="messageText" name="messageText" size="small" placeholder='Broadcast a message to all' fullWidth sx={{ marginX: 3 }}></TextField>
         <Button type="submit" variant="contained" color='secondary'>Send</Button>
       </Box>
     )
   }
 
-  const handleSubmit = (event) => {
+  const handleBroadcastSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       messageText: data.get('messageText'),
+      teleHandles: listOfStudentMatric
     });
   };
 
   const handleFileUpload = (file) => {
     const formData = new FormData();
     // let file = event.target.value
-    console.log(file.nativeEvent)
     formData.append('file', file);
+    console.log(eventId)
+    formData.append('eventId', eventId)
     console.log(formData)
     uploadSignUps(formData)
       .then(response => {
         console.log(response); 
+        window.location.reload()
       })
       .catch(error => {
         console.log(error.message);
@@ -77,7 +103,8 @@ export default function Attendance() {
         {messageTextArea}
       </div>
       <div className="m-5">
-        <AttendanceTable data={attendanceData}></AttendanceTable>
+        {attendanceTable}
+        {/* <AttendanceTable data={attendanceData}></AttendanceTable> */}
       </div>
     </div>
   );
