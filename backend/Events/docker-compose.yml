@@ -23,7 +23,7 @@ services:
   eventMigration:
     build: .
     image: regineshalom/event:1.0
-    command: python manage.py migrate --noinput
+    command: python manage.py migrate
     restart: always
     volumes:
       - .:/code
