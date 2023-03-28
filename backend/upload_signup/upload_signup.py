@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import pandas as pd
 
 import os, sys
@@ -8,12 +8,13 @@ import requests
 from invokes import invoke_http
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
 
 studentURL = "http://localhost:8080/student/"
 attendanceURL = "http://127.0.0.1:5105/"
 
 @app.route("/uploadSignUp", methods=['POST'])
+@cross_origin()
 def uploadSignUp():
     file = request.files['file']
     if file:

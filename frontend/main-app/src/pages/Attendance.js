@@ -3,11 +3,14 @@ import { Typography, Button, Box, TextField } from '@mui/material';
 import UploadForm from './UploadForm';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import AttendanceTable from '../components/AttendanceTable';
+import { MuiFileInput } from 'mui-file-input'
+import { uploadSignUps } from '../services/UploadSignUpAPI'; 
 import axios from 'axios';
 
 export default function Attendance() {
   const [messageTextArea, setMessageTextArea] = useState(null);
   const [attendanceData, setAttendanceData] = useState(['']);
+  const [fileUploaded, setFileUploaded] = useState(null);
 
   function handleBroadcastClick() {
     setMessageTextArea(
@@ -28,17 +31,27 @@ export default function Attendance() {
 
   const handleFileUpload = (file) => {
     const formData = new FormData();
+    // let file = event.target.value
+    console.log(file.nativeEvent)
     formData.append('file', file);
-    axios.post('http://localhost:5105/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    .then(res => {
-      console.log(res.data);
-      setAttendanceData(res.data.data);
-    })
-    .catch(err => console.error(err));
+    console.log(formData)
+    uploadSignUps(formData)
+      .then(response => {
+        console.log(response); 
+      })
+      .catch(error => {
+        console.log(error.message);
+      })
+    // axios.post('http://localhost:5105/upload', formData, {
+    //   headers: {
+    //     'Content-Type': 'multipart/form-data'
+    //   }
+    // })
+    // .then(res => {
+    //   console.log(res.data);
+    //   setAttendanceData(res.data.data);
+    // })
+    // .catch(err => console.error(err));
   }
 
   return (
@@ -51,8 +64,10 @@ export default function Attendance() {
           <Typography variant='h4'>Datathon 2023 Sign Ups</Typography>
           <Typography variant='p'>Look at who are excited for this event!</Typography>
         </div>
-        <div className="my-auto">
-          <UploadForm handleFileUpload={handleFileUpload} />
+        <div className="my-auto w-25">
+          <MuiFileInput onChange={handleFileUpload} placeholder="Upload Sign Up Sheet" value={fileUploaded} />
+          {/* <Button variant='contained' onChange={handleFileUpload} component='label'>Upload File<input onChange={handleFileUpload} type='file' value={fileUploaded} hidden></input></Button> */}
+          {/* <UploadForm handleFileUpload={handleFileUpload} /> */}
         </div>
       </div>
       <div className='mx-5 d-flex'>

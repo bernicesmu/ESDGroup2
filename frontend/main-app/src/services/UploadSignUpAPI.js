@@ -1,10 +1,11 @@
 import axios from 'axios'; 
 
 export async function uploadSignUps(signUpFile) { 
-    let api_url = 'http://localhost:5108/uploadSignUp'; 
+    let api_url = 'http://127.0.0.1:5108/uploadSignUp'; 
     var config = {
         headers: {
-            'Content-Type' :'multipart/form-data'
+            'Content-Type' :'multipart/form-data',
+            'Accepted' :'multipart/form-data',
         }
     }
     try { 
