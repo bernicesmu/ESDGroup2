@@ -14,7 +14,7 @@ services:
   upload_signup: 
     container_name: upload_signup-ms 
     image: bernicesmu/upload_signup:1.0
-    build: .
+    build: ./upload_signup
     command: python upload_signup.py 
     restart: always 
     ports: 
@@ -43,7 +43,7 @@ services:
 
   student:
     image: springboot-studentservice
-    build: .
+    build: ./club-mgmt-student-service
     environment:
       dbname: mysqldb
     ports:
@@ -58,7 +58,7 @@ services:
   event:
     # container_name: event-ms
     image: regineshalom/event:1.0
-    build: .
+    build: ./Events
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
@@ -71,7 +71,7 @@ services:
       - eventMigration
 
   eventMigration:
-    build: .
+    build: ./Events
     image: regineshalom/event:1.0
     command: python manage.py migrate --noinput
     restart: always
@@ -88,11 +88,18 @@ services:
     volumes:
       - event_postgres_data:/var/lib/postgresql/data/
     environment:
-      - "POSTGRES_HOST_AUTH_METHOD=trust"
-      - POSTGRES_DB=event-db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=rootroot
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: event-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: rootroot
     ports:
       - "8080:5432"
     networks:
       - clumsy-net
+
+  exco:
+    image: bernicesmu/auth
+    build: ./authentication
+    restart: always
+    ports:
+      - "5104:3010"

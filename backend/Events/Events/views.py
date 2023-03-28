@@ -8,3 +8,7 @@ from .serialiser import eventSerialiser
 class eventViewset(viewsets.ModelViewSet):
     serializer_class=eventSerialiser
     queryset=Event.objects.all()
+    
+def get_eventID(request):
+    selectedEventID = Event.objects.filter(eventName=request)
+    return selectedEventID

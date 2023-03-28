@@ -312,13 +312,6 @@ def getEventById(eventID):
             "code": 500,
             "message": "attendance app.py internal error: " + ex_str
         }), 500
-        
-
-@app.route('/broadcast', methods=['POST'])
-def broadcast():
-    message = request.json.get('messageText')
-    # Code to broadcast message to all attendees
-    return {'success': True}
  
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5105, debug=True)

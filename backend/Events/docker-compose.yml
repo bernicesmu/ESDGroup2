@@ -23,7 +23,7 @@ services:
   eventMigration:
     build: .
     image: regineshalom/event:1.0
-    command: python manage.py migrate --noinput
+    command: python manage.py migrate
     restart: always
     volumes:
       - .:/code
@@ -38,10 +38,10 @@ services:
     volumes:
       - event_postgres_data:/var/lib/postgresql/data/
     environment:
-      - "POSTGRES_HOST_AUTH_METHOD=trust"
-      - POSTGRES_DB=event-db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=rootroot
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: event-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: rootroot
     ports:
       - "8080:5432"
     networks:
