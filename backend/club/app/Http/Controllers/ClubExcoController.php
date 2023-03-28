@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\ClubExco;
 use Illuminate\Http\Request;
 use App\Http\Requests\ClubExcoRequest;
+use Illuminate\Validation\ValidationException;
 
 class ClubExcoController extends Controller
 {
@@ -26,37 +27,64 @@ class ClubExcoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(ClubExcoRequest $request)
-    {
+    // public function create(ClubExcoRequest $request)
+    // {
 
-        try {
+    //     try {
 
-        // Create Club exco
-        ClubExco::create([
-            'clubMemberId' => $request->clubMemberId,
-            'role' => $request->role,
-            'roleFromDate' => $request->roleFromDate,
-            'roleToDate' => $request->roleToDate,
-        ]);
+    //     // Create Club exco
+    //     ClubExco::create([
+    //         'clubMemberId' => $request->clubMemberId,
+    //         'role' => $request->role,
+    //         'roleFromDate' => $request->roleFromDate,
+    //         'roleToDate' => $request->roleToDate,
+    //     ]);
 
-        // Return Json Response
-        return response()->json([
-            'message' => "Congratulations, new club exco added successfully."
-        ],200);
-    } catch (\Exception $e) {
-        // Return Json Response
-        return response()->json([
-            'message' => "Opps.. Something went wrong! A club exco couldn't be added."
-        ],500);
-    }
-    }
+    //     // Return Json Response
+    //     return response()->json([
+    //         'message' => "Congratulations, new club exco added successfully."
+    //     ],200);
+    // } catch (\Exception $e) {
+    //     // Return Json Response
+    //     return response()->json([
+    //         'message' => "Opps.. Something went wrong! A club exco couldn't be added."
+    //     ],500);
+    // }
+    // }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $validatedData = $request->validate([
+                'clubMemberId' => 'required|unique:club_excos',
+                'role' => 'required|string',
+                'roleFromDate' => 'required|date',
+                'roleToDate' => 'required|date',
+            ]);
+
+            // Create Club exco
+            ClubExco::create($validatedData);
+
+            // Return Json Response
+            return response()->json([
+                'message' => "Congratulations, new club exco added successfully."
+            ], 200);
+        } catch (ValidationException $e) {
+            // Return Custom Json Response
+            return response()->json([
+                'message' => "Opps, club exco could not be created.",
+                'errors' => $e->validator->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            // Return Json Response
+            return response()->json([
+                'message' => "Opps.. Something went wrong! A club exco couldn't be added.",
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

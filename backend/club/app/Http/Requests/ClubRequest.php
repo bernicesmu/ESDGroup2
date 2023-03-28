@@ -23,13 +23,13 @@ class ClubRequest extends FormRequest
     {
         if(request()->isMethod('post')) {
             return [
-                'clubName' => 'required|string|max:258',
+                'clubName' => 'required|string|max:258|unique:clubs,clubName',
                 'clubCategory' => 'required|string',
                 'cbd' => 'required|string'
             ];
         } else {
             return [
-                'clubName' => 'required|string|max:258',
+                'clubName' => 'required|string|max:258|unique:clubs,clubName',
                 'clubCategory' => 'required|string',
                 'cbd' => 'required|string'
             ];
@@ -44,12 +44,14 @@ class ClubRequest extends FormRequest
             return [
                 'clubName.required' => 'Club name is required!',
                 'clubCategory.required' => 'Club category is required!',
+                'clubName.unique' => 'Club name already exists!',
                 'cbd.required' => 'cbd is required!'
             ];
         } else {
             return [
                 'clubName.required' => 'Club name is required!',
                 'clubCategory.required' => 'Club category is required!',
+                'clubName.unique' => 'Club name already exists!',
                 'cbd.required' => 'Constituent body is required!'
             ];   
         }

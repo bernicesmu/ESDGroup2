@@ -1,0 +1,105 @@
+version: "3.8"
+
+services:
+
+  event: 
+    build: event:1.0 
+    restart: always
+    ports: 
+      - 5101:8000 
+    environment: 
+      dbURL: 
+
+  eventDB: 
+    image: mysql:8.0.19 
+    restart: always 
+    environment: 
+      MYSQL_DB: 
+      MYSQL_PW: root 
+
+  club: 
+    build: club:1.0 
+    restart: always 
+    ports: 
+      - 5102:8888 
+    environment: 
+      dbURL: 
+
+  clubDB: 
+    image: mysql:8.0.19 
+    restart: always 
+    environment: 
+      MYSQL_DB: 
+      MYSQL_PW: root 
+
+  student: 
+    build: student:1.0 
+    restart: always 
+    ports: 
+      - 5103:8888
+  
+  exco: 
+    build: exco:1.0 
+    restart: always 
+    ports: 
+      - 5104:3010
+
+  attendance: 
+    build: attendance:1.0 
+    restart: always 
+    ports: 
+      - 5105:8888
+    depends_on:
+      - rabbit
+    environment: 
+      dbURL: 
+      rabbitURL: http://localhost:5672
+
+  attendanceDB: 
+    image: mysql:8.0.19 
+    restart: always 
+    environment: 
+      MYSQL_DB: 
+      MYSQL_PW: root 
+
+  notifications: 
+    build: notifications:1.0 
+    restart: always 
+    ports: 
+      - 5106:8888
+
+  clubMembers: 
+    build: clubMembers:1.0 
+    restart: always 
+    ports: 
+      - 5107:8888 
+    depends_on:
+      - club
+      - student
+    environment: 
+      clubURL: http://localhost:5102/club
+      studentURL: http://localhost:5103/student 
+
+  generateToken: 
+    build: generateToken:1.0 
+    restart: always 
+    ports: 
+      - 5108:8888 
+    depends_on: 
+      - club
+      - exco 
+    environment: 
+      clubURL: http://localhost:5102/club
+      excoURL: http://localhost:5104/exco 
+  
+  rabbit: 
+    build: rabbit:1.0 
+    restart: always 
+    ports: 
+      - 5672:5672
+      - 15672:15672
+    depends_on: 
+      - notifications
+    environment: 
+      notificationsURL: http://localhost:5106/notifications
+

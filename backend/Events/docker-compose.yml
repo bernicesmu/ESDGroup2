@@ -1,21 +1,51 @@
 version: "4.15"
 
+networks:
+  clumsy-net:
+    driver: bridge
+
 services:
   event:
+    container_name: event-ms
+    image: regineshalom/event:1.0
     build: .
-    command: python /code/manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
     ports:
       - 8000:8000
+    networks:
+      - clumsy-net
     depends_on:
-      - db
-  db:
+      - eventDb
+      - eventMigration
+
+  eventMigration:
+    build: .
+    image: regineshalom/event:1.0
+    command: python manage.py migrate --noinput
+    restart: always
+    volumes:
+      - .:/code
+    networks:
+      - clumsy-net
+    depends_on:
+      - eventDb
+  
+  eventDb:
+    container_name: eventDb
     image: postgres:13
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - event_postgres_data:/var/lib/postgresql/data/
     environment:
       - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - POSTGRES_DB=event-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=rootroot
+    ports:
+      - "8080:5432"
+    networks:
+      - clumsy-net
 
 volumes:
-  postgres_data:
+  event_postgres_data:

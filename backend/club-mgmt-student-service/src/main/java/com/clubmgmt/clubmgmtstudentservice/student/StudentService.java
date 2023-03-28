@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -166,7 +168,7 @@ public class StudentService {
 		studentRepository.save(student);
     }
 
-	public List<Student> getGroupStudentDetails(List<String> matricNumList) {
+	public ResponseEntity<HashMap<String, Object>> getGroupStudentDetails(List<String> matricNumList) {
 		List<Student> output = new ArrayList<>();
 		for (String matricNum:matricNumList){
 			try {
@@ -177,7 +179,10 @@ public class StudentService {
 				output.add(null);
 			}
 		}
-		return output;
+		HashMap<String, Object> outputMap = new HashMap<>();
+		outputMap.put("code", 201);
+		outputMap.put("details", output);
+		return ResponseEntity.ok(outputMap);
 
 	}
 

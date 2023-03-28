@@ -22,7 +22,6 @@ def uploadSignUp():
             filename = os.path.splitext(file.filename)[0] 
             df = pd.read_excel(file)
             dfList = df.values.tolist()
-            print(dfList)
             result = processUploadSignUps(dfList, filename)
             return jsonify(result), result["code"]
         
@@ -74,7 +73,11 @@ def uploadSignUp():
 
 def processUploadSignUps(fileRowData, fileName):
     print('\n-----Invoking attendance microservice-----')
-    attendance_result = invoke_http(attendanceURL + 'upload', method='POST', json={'fileRowData': fileRowData, 'fileName': fileName, 'eventID': 1})
+    print("wioejfoiwej", {'fileRowData': fileRowData, 'fileName': fileName, 'eventID': 1})
+    # headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
+    attendance_result = invoke_http(attendanceURL + 'upload', method='POST', json={"fileRowData": fileRowData, "fileName": fileName, "eventId": 3}, headers=headers)
+    # attendance_result = requests.request('POST', attendanceURL + 'upload', json={'fileRowData': fileRowData, 'fileName': fileName, 'eventID': 1})
     print('attendance_result:', attendance_result)
     code = attendance_result['code']
     if code not in range(200,300): 
@@ -108,16 +111,17 @@ def getSignUpDetails(eventID):
     print('\n\n-----Invoking student microservice-----')
     student_result = invoke_http(studentURL + 'group', method='POST', json=attendance_result['data'])
     print('student_result:', student_result)
-    code = student_result['code']
-    if code not in range(200,300): 
-        return { 
-            'code': 400, 
-            'data': {
-                'attendance_result': attendance_result,
-                'student_result': student_result
-            }, 
-            'message': 'Finding sign up student detais failed.'
-        }
+    #### uncomment the below once xunyi adds a 'code' in his json output
+    # code = student_result['code']
+    # if code not in range(200,300): 
+    #     return { 
+    #         'code': 400, 
+    #         'data': {
+    #             'attendance_result': attendance_result,
+    #             'student_result': student_result
+    #         }, 
+    #         'message': 'Finding sign up student detais failed.'
+    #     }
     
     return {
         "code": 201,

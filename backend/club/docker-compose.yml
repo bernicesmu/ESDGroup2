@@ -39,24 +39,43 @@ services:
       - 5102:80
     depends_on:
       - mysql_db
+    environment:
+      - DB_HOST=mysql_db
+      - DB_PORT=3306
     networks:
       - club_net
-  
+
+  laravel-migrations:
+    container_name: club_migrations
+    build: .
+    command: sh -c "sleep 30 && php artisan migrate"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - mysql_db
+    environment:
+      - DB_HOST=mysql_db
+      - DB_PORT=3306
+    networks:
+      - club_net
+
   mysql_db:
     image: mysql
+    container_name: mysql_db
+    hostname: mysql_db
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: club
-    
     ports:
-    - 3307:3306
+    - 8889:3306
     networks:
       - club_net
   
   phpmyadmin:
-    image: linuxserver/phpmyadmin
+    image: phpmyadmin:latest
+    container_name : phpmyadmin
     ports:
-      - 8889:80
+      - 9000:80
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=mysql_db
