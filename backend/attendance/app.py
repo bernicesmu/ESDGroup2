@@ -4,10 +4,12 @@ import mysql.connector
 from flask_cors import CORS
 import os, sys
 from flask_sqlalchemy import SQLAlchemy
+from os import environ
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance' 
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance' 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://is213@localhost:8889/attendance' 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -102,10 +104,8 @@ def upload():
             jsonData = request.get_json()
             print("\nReceived file data in json:", jsonData) 
             fileRowData = jsonData['fileRowData']
-            filename = jsonData['fileName']
             eventID = jsonData['eventId']
             print(jsonData)
-            print("pipokpodrefvkj")
             # Use the environment variable values to create the database connection
             # conn = mysql.connector.connect(
             #     host=db_host,

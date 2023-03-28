@@ -5,24 +5,28 @@ import pika
 import os, sys
 import requests
 from invokes import invoke_http
+from os import environ
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
-studentURL = "http://localhost:8080/student/"
-attendanceURL = "http://127.0.0.1:5105/"
+studentURL = environ.get('studentURL')
+attendanceURL = environ.get('attendanceURL')
+# studentURL = "http://localhost:8080/student/"
+# attendanceURL = "http://127.0.0.1:5105/"
 
 @app.route("/uploadSignUp", methods=['POST'])
 @cross_origin()
 def uploadSignUp():
     file = request.files['file']
+    eventId = request.form['eventId']
     if file:
         try: 
             print("\nReceived the sign up sheet file.")
             filename = os.path.splitext(file.filename)[0] 
             df = pd.read_excel(file)
             dfList = df.values.tolist()
-            result = processUploadSignUps(dfList, filename)
+            result = processUploadSignUps(dfList, filename, eventId)
             return jsonify(result), result["code"]
         
         except Exception as e: 
@@ -71,12 +75,11 @@ def uploadSignUp():
         "message": "Invalid JSON input: " + str(request.get_data())
     }), 400
 
-def processUploadSignUps(fileRowData, fileName):
+def processUploadSignUps(fileRowData, fileName, eventId):
     print('\n-----Invoking attendance microservice-----')
-    print("wioejfoiwej", {'fileRowData': fileRowData, 'fileName': fileName, 'eventID': 1})
     # headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     headers = {'Content-type': 'application/json', 'Accept': 'application/json'}
-    attendance_result = invoke_http(attendanceURL + 'upload', method='POST', json={"fileRowData": fileRowData, "fileName": fileName, "eventId": 3}, headers=headers)
+    attendance_result = invoke_http(attendanceURL + 'upload', method='POST', json={"fileRowData": fileRowData, "eventId": eventId}, headers=headers)
     # attendance_result = requests.request('POST', attendanceURL + 'upload', json={'fileRowData': fileRowData, 'fileName': fileName, 'eventID': 1})
     print('attendance_result:', attendance_result)
     code = attendance_result['code']
