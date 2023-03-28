@@ -131,6 +131,13 @@ def getSignUpDetails(eventID):
         }
     }
 
+@app.route('/broadcast', methods=['POST'])
+def broadcast():
+    message = request.json.get('messageText')
+    teleHandles = request.json.get('teleHandles')
+    # Code to broadcast message to all attendees
+    return {'success': True}
+
 if __name__ == "__main__":
     print("This is flask " + os.path.basename(__file__) +
           " for uploading sign up and getting sign up details...")

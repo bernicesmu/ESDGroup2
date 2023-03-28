@@ -96,3 +96,10 @@ services:
       - "8080:5432"
     networks:
       - clumsy-net
+
+  exco:
+    image: bernicesmu/auth
+    build: .
+    restart: always
+    ports:
+      - "5104:3010"
