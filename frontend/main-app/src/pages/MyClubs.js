@@ -18,6 +18,13 @@ function Copyright() {
 }
 
 const cards = ['SMUBIA', 'Volleyball', 'Samba Masala', '.Hack'];
+const clubs = [
+  {id:1, clubName:'SMUBIA', clubCategory:'Tech'},
+  {id:2, clubName:'Volleyball', clubCategory:'Sports'},
+  {id:3, clubName:'Ellipsis', clubCategory:'Student Body'},
+  {id:4, clubName:'Samba Masala', clubCategory:'Arts'},
+  {id:5, clubName:'.Hack', clubCategory:'Tech'},
+]
 
 const theme = createTheme();
 
@@ -28,11 +35,11 @@ export default function MyClubs() {
     setSearchValue(event.target.value.toLowerCase()); 
   }
 
-  function updateClubs(card) { 
-    let cardNameSmall = card.toLowerCase(); 
+  function updateClubs(club) { 
+    let cardNameSmall = club.clubName.toLowerCase(); 
     if (cardNameSmall.includes(searchValue)) { 
       return (
-        <CustomCard type='club' name={card} desc="This is a club description that each student club will have."></CustomCard>
+        <CustomCard type='club' club={club} name={club.clubName} desc={club.clubCategory}></CustomCard>
       );
     }
   }
@@ -50,8 +57,8 @@ export default function MyClubs() {
         <div className="m-5">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {cards.map((card) => (
-              updateClubs(card)
+            {clubs.map((club) => (
+              updateClubs(club)
             ))}
           </Grid>
         </div>

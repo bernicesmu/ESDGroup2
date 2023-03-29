@@ -12,7 +12,7 @@ export async function createEvent(event) {
 }
 
 export async function getAllEvents() { 
-    let api_url = 'http://127.0.0.1:5105/eventList';
+    let api_url = 'http://127.0.0.1:5105/eventList/';
     try { 
         const response = await axios.get(api_url); 
         console.log('response ', response); 

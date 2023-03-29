@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, Autocomplete, Checkbox, FormGroup, FormControlLabel, Grid, Button } from '@mui/material';
+import { TextField, Autocomplete, Checkbox, FormGroup, FormControlLabel, Grid, Button, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText  } from '@mui/material';
+import { createEvent } from '../services/EventAPI'; 
 
 // Generate Order Data
 
@@ -8,22 +9,38 @@ export default function EventCreateForm(props) {
         clubName: "SMUBIA",
         eventName: "",
         eventConfirmed: true, 
-        eventType: "",
+        eventType: "I",
         eventLocation: "",
-        eventDate: "01-01-23",
-        eventFromTime: "x", 
-        eventToTime: "x", 
+        eventDate: "2023-01-01",
+        eventFromTime: "00:00:00", 
+        eventToTime: "00:00:00", 
         eventSignUpForm: "",
     });
     const [userInput, setUserInput] = useState({ 
         eventType: "", 
         eventLocation: "", 
     })
+    const [createFail, setCreateFail] = useState(false)
 
     const handleSubmit = (event) => {
         // prevents the submit button from refreshing the page
         event.preventDefault();
+        eventDetails.clubId = 1;
         console.log(eventDetails);
+        createEvent(eventDetails) 
+            .then(response => { 
+                console.log(response); 
+                console.log(typeof response)
+                if (response.id) { 
+                    window.location.href = "/Events";
+                } else { 
+                    setCreateFail(true);
+                }
+            })
+            .catch(error => {
+                console.log(error.message);
+                setCreateFail(true);
+            })
     };
 
     function handleChange(event) {
@@ -36,6 +53,9 @@ export default function EventCreateForm(props) {
         setUserInput({ ...userInput, [event.target.name]: event.target.inputValue }); 
     }
 
+    const handleFailClose = () => {
+        setCreateFail(false);
+    };
 
     return (
         <form onSubmit={(event) => handleSubmit(event)}> 
@@ -43,16 +63,16 @@ export default function EventCreateForm(props) {
                 <Grid item xs={12}>
                     <TextField id="clubName" label="Club Name" name="clubName" value={eventDetails.clubName} disabled fullWidth></TextField>
                 </Grid>
-                <Grid item xs={12} sm={10}>
+                <Grid item xs={12}>
                     <TextField id="eventName" label="Event Name" name="eventName" value={eventDetails.eventName} fullWidth onChange={(event) => handleChange(event)}></TextField>
                 </Grid>
-                <Grid item xs={12} sm={2}>
+                {/* <Grid item xs={12} sm={2}>
                     <FormGroup>
                         <FormControlLabel control={<Checkbox value={eventDetails.eventConfirmed} />} label="Confirmed"  onChange={(event) => handleChange(event)}/>
                     </FormGroup>
-                </Grid>
+                </Grid> */}
                 {/* bernice: ensure that the user input is reflected in the Autocomplete component */}
-                <Grid item xs={12} sm={6}>
+                {/* <Grid item xs={12} sm={6}>
                     <Autocomplete   disablePortal
                                     fullWidth
                                     id="eventType"
@@ -70,9 +90,10 @@ export default function EventCreateForm(props) {
                                     onChange={(event) => handleChange(event)}
                                     renderInput={(params) => <TextField {...params} label="Event Type" />}
                     />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <Autocomplete   disablePortal
+                </Grid> */}
+                <Grid item xs={12}>
+                    <TextField id="eventLocation" label="Event Location" name="eventLocation" value={eventDetails.eventLocation} fullWidth onChange={(event) => handleChange(event)}></TextField>
+                    {/* <Autocomplete   disablePortal
                                     fullWidth
                                     id="eventLocation"
                                     name="eventLocation"
@@ -81,7 +102,7 @@ export default function EventCreateForm(props) {
                                     sx={{ width: '100%' }}
                                     onChange={(event) => handleChange(event)}
                                     renderInput={(params) => <TextField {...params} label="Event Location" />}
-                    />
+                    /> */}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField id="eventDate" label="Event Date" name="eventDate" value={eventDetails.eventDate} type='date' fullWidth onChange={(event) => handleChange(event)}></TextField>
@@ -98,6 +119,24 @@ export default function EventCreateForm(props) {
             </Grid>
             <Button variant='contained' sx={{marginTop:3}} className="float-start" component="a" href="/Events">Go Back to Events</Button>
             <Button type="submit" variant='contained' sx={{marginTop:3}} className="float-end">Submit</Button>
+            <Dialog
+                open={createFail}
+                onClose={handleFailClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                {"Event cannot be created"}
+                </DialogTitle>
+                <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    Some of the fields are not filled in properly. Please edit and try again.
+                </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={handleFailClose}>Noted</Button>
+                </DialogActions>
+            </Dialog>
         </form>
   );
 }
