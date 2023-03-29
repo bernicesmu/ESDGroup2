@@ -14,7 +14,7 @@ services:
   upload_signup: 
     container_name: upload_signup-ms 
     image: bernicesmu/upload_signup:1.0
-    build: .
+    build: ./upload_signup
     command: python upload_signup.py 
     restart: always 
     ports: 
@@ -22,10 +22,11 @@ services:
     networks: 
       - clumsy-net 
     environment: 
-      attendanceURL: "http://127.0.0.1:5105/"
-      studentURL: "http://localhost:5103/student/"
+      attendanceURL: "http://attendance:5105/"
+      studentURL: "http://student:8080/student/"
     depends_on:
       - student 
+      - attendance 
 
   mysqldb:
     image: mysql
@@ -43,7 +44,7 @@ services:
 
   student:
     image: springboot-studentservice
-    build: .
+    build: ./club-mgmt-student-service
     environment:
       dbname: mysqldb
     ports:
@@ -55,44 +56,62 @@ services:
     volumes:
       - studentdb_data:/var/lib/mysql
 
-  event:
-    # container_name: event-ms
-    image: regineshalom/event:1.0
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/code
-    ports:
-      - 8000:8000
-    networks:
-      - clumsy-net
-    depends_on:
-      - eventDb
-      - eventMigration
+  # event:
+  #   # container_name: event-ms
+  #   image: regineshalom/event:1.0
+  #   build: ./Events
+  #   command: python manage.py runserver 0.0.0.0:8000
+  #   volumes:
+  #     - .:/code
+  #   ports:
+  #     - 8000:8000
+  #   networks:
+  #     - clumsy-net
+  #   depends_on:
+  #     - eventDb
+  #     - eventMigration
 
-  eventMigration:
-    build: .
-    image: regineshalom/event:1.0
-    command: python manage.py migrate --noinput
-    restart: always
-    volumes:
-      - .:/code
-    networks:
-      - clumsy-net
-    depends_on:
-      - eventDb
+  # eventMigration:
+  #   build: ./Events
+  #   image: regineshalom/event:1.0
+  #   command: python manage.py migrate --noinput
+  #   restart: always
+  #   volumes:
+  #     - .:/code
+  #   networks:
+  #     - clumsy-net
+  #   depends_on:
+  #     - eventDb
   
-  eventDb:
-    # container_name: eventDb
-    image: postgres:13
-    volumes:
-      - event_postgres_data:/var/lib/postgresql/data/
-    environment:
-      POSTGRES_HOST_AUTH_METHOD: trust
-      POSTGRES_DB: event-db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: rootroot
+  # eventDb:
+  #   # container_name: eventDb
+  #   image: postgres:13
+  #   volumes:
+  #     - event_postgres_data:/var/lib/postgresql/data/
+  #   environment:
+  #     POSTGRES_HOST_AUTH_METHOD: trust
+  #     POSTGRES_DB: event-db
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: rootroot
+  #   ports:
+  #     - "8080:5432"
+  #   networks:
+  #     - clumsy-net
+
+  exco:
+    image: bernicesmu/auth
+    build: ./authentication
+    restart: always
     ports:
-      - "8080:5432"
-    networks:
-      - clumsy-net
+      - 5104:3010
+
+  attendance:
+    image: bernicesmu/attendance:1.0
+    build: ./attendance
+    restart: always
+    networks: 
+      - clumsy-net 
+    ports:
+      - 5101:5105
+    environment:
+      dbURL: mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance

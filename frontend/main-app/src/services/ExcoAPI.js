@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // bernice need to check with bryan on the API URL
-export async function getAttendanceById(data) {
+export async function getExcoById(data) {
     let api_url = 'http://localhost:5104/authentication';
     try {
         const response = await axios.post(api_url, data);

@@ -4,11 +4,13 @@ import mysql.connector
 from flask_cors import CORS
 import os, sys
 from flask_sqlalchemy import SQLAlchemy
+from os import environ
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance' 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/attendance' 
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance' 
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://is213@localhost:8889/attendance' 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -102,10 +104,8 @@ def upload():
             jsonData = request.get_json()
             print("\nReceived file data in json:", jsonData) 
             fileRowData = jsonData['fileRowData']
-            filename = jsonData['fileName']
             eventID = jsonData['eventId']
             print(jsonData)
-            print("pipokpodrefvkj")
             # Use the environment variable values to create the database connection
             # conn = mysql.connector.connect(
             #     host=db_host,
@@ -312,13 +312,6 @@ def getEventById(eventID):
             "code": 500,
             "message": "attendance app.py internal error: " + ex_str
         }), 500
-        
-
-@app.route('/broadcast', methods=['POST'])
-def broadcast():
-    message = request.json.get('messageText')
-    # Code to broadcast message to all attendees
-    return {'success': True}
  
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5105, debug=True)
