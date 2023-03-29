@@ -50,9 +50,9 @@ public class StudentController {
 	}
 	
 	@PostMapping("/register")
-	public void registerNewStudent(@RequestBody Student student){
+	public ResponseEntity<HashMap<String, Object>> registerNewStudent(@RequestBody Student student){
 		//As long as the keyvalue seems to match the student class, will work.
-		studentService.addNewStudent(student);
+		return studentService.addNewStudent(student);
 	}
 
 	@PostMapping("/")
