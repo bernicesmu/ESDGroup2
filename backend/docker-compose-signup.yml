@@ -56,47 +56,47 @@ services:
     volumes:
       - studentdb_data:/var/lib/mysql
 
-  # event:
-  #   # container_name: event-ms
-  #   image: regineshalom/event:1.0
-  #   build: ./Events
-  #   command: python manage.py runserver 0.0.0.0:8000
-  #   volumes:
-  #     - .:/code
-  #   ports:
-  #     - 8000:8000
-  #   networks:
-  #     - clumsy-net
-  #   depends_on:
-  #     - eventDb
-  #     - eventMigration
+  event:
+    # container_name: event-ms
+    image: regineshalom/event:1.0
+    build: ./Events
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - 5105:8000
+    networks:
+      - clumsy-net
+    depends_on:
+      - eventDb
+      - eventMigration
 
-  # eventMigration:
-  #   build: ./Events
-  #   image: regineshalom/event:1.0
-  #   command: python manage.py migrate --noinput
-  #   restart: always
-  #   volumes:
-  #     - .:/code
-  #   networks:
-  #     - clumsy-net
-  #   depends_on:
-  #     - eventDb
+  eventMigration:
+    build: ./Events
+    image: regineshalom/event:1.0
+    command: python manage.py migrate --noinput
+    restart: always
+    volumes:
+      - .:/code
+    networks:
+      - clumsy-net
+    depends_on:
+      - eventDb
   
-  # eventDb:
-  #   # container_name: eventDb
-  #   image: postgres:13
-  #   volumes:
-  #     - event_postgres_data:/var/lib/postgresql/data/
-  #   environment:
-  #     POSTGRES_HOST_AUTH_METHOD: trust
-  #     POSTGRES_DB: event-db
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: rootroot
-  #   ports:
-  #     - "8080:5432"
-  #   networks:
-  #     - clumsy-net
+  eventDb:
+    # container_name: eventDb
+    image: postgres:13
+    volumes:
+      - event_postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: event-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: rootroot
+    ports:
+      - 8080:5432
+    networks:
+      - clumsy-net
 
   exco:
     image: bernicesmu/auth
