@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\ClubController;
-use App\Http\Controllers\ClubExcoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,16 +16,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/clubs', [ClubController::class, 'index']);
-Route::get('/clubs/{id}', [ClubController::class, 'show']);
-Route::post('/clubs', [ClubController::class, 'store']);
-Route::put('/clubs', [ClubController::class, 'update']);
-
-Route::get('/club_excos', [ClubExcoController::class, 'index']);
-// Route::get('/club_excos', 'ClubExcoController@index');
-// Route::post('/club_excos', 'ClubExcoController@create');Route::get('/club_excos', [ClubExcoController::class, 'index']);
-Route::get('/club_excos/{id}', [ClubExcoController::class, 'show']);
-Route::post('/club_excos', [ClubExcoController::class, 'create']);
-Route::put('/club_excos/{id}', [ClubExcoController::class, 'update']);
-Route::delete('/club_excos/{id}', [ClubExcoController::class, 'destroy']);
