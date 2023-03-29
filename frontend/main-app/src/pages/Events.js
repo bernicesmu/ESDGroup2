@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Typography, Button, Grid, TextField, Box, Tab, Tabs } from '@mui/material';
 import CustomCard from '../components/CustomCard'
 import SearchIcon from '@mui/icons-material/Search';
+import { getAllEvents } from '../services/EventAPI'
 
 export default function Events() {
     const [searchValue, setSearchValue] = useState("");
@@ -13,6 +14,16 @@ export default function Events() {
       {id:2, name:'Inter-Faculty Games 2023', desc:'Compete against other faculties on various sports!'},
       {id:3, name:'ACF Showcase 2023', desc:'Watch as our talented ACF members put on a show ranging from singing to dancing!'}
     ]
+
+    useEffect(() => { 
+      getAllEvents() 
+        .then(response => { 
+          console.log(response)
+        })
+        .catch(error => { 
+          console.log(error.message);
+        })
+    }) 
 
     function handleSearchChange(event) { 
       setSearchValue(event.target.value.toLowerCase()); 
