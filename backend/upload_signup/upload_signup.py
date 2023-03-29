@@ -139,6 +139,7 @@ def broadcast():
     matricNums = request.json.get('matricNums')
 
     # data = combine message + matricNums
+    data = {'message': message, 'matricNums': matricNums}
 
     #Cloud AMQP
     hostname = 'mustang-01.rmq.cloudamqp.com'
@@ -163,7 +164,7 @@ def broadcast():
         exchange=exchange,
         routing_key=routing_key,
         body='{"message":"God is great", "matricNums":["213173"]}'
-        #body=data
+        #body=json.dumps(data)
     )
 
     # Close connection
