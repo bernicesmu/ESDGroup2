@@ -58,9 +58,9 @@ services:
 
   event:
     # container_name: event-ms
-    image: regineshalom/event:1.0
+    image: bernicesmu/event:1.0
     build: ./Events
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000 --settings=api.settings --noreload 
     volumes:
       - .:/code
     ports:
@@ -73,7 +73,7 @@ services:
 
   eventMigration:
     build: ./Events
-    image: regineshalom/event:1.0
+    image: bernicesmu/event:1.0
     command: python manage.py migrate --noinput
     restart: always
     volumes:
@@ -98,12 +98,12 @@ services:
     networks:
       - clumsy-net
 
-  exco:
-    image: bernicesmu/auth
-    build: ./authentication
-    restart: always
-    ports:
-      - 5104:3010
+  # exco:
+  #   image: bernicesmu/auth
+  #   build: ./authentication
+  #   restart: always
+  #   ports:
+  #     - 5104:3010
 
   attendance:
     image: bernicesmu/attendance:1.0

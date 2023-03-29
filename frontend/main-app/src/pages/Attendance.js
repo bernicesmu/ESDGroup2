@@ -49,7 +49,7 @@ export default function Attendance() {
     const data = new FormData(event.currentTarget);
     console.log({
       messageText: data.get('messageText'),
-      teleHandles: listOfStudentMatric
+      matricNums: listOfStudentMatric
     });
   };
 
