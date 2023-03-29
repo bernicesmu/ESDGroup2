@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 use App\Models\Club;
 use Illuminate\Http\Request;
-use App\Http\Requests\ClubRequest;
 use Illuminate\Validation\ValidationException;
 
 class ClubController extends Controller
@@ -22,34 +21,6 @@ class ClubController extends Controller
         ],200);
         // return view('clubs', ['clubs' => $clubs]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    // public function create(\Illuminate\Http\Request $request)
-    // {
-    //     //
-    //     try {
-
-    //     // Create Club
-    //     Club::create([
-    //         'clubName' => $request->clubName,
-    //         'clubCategory' => $request -> clubCategory,
-    //         'cbd' => $request->cbd
-    //     ]);
-
-    //     // Return Json Response
-    //     return response()->json([
-    //         'message' => "Congratulations, club successfully created."
-    //     ],200);
-    // } catch (\Exception $e) {
-    //     // Return Json Response
-    //     return response()->json([
-    //         'message' => "Opps.. Something went wrong! A club could not be created!"
-    //     ],500);
-    // }
-    // }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -83,25 +54,6 @@ class ClubController extends Controller
             ], 500);
         }
     }
-    /**
-     * Display the specified resource.
-     */
-    // public function show($id)
-    // {
-    //     // Club details
-    //     $club = Club::find($id);
-    //     if(!$club){
-    //         return response()->json([
-    //             'message'=>'Club Not Found.'
-    //         ],404);
-    //     }
-
-    //     // Return Json Response
-    //     return response()->json([
-    //         'club' => $club
-    //     ],200);
-
-    // }
      public function show($id)
     {
         $club = Club::find($id);
@@ -114,22 +66,6 @@ class ClubController extends Controller
         return response($club->clubName, 200)
         ->header('Content-Type', 'text/plain');
     }
-    // Function doesn't work..
-    // public function getName($id)
-    // {
-    //     // $club = Club::find($id);
-    //     $club = DB::table('clubs')->find($id);
-    //     if (!$club) {
-    //         return response()->json([
-    //             'message' => 'Club not found'
-    //         ], 404);
-    //     }
-
-    //     return response()->json([
-    //         'clubName' => $club->clubName
-    //     ], 200);
-    // }
-
 
     /**
      * Show the form for editing the specified resource.

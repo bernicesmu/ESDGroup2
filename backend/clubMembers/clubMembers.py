@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 # bernice to fill
-club_URL = "http://localhost:8001/club_members"
+club_URL = "http://localhost:8001/api/club_members"
 student_URL = ""
 error_URL = "" 
 
@@ -28,7 +28,7 @@ def getClubMembersDetails(clubID):
         
 def processStudents(clubID): 
     print('\n\n------Invoking Club microservice------')
-    club_members_matric = invoke_http(club_URL, method="GET", json=clubID)
+    club_members_matric = invoke_http(club_URL, method="GET", data=clubID)
     print('club members matric num:', club_members_matric)
 
     code = club_members_matric["code"]
