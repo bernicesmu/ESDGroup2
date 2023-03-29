@@ -3,3 +3,5 @@ djangorestframework==3.14.0
 asgiref==3.6.0
 pytz==2022.7.1
 sqlparse==0.4.3
+psycopg2-binary==2.9.5
+django-cors-headers==3.14.0

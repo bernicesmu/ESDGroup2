@@ -2,3 +2,4 @@ Flask==2.2.2
 Flask-Cors==3.0.10
 mysql-connector-python==8.0.32
 pandas==1.5.3
+Flask-SQLAlchemy==3.0.2

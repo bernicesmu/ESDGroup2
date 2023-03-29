@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -68,14 +70,21 @@ public class StudentService {
 		}
 	}
 
-    public void addNewStudent(Student student) {
+    public ResponseEntity<HashMap<String, Object>> addNewStudent(Student student) {
 		Optional<Student> studentOptional =	studentRepository.findStudentByMatricNum(student.getMatricNum());
+		HashMap<String, Object> outputMap = new HashMap<>();
 		if (studentOptional.isPresent()){
-			throw new IllegalStateException("Matric number exists!");
+			outputMap.put("code", "400");
+			outputMap.put("message", "Matric number " + student.getMatricNum() + " already exists!");
+			// throw new IllegalStateException("Matric number exists!");
 		} else {
 			//Rmrmb to check if matric is correct
 			studentRepository.save(student); //This saves it to database
+			outputMap.put("code", 201);
+			outputMap.put("message", "Student has been registered." );
+			outputMap.put("data", student);
 		}
+		return ResponseEntity.ok(outputMap);
 
     }
 
@@ -166,8 +175,16 @@ public class StudentService {
 		studentRepository.save(student);
     }
 
-	public List<Student> getGroupStudentDetails(List<String> matricNumList) {
+	public ResponseEntity<HashMap<String, Object>> getGroupStudentDetails(List<String> matricNumList) {
+		if (matricNumList.size()==0){
+			HashMap<String, Object> outputMap = new HashMap<>();
+			outputMap.put("code", 501);
+			outputMap.put("message", "matricNumList is empty.");
+			return ResponseEntity.ok(outputMap);
+		}
 		List<Student> output = new ArrayList<>();
+		List<String> notFound = new ArrayList<>();
+
 		for (String matricNum:matricNumList){
 			try {
 				output.add(getStudentDetails(matricNum));
@@ -175,9 +192,14 @@ public class StudentService {
 				//Student cannot be found
 				// output.add(new Student.StudentBuilder(matricNum,null,null).setAdditionalInfo(null,null,null).setHealthInfo(null,null,false).setTelegramUser(null).setPhoneNo(0).build());
 				output.add(null);
+				notFound.add(matricNum);
 			}
 		}
-		return output;
+		HashMap<String, Object> outputMap = new HashMap<>();
+		outputMap.put("code", 201);
+		outputMap.put("details", output);
+		outputMap.put("missingUsers", notFound);
+		return ResponseEntity.ok(outputMap);
 
 	}
 

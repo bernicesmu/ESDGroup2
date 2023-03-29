@@ -1,0 +1,117 @@
+version: "3.8"
+
+## not done, waiting for atrayee's docker compose 
+
+networks: 
+ clumsy-net: 
+  driver: bridge 
+
+volumes:
+  studentdb_data:
+  event_postgres_data:
+
+services: 
+  upload_signup: 
+    container_name: upload_signup-ms 
+    image: bernicesmu/upload_signup:1.0
+    build: ./upload_signup
+    command: python upload_signup.py 
+    restart: always 
+    ports: 
+      - 5108:5110 
+    networks: 
+      - clumsy-net 
+    environment: 
+      attendanceURL: "http://attendance:5105/"
+      studentURL: "http://student:8080/student/"
+    depends_on:
+      - student 
+      - attendance 
+
+  mysqldb:
+    image: mysql
+    restart: always
+    volumes:
+      - studentdb_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_USER: a
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: studentdb
+      hostname: mysqldb
+    networks:
+      - clumsy-net
+
+  student:
+    image: springboot-studentservice
+    build: ./club-mgmt-student-service
+    environment:
+      dbname: mysqldb
+    ports:
+      - "5103:8080" #Expose docker port --> need to change according to our proj 
+    depends_on:
+      - mysqldb
+    networks:
+      - clumsy-net 
+    volumes:
+      - studentdb_data:/var/lib/mysql
+
+  event:
+    # container_name: event-ms
+    image: regineshalom/event:1.0
+    build: ./Events
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - 5105:8000
+    networks:
+      - clumsy-net
+    depends_on:
+      - eventDb
+      - eventMigration
+
+  eventMigration:
+    build: ./Events
+    image: regineshalom/event:1.0
+    command: python manage.py migrate --noinput
+    restart: always
+    volumes:
+      - .:/code
+    networks:
+      - clumsy-net
+    depends_on:
+      - eventDb
+  
+  eventDb:
+    # container_name: eventDb
+    image: postgres:13
+    volumes:
+      - event_postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: event-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: rootroot
+    ports:
+      - 8080:5432
+    networks:
+      - clumsy-net
+
+  exco:
+    image: bernicesmu/auth
+    build: ./authentication
+    restart: always
+    ports:
+      - 5104:3010
+
+  attendance:
+    image: bernicesmu/attendance:1.0
+    build: ./attendance
+    restart: always
+    networks: 
+      - clumsy-net 
+    ports:
+      - 5101:5105
+    environment:
+      dbURL: mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance

@@ -1,0 +1,28 @@
+version: "3.8"
+
+
+services:
+
+  # Attendance: The Attendance microservice
+  attendance:
+    # container: attendance
+    image: bernicesmu/attendance:1.0
+    build: .
+    restart: always
+    # build: .
+    # command: python app.py runserver 0.0.0.0:8000
+    # volumes:
+    #   - .:/code
+    ports:
+      - 5101:5105
+    # networks:
+    #   - clumsy-net
+    # depends_on:
+    #   - eventDb
+    #   - eventMigration
+    environment:
+      dbURL: mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance
+      # dbURL: mysql+mysqlconnector://is213@localhost:8889/attendance
+
+
+

@@ -1,9 +1,11 @@
 package com.clubmgmt.clubmgmtstudentservice.student;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,9 +50,9 @@ public class StudentController {
 	}
 	
 	@PostMapping("/register")
-	public void registerNewStudent(@RequestBody Student student){
+	public ResponseEntity<HashMap<String, Object>> registerNewStudent(@RequestBody Student student){
 		//As long as the keyvalue seems to match the student class, will work.
-		studentService.addNewStudent(student);
+		return studentService.addNewStudent(student);
 	}
 
 	@PostMapping("/")
@@ -61,7 +63,7 @@ public class StudentController {
 	}
 
 	@PostMapping("/group")
-	public List<Student> getGroupStudentDetails(
+	public ResponseEntity<HashMap<String, Object>> getGroupStudentDetails(
 		@RequestBody List<String> matricNumList
 	){
 		return studentService.getGroupStudentDetails(matricNumList);

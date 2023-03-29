@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from Events.views import eventViewset
+from Events.views import eventViewset, getEvent
 
 router=DefaultRouter()
-router.register('eventList', eventViewset)
+
+router.register(r'eventList', eventViewset)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    path('getEvent/', getEvent.as_view({'get':'retrieve'}), name='getEvent')
 ]

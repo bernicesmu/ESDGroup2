@@ -23,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2!!8wxsfz+eox%2d77%a)25-q7!uk_#oln-ugv$-m*!s4wxax^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
-
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
@@ -77,11 +77,11 @@ WSGI_APPLICATION = 'api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'event-db', 
         'USER': 'postgres',
         'PASSWORD': 'rootroot',
-        'HOST': '127.0.0.1', 
+        'HOST': 'eventDb', 
         'PORT': '5432',
     }
 }
