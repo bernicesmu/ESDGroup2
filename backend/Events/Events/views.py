@@ -1,12 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Event
 from rest_framework import viewsets
-from rest_framework.decorators import action
 from rest_framework.response import Response
 from .serialiser import eventSerialiser
 from .forms import getEventID
-from django.http import JsonResponse
-from django.http import HttpResponse
+
+
 
 
 # Create your views here.
@@ -15,19 +14,31 @@ class eventViewset(viewsets.ModelViewSet):
     serializer_class=eventSerialiser
     queryset=Event.objects.all()
     
+    # def get_queryset(self):
+    #     eid = self.kwargs['id']
+    #     return Event.objects.filter(id=eid)
+    
     # def list(self, request):
     #     queryset = Event.objects.all()
     #     serializer = eventSerialiser(queryset, many=True)
     #     return Response(serializer.data)
 
-class getEvent(viewsets.ViewSet):
+# class getEvent(viewsets.ViewSet):
     
-    def retrieve(self, request, slug=None):
-        queryset = Event.objects.all()
-        obj = get_object_or_404(queryset, eventName=slug)
-        serializer = eventSerialiser(obj)
-        return Response(serializer.data)
-        
+#     def retrieve(self, request, pk=None):
+#         if request.method == 'GET':
+#             queryset = Event.objects.filter(id=request)
+#             serializer = eventSerialiser(queryset)
+#             return Response(serializer.data)
+    
+# class getAllEvent(viewsets.ViewSet):
+    
+#     def retrieve(self, request, slug=None):
+#         if request.method == 'GET':
+#             queryset = Event.objects.all()
+#             serializer = eventSerialiser(queryset, many=True)
+#             return Response(serializer.data)
+            
         # if request.method == 'POST':
         #     form = getEventID(request.POST)
         #     if form.is_valid():
