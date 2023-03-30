@@ -98,12 +98,14 @@ services:
     networks:
       - clumsy-net
 
-  # exco:
-  #   image: bernicesmu/auth
-  #   build: ./authentication
-  #   restart: always
-  #   ports:
-  #     - 5104:3010
+  exco:
+    image: bernicesmu/auth
+    build: ./authentication
+    restart: always
+    ports:
+      - 5104:3010
+    networks: 
+      - clumsy-net
 
   attendance:
     image: bernicesmu/attendance:1.0
@@ -159,5 +161,22 @@ services:
       MYSQL_DATABASE: club
     ports:
       - 8889:3306
+    networks:
+      - clumsy-net
+
+  generatetoken: 
+    image: bernicesmu/generatetoken 
+    build: ./generateToken 
+    environment: 
+      - EXCO_HOST=exco
+      - CLUB_HOST=laravel-docker
+      - EXCO_URL=http://exco:3010/
+      - CLUB_URL=http://club_database:80/
+    ports: 
+      - 5109:3020 
+    depends_on: 
+      - exco 
+      - laravel-docker
+      - mysql_db 
     networks:
       - clumsy-net
