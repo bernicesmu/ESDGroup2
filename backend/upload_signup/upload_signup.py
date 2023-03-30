@@ -5,6 +5,7 @@ import pika
 import os, sys
 import requests
 from invokes import invoke_http
+import json
 from os import environ
 
 app = Flask(__name__)
@@ -137,11 +138,13 @@ def getSignUpDetails(eventID):
 @app.route('/broadcast', methods=['POST'])
 def broadcast():
     
+    
     #changed from telehandles
     message = request.json.get('messageText')
     matricNums = request.json.get('matricNums')
 
     # data = combine message + matricNums
+    data = {'message': message, 'matricNums': matricNums}
 
     #Cloud AMQP
     hostname = 'mustang-01.rmq.cloudamqp.com'
@@ -165,12 +168,15 @@ def broadcast():
     channel.basic_publish(
         exchange=exchange,
         routing_key=routing_key,
-        body='{"message":"God is great", "matricNums":["213173"]}'
-        #body=data
+        #body='{"message":"God is great", "matricNums":["213173"]}'
+        body=json.dumps(data)
     )
 
     # Close connection
     connection.close()
+
+    # # Code to broadcast message to all attendees
+    return {'success': True}
 
     # # Code to broadcast message to all attendees
     return {'success': True}
