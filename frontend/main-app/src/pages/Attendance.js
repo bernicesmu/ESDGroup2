@@ -26,6 +26,34 @@ export default function Attendance() {
     const data = new FormData(event.currentTarget);
     console.log({
       messageText: data.get('messageText'),
+      //matricNums: (['01234', '54672'])
+      matricNums: listOfStudentMatric
+    });
+
+    // sending this data to backend upload_student.py
+
+    fetch('http://localhost:5110/broadcast', {
+        method: 'POST',
+        body: JSON.stringify({
+            messageText:data.get('messageText'),
+            //matricNums: (['01234', '123411']) 
+            matricNums:listOfStudentMatric
+        }),
+        headers:{
+            'Content-Type' : 'application/json'
+        }
+    })
+
+    .then(response => {
+        if (response.ok){
+            console.log('Message sent successfully');
+        } else {
+            console.error('Error sending message')
+        }
+    })
+
+    .catch(error => {
+        console.error('Error sending message!', error);
     });
   };
 

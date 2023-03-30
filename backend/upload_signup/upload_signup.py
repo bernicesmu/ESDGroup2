@@ -173,6 +173,9 @@ def broadcast():
     # # Code to broadcast message to all attendees
     return {'success': True}
 
+    # # Code to broadcast message to all attendees
+    return {'success': True}
+
 if __name__ == "__main__":
     # broadcast()
     print("This is flask " + os.path.basename(__file__) +
