@@ -14,10 +14,9 @@ export default function CustomCard(props) {
                         </CardActions>);
             defaultImage = EventNotFound;
         } else if (type === 'club') { 
-            console.log(props)
             buttonArea = (<CardActions>
                             {/* remember to add the GET params in the href below so as to retrieve the club name */}
-                            <Button size="small" href={"/Members"}>View members</Button> 
+                            <Button size="small" href={"/Members?clubId=" + props.club.id}>View members</Button> 
                             <Button size="small" href={"/Events?clubId=" + props.club.id}>View events</Button>
                         </CardActions>);
             defaultImage = ClubNotFound;

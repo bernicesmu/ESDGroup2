@@ -115,3 +115,49 @@ services:
       - 5101:5105
     environment:
       dbURL: mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance
+
+  laravel-docker:
+    container_name: club_database
+    build: ./club_zipped
+    working_dir: /var/www/html/club_zipped
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 5102:80
+    depends_on:
+      - mysql_db
+    environment:
+      - DB_HOST=mysql_db
+      - DB_PORT=3306
+      - APP_URL=http://localhost:5102
+    networks:
+      - clumsy-net
+    command: php /var/www/html/club_zipped/artisan serve --host=0.0.0.0 --port=80
+
+  laravel-migrations:
+    container_name: club_migrations
+    build: ./club_zipped
+    command: sh -c "sleep 30 && php /var/www/html/club_zipped/artisan migrate"
+    working_dir: /var/www/html/club_zipped
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - mysql_db
+    environment:
+      - DB_HOST=mysql_db
+      - DB_PORT=3306
+    networks:
+      - clumsy-net
+
+  mysql_db:
+    image: mysql:latest
+    build: ./club_zipped
+    container_name: mysql_db
+    hostname: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: club
+    ports:
+      - 8889:3306
+    networks:
+      - clumsy-net

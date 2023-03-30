@@ -26,6 +26,13 @@ export default function Members() {
       }
     }
 
+    useEffect(() => { 
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const clubIdFromURL = urlParams.get('clubId'); 
+      console.log(clubIdFromURL);
+    })
+
     return ( 
         <div>
             <div className="mx-5 mb-5 justify-content-between d-flex my-5">
