@@ -22,6 +22,7 @@ FROM php:8.2.4-apache
 WORKDIR /var/www/html
 COPY . /var/www/html
 
+RUN chmod +x /var/www/html/artisan
 RUN chown -R www-data:www-data /var/www/html
 RUN chmod -R 755 /var/www/html
 

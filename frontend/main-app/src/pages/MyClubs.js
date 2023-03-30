@@ -3,7 +3,7 @@ import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography, Li
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CustomCard from '../components/CustomCard';
 import ClubNotFound from '../assets/ClubNotFound.png';
-
+import { getAllClubs } from '../services/ClubAPI'; 
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -30,6 +30,7 @@ const theme = createTheme();
 
 export default function MyClubs() {
   const [searchValue, setSearchValue] = useState("");
+  const [allClubs, setAllClubs] = useState(Array(0));
 
   function handleSearchChange(event) { 
     setSearchValue(event.target.value.toLowerCase()); 
@@ -39,10 +40,21 @@ export default function MyClubs() {
     let cardNameSmall = club.clubName.toLowerCase(); 
     if (cardNameSmall.includes(searchValue)) { 
       return (
-        <CustomCard type='club' club={club} name={club.clubName} desc={club.clubCategory}></CustomCard>
+        <CustomCard type='club' key={club.id} club={club} name={club.clubName} desc={club.clubCategory}></CustomCard>
       );
     }
   }
+
+  useEffect(() => { 
+    getAllClubs()
+      .then(response => {
+        setAllClubs(response.clubs); 
+      })
+      .catch(error => { 
+        console.log(error.message);
+        setAllClubs(clubs); 
+      })
+  }, [])
 
   return (
       <main>
@@ -57,7 +69,7 @@ export default function MyClubs() {
         <div className="m-5">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {clubs.map((club) => (
+            {allClubs.map((club) => (
               updateClubs(club)
             ))}
           </Grid>
