@@ -104,7 +104,7 @@ export default function Attendance() {
     uploadSignUps(formData)
       .then(response => {
         console.log(response); 
-        window.location.reload()
+        // window.location.reload()
       })
       .catch(error => {
         console.log(error.message);
@@ -128,7 +128,7 @@ export default function Attendance() {
           <Button variant='contained' component='a' href='/Event'>Go Back to Datathon 2023</Button>
           </div>
           <div className="text-center">
-          <Typography variant='h4'>Datathon 2023 Sign Ups</Typography>
+          <Typography variant='h4'>XXX</Typography>
           <Typography variant='p'>Look at who are excited for this event!</Typography>
         </div>
         <div className="my-auto w-25">
