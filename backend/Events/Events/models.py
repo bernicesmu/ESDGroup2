@@ -30,8 +30,8 @@ def validate_validtime(start, end):
 """
 class Event(models.Model):
     SSU = 'S'
-    ACF = 'G'
-    IIE = 'P'
+    ACF = 'A'
+    IIE = 'I'
     MC = 'M'
     OTHER = 'O'
     EVENT_TYPE_CHOICES = [
@@ -42,7 +42,7 @@ class Event(models.Model):
         (OTHER, 'Other'),
     ]
     
-    clubName=models.CharField(max_length=255, validators=[validate_notempty])
+    clubId=models.CharField(max_length=255, validators=[validate_notempty])
     eventName=models.CharField(max_length=255, validators=[validate_notempty])
     eventConfirmed=models.BooleanField()
     eventType=models.CharField(max_length=255, choices=EVENT_TYPE_CHOICES)
@@ -56,3 +56,4 @@ class Event(models.Model):
 
     def __str__(self):
         return self.eventName
+    

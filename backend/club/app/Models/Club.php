@@ -16,4 +16,3 @@ class Club extends Model
         'id', 'clubName', 'clubCategory', 'cbd'
     ];
 }
-?>

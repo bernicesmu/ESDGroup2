@@ -9,15 +9,15 @@ export default function CustomCard(props) {
         let defaultImage;
         if (type === 'event') { 
             buttonArea = (<CardActions>
-                            <Button size="small">Join</Button>
-                            <Button size="small" component="a" href="/Event">Learn More</Button>
+                            <Button size="small" href={props.event.eventSignUpForm}>Join</Button>
+                            <Button size="small" component="a" href={"/Event?eventId=" + props.event.id}>Learn More</Button>
                         </CardActions>);
             defaultImage = EventNotFound;
         } else if (type === 'club') { 
             buttonArea = (<CardActions>
                             {/* remember to add the GET params in the href below so as to retrieve the club name */}
-                            <Button size="small" href={"/Members"}>View members</Button> 
-                            <Button size="small" href={"/Events"}>View events</Button>
+                            <Button size="small" href={"/Members?clubId=" + props.club.id}>View members</Button> 
+                            <Button size="small" href={"/Events?clubId=" + props.club.id}>View events</Button>
                         </CardActions>);
             defaultImage = ClubNotFound;
         }
@@ -38,10 +38,10 @@ export default function CustomCard(props) {
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2" textAlign={'center'}>
-                    {props.name}
+                        {props.name}
                     </Typography>
                     <Typography textAlign={'center'}>
-                    {props.desc}
+                        {props.desc}
                     </Typography>
                 </CardContent>
                 {buttonArea}

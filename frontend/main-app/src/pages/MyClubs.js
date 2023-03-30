@@ -3,7 +3,7 @@ import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography, Li
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CustomCard from '../components/CustomCard';
 import ClubNotFound from '../assets/ClubNotFound.png';
-
+import { getAllClubs } from '../services/ClubAPI'; 
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -18,24 +18,43 @@ function Copyright() {
 }
 
 const cards = ['SMUBIA', 'Volleyball', 'Samba Masala', '.Hack'];
+const clubs = [
+  {id:1, clubName:'SMUBIA', clubCategory:'Tech'},
+  {id:2, clubName:'Volleyball', clubCategory:'Sports'},
+  {id:3, clubName:'Ellipsis', clubCategory:'Student Body'},
+  {id:4, clubName:'Samba Masala', clubCategory:'Arts'},
+  {id:5, clubName:'.Hack', clubCategory:'Tech'},
+]
 
 const theme = createTheme();
 
 export default function MyClubs() {
   const [searchValue, setSearchValue] = useState("");
+  const [allClubs, setAllClubs] = useState(Array(0));
 
   function handleSearchChange(event) { 
     setSearchValue(event.target.value.toLowerCase()); 
   }
 
-  function updateClubs(card) { 
-    let cardNameSmall = card.toLowerCase(); 
+  function updateClubs(club) { 
+    let cardNameSmall = club.clubName.toLowerCase(); 
     if (cardNameSmall.includes(searchValue)) { 
       return (
-        <CustomCard type='club' name={card} desc="This is a club description that each student club will have."></CustomCard>
+        <CustomCard type='club' key={club.id} club={club} name={club.clubName} desc={club.clubCategory}></CustomCard>
       );
     }
   }
+
+  useEffect(() => { 
+    getAllClubs()
+      .then(response => {
+        setAllClubs(response.clubs); 
+      })
+      .catch(error => { 
+        console.log(error.message);
+        setAllClubs(clubs); 
+      })
+  }, [])
 
   return (
       <main>
@@ -50,8 +69,8 @@ export default function MyClubs() {
         <div className="m-5">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {cards.map((card) => (
-              updateClubs(card)
+            {allClubs.map((club) => (
+              updateClubs(club)
             ))}
           </Grid>
         </div>

@@ -19,9 +19,14 @@ from rest_framework.routers import DefaultRouter
 from Events.views import eventViewset
 
 router=DefaultRouter()
-router.register('eventList', eventViewset)
+
+router.register(r'eventList', eventViewset)
+# router.register(r'getEvent', getEvent, basename='getEvent')
+# router.register(r'AllEvents', getAllEvent, basename='allEvents')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    # path('getEvent/', getEvent.as_view({'get':'retrieve'}), name='getEvent'),
+    # path('getAllEvent/', getAllEvent.as_view({'get':'retrieve'}), name='getAllEvent')
 ]

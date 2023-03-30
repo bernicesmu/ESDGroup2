@@ -22,10 +22,11 @@ services:
     networks: 
       - clumsy-net 
     environment: 
-      attendanceURL: "http://127.0.0.1:5105/"
-      studentURL: "http://localhost:5103/student/"
+      attendanceURL: "http://attendance:5105/"
+      studentURL: "http://student:8080/student/"
     depends_on:
       - student 
+      - attendance 
 
   mysqldb:
     image: mysql
@@ -57,13 +58,13 @@ services:
 
   event:
     # container_name: event-ms
-    image: regineshalom/event:1.0
+    image: bernicesmu/event:1.0
     build: ./Events
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000 --settings=api.settings --noreload 
     volumes:
       - .:/code
     ports:
-      - 8000:8000
+      - 5105:8000
     networks:
       - clumsy-net
     depends_on:
@@ -72,7 +73,7 @@ services:
 
   eventMigration:
     build: ./Events
-    image: regineshalom/event:1.0
+    image: bernicesmu/event:1.0
     command: python manage.py migrate --noinput
     restart: always
     volumes:
@@ -93,13 +94,70 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: rootroot
     ports:
-      - "8080:5432"
+      - 8080:5432
     networks:
       - clumsy-net
 
-  exco:
-    image: bernicesmu/auth
-    build: ./authentication
+  # exco:
+  #   image: bernicesmu/auth
+  #   build: ./authentication
+  #   restart: always
+  #   ports:
+  #     - 5104:3010
+
+  attendance:
+    image: bernicesmu/attendance:1.0
+    build: ./attendance
     restart: always
+    networks: 
+      - clumsy-net 
     ports:
-      - "5104:3010"
+      - 5101:5105
+    environment:
+      dbURL: mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance
+
+  laravel-docker:
+    container_name: club_database
+    build: ./club_zipped
+    working_dir: /var/www/html/club_zipped
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 5102:80
+    depends_on:
+      - mysql_db
+    environment:
+      - DB_HOST=mysql_db
+      - DB_PORT=3306
+      - APP_URL=http://localhost:5102
+    networks:
+      - clumsy-net
+    command: php /var/www/html/club_zipped/artisan serve --host=0.0.0.0 --port=80
+
+  laravel-migrations:
+    container_name: club_migrations
+    build: ./club_zipped
+    command: sh -c "sleep 30 && php /var/www/html/club_zipped/artisan migrate"
+    working_dir: /var/www/html/club_zipped
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - mysql_db
+    environment:
+      - DB_HOST=mysql_db
+      - DB_PORT=3306
+    networks:
+      - clumsy-net
+
+  mysql_db:
+    image: mysql:latest
+    build: ./club_zipped
+    container_name: mysql_db
+    hostname: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: club
+    ports:
+      - 8889:3306
+    networks:
+      - clumsy-net
