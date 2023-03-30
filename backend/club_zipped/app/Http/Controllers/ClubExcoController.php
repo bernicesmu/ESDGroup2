@@ -19,6 +19,7 @@ class ClubExcoController extends Controller
 
         // Return Json Response
         return response()->json([
+            'code' => 200,
             'club_excos' => $clubExco
         ],200);
     
@@ -70,17 +71,20 @@ class ClubExcoController extends Controller
 
             // Return Json Response
             return response()->json([
+                'code' => 200,
                 'message' => "Congratulations, new club exco added successfully."
             ], 200);
         } catch (ValidationException $e) {
             // Return Custom Json Response
             return response()->json([
+                'code' => 422,
                 'message' => "Opps, club exco could not be created.",
                 'errors' => $e->validator->errors()
             ], 422);
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
+                'code' => 500,
                 'message' => "Opps.. Something went wrong! A club exco couldn't be added.",
                 'error' => $e->getMessage()
             ], 500);
@@ -97,12 +101,14 @@ class ClubExcoController extends Controller
         // $clubExco = ClubExco::table('club_excos')->get();
         if(!$clubExco){
             return response()->json([
+                'code' => 404,
                 'message'=>'Club exco not found.'
             ],404);
         }
 
         // Return Json Response
         return response()->json([
+            'code' => 200,
             'club_exco' => $clubExco
         ],200);
     }
@@ -124,6 +130,7 @@ class ClubExcoController extends Controller
             $clubExco = ClubExco::find($id);
             if(!$clubExco){
               return response()->json([
+                'code' => 404,
                 'message'=>'Club exco not found!'
               ],404);
             }
@@ -138,11 +145,13 @@ class ClubExcoController extends Controller
     
             // Return Json Response
             return response()->json([
+                'code' => 200,
                 'message' => "Club exco successfully updated!"
             ],200);
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
+                'code' => 500,
                 'message' => "Opps.. Something went wrong! Unable to update club exco."
             ],500);
             }
@@ -157,6 +166,7 @@ class ClubExcoController extends Controller
         $clubExco = ClubExco::find($id);
         if(!$clubExco){
         return response()->json([
+            'code' => 404,
             'message'=>'Club exco not found!'
         ],404);
         }
@@ -166,6 +176,7 @@ class ClubExcoController extends Controller
 
         // Return Json Response
         return response()->json([
+            'code' => 200,
             'message' => "Club exco successfully deleted!"
         ],200);
     }

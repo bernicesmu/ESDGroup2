@@ -18,6 +18,7 @@ class ClubMemberController extends Controller
 
         // Return Json Response
         return response()->json([
+            'code' => 200,
             'club_members' => $clubMembers
         ],200);
     }
@@ -67,17 +68,20 @@ class ClubMemberController extends Controller
     
             // Return Json Response
             return response()->json([
+                'code' => 200,
                 'message' => "Congratulations, club member successfully created."
             ], 200);
         } catch (ValidationException $e) {
             // Return Custom Json Response
             return response()->json([
+                'code' => 422,
                 'message' => "Opps, club member could not be created.",
                 'errors' => $e->validator->errors()
             ], 422);
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
+                'code' => 500,
                 'message' => "Opps.. Something went wrong! A club could not be created!",
                 'error' => $e->getMessage()
             ], 500);
@@ -135,6 +139,7 @@ class ClubMemberController extends Controller
 
     if($clubMembers->isEmpty()){
         return response()->json([
+            'code' => 404,
             'message' => 'Club member not found!'
         ],404);
     }
@@ -167,6 +172,7 @@ class ClubMemberController extends Controller
 
             if(!$clubMember){
               return response()->json([
+                'code' => 404,
                 'message'=>'Club member not found!'
               ],404);
             }
@@ -180,11 +186,13 @@ class ClubMemberController extends Controller
     
             // Return Json Response
             return response()->json([
+                'code' => 200,
                 'message' => "Club member successfully updated!"
             ],200);
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
+                'code' => 500,
                 'message' => "Opps.. Something went wrong! Unable to update club member."
             ],500);
             }
@@ -199,6 +207,7 @@ class ClubMemberController extends Controller
         $clubMember = ClubMember::find($id);
         if(!$clubMember){
         return response()->json([
+            'code' => 404,
             'message'=>'Club member not found!'
         ],404);
         }
@@ -208,6 +217,7 @@ class ClubMemberController extends Controller
 
         // Return Json Response
         return response()->json([
+            'code' => 200,
             'message' => "Club member successfully deleted!"
         ],200);
     }
