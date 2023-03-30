@@ -16,11 +16,13 @@ export default function EventIndiv() {
   });
   const [eventDetailsElement, setEventDetailsElement] = useState(null); 
   const [eventName, setEventName] = useState(null); 
+  const [eventId, setEventId] = useState(0); 
 
   useEffect(() => {
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
       const eventIdFromURL = urlParams.get('eventId')
+      setEventId(eventIdFromURL);
       getAllEvents()
           .then(response => { 
               for (let r of response) { 
@@ -56,7 +58,7 @@ export default function EventIndiv() {
                 <Typography variant='p'>Check out the details for this exciting event!</Typography>
               </div>
               <div className="my-auto">
-                <Button variant='contained' component='a' href='/Attendance'>Check Sign Up Sheet</Button>
+                <Button variant='contained' component='a' href={'/Attendance?eventId=' + eventId}>Check Sign Up Sheet</Button>
               </div>
             </div>
             <EventPhotos></EventPhotos>
