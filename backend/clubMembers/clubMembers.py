@@ -3,6 +3,8 @@ from flask_cors import CORS
 
 import os, sys
 
+import json
+
 import requests
 from invokes import invoke_http
 
@@ -31,6 +33,7 @@ def processStudents(clubID):
     club_members_matric = invoke_http(f"{club_URL}/{clubID}", method="GET")
     print('Club microservice response:', club_members_matric)
     print('club members matric num:', club_members_matric['data'])
+ 
 
     code = club_members_matric["code"]
     if code not in range(200, 300): 
@@ -45,7 +48,10 @@ def processStudents(clubID):
         }
 
     print('\n\n------Invoking Student microservice------')
-    club_members_full = invoke_http(student_URL, method="POST", json=club_members_matric)
+    # response = requests.post(student_URL, data=json.dumps(club_members_matric['data']), headers={'Content-Type': 'application/json'})
+    # club_members_full = response.json()
+    
+    club_members_full = invoke_http(student_URL, method="POST", json=club_members_matric['data'])
     print('club members full details:', club_members_full)
 
     code = club_members_full["code"]
