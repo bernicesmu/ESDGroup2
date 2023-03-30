@@ -4,7 +4,7 @@ import UploadForm from './UploadForm';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import AttendanceTable from '../components/AttendanceTable';
 import { MuiFileInput } from 'mui-file-input'
-import { uploadSignUps, getSignUpByEventId } from '../services/UploadSignUpAPI'; 
+import { uploadSignUps, getSignUpByEventId, broadcastMessage } from '../services/UploadSignUpAPI'; 
 
 export default function Attendance() {
   const [messageTextArea, setMessageTextArea] = useState(null);
@@ -22,6 +22,7 @@ export default function Attendance() {
     getSignUpByEventId(eventIdFromURL)
       .then(response => { 
         setAttendanceData(response); 
+        console.log(response)
         let student_details = response.data.student_result.details;
         setAttendanceTable(<AttendanceTable data={student_details}></AttendanceTable>)
         let newListofMatric = [] 
@@ -52,32 +53,45 @@ export default function Attendance() {
       //matricNums: (['01234', '54672'])
       matricNums: listOfStudentMatric
     });
+    let messageData = {
+      messageText: data.get('messageText'),
+      //matricNums: (['01234', '54672'])
+      matricNums: listOfStudentMatric
+    }; 
+    
+    broadcastMessage(messageData) 
+      .then(response => { 
+        console.log(response)
+      })
+      .catch(error => { 
+        console.log(error.message)
+      })
 
     // sending this data to backend upload_student.py
 
-    fetch('http://localhost:5110/broadcast', {
-        method: 'POST',
-        body: JSON.stringify({
-            messageText:data.get('messageText'),
-            //matricNums: (['01234', '123411']) 
-            matricNums:listOfStudentMatric
-        }),
-        headers:{
-            'Content-Type' : 'application/json'
-        }
-    })
+    // fetch('http://localhost:5110/broadcast', {
+    //     method: 'POST',
+    //     body: JSON.stringify({
+    //         messageText:data.get('messageText'),
+    //         //matricNums: (['01234', '123411']) 
+    //         matricNums:listOfStudentMatric
+    //     }),
+    //     headers:{
+    //         'Content-Type' : 'application/json'
+    //     }
+    // })
 
-    .then(response => {
-        if (response.ok){
-            console.log('Message sent successfully');
-        } else {
-            console.error('Error sending message')
-        }
-    })
+    // .then(response => {
+    //     if (response.ok){
+    //         console.log('Message sent successfully');
+    //     } else {
+    //         console.error('Error sending message')
+    //     }
+    // })
 
-    .catch(error => {
-        console.error('Error sending message!', error);
-    });
+    // .catch(error => {
+    //     console.error('Error sending message!', error);
+    // });
   };
 
   const handleFileUpload = (file) => {
