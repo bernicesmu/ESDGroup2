@@ -10,26 +10,27 @@ app = Flask(__name__)
 CORS(app)
 
 # bernice to fill
-club_URL = "http://localhost:8001/api/club_members"
-student_URL = ""
+club_URL = "http://localhost:5102/api/club_members"
+student_URL = "http://localhost:5103/student/group"
 error_URL = "" 
 
-@app.route("/club_members/<string:clubID>", methods=['GET'])
+@app.route("/club_members/<clubID>", methods=['GET'])
 def getClubMembersDetails(clubID): 
     print("\nReceived Club ID: " + clubID)
     try: 
         result = processStudents(clubID)
         return jsonify(result), result['code']
-    except Exception as e: 
+    except Exception as e:
         return jsonify({
-            "code": 500, 
-            "message": "clubMembers.py internal error: "  
-        }), 500 
+            "code": 500,
+            "message": "clubMembers.py internal error: " + str(e)
+    }), 500
         
 def processStudents(clubID): 
     print('\n\n------Invoking Club microservice------')
-    club_members_matric = invoke_http(club_URL, method="GET", data=clubID)
-    print('club members matric num:', club_members_matric)
+    club_members_matric = invoke_http(f"{club_URL}/{clubID}", method="GET")
+    print('Club microservice response:', club_members_matric)
+    print('club members matric num:', club_members_matric['data'])
 
     code = club_members_matric["code"]
     if code not in range(200, 300): 
@@ -44,7 +45,7 @@ def processStudents(clubID):
         }
 
     print('\n\n------Invoking Student microservice------')
-    club_members_full = invoke_http(student_URL, method="GET", json=club_members_matric)
+    club_members_full = invoke_http(student_URL, method="POST", json=club_members_matric)
     print('club members full details:', club_members_full)
 
     code = club_members_full["code"]
