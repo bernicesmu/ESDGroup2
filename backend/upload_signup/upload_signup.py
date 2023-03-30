@@ -5,6 +5,7 @@ import pika
 import os, sys
 import requests
 from invokes import invoke_http
+import json
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -134,6 +135,7 @@ def getSignUpDetails(eventID):
 @app.route('/broadcast', methods=['POST'])
 def broadcast():
     
+    
     #changed from telehandles
     message = request.json.get('messageText')
     matricNums = request.json.get('matricNums')
@@ -163,8 +165,8 @@ def broadcast():
     channel.basic_publish(
         exchange=exchange,
         routing_key=routing_key,
-        body='{"message":"God is great", "matricNums":["213173"]}'
-        #body=json.dumps(data)
+        #body='{"message":"God is great", "matricNums":["213173"]}'
+        body=json.dumps(data)
     )
 
     # Close connection
