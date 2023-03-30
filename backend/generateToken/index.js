@@ -7,16 +7,17 @@ import jwt from 'jsonwebtoken'
 const app = express();
 app.use(express.json());
 const port = 3020;
-const exco_host = process.env.EXCO_HOST;
-const club_host = process.env.CLUB_HOST;
+// const exco_host = process.env.EXCO_HOST;
+// const club_host = process.env.CLUB_HOST;
 const exco_url = process.env.EXCO_URL;
 const club_url = process.env.CLUB_URL;
-
+// const exco_url = 'http://exco:3010/';
+// const club_url = 'http://club_database:80/';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded( {extended: false }))
 
-app.get('/getToken', async (req,res) => {
+app.post('/getToken', async (req,res) => {
     let logindata = req.body;
     console.log(exco_url);
     console.log(club_url);
