@@ -27,6 +27,7 @@ def getClubMembersDetails(clubID):
         
 def processStudents(clubID): 
     print('\n\n------Invoking Club microservice------')
+    print("invoke_http function:", invoke_http)
     club_members_matric = invoke_http(f"{club_URL}/{clubID}", method="GET")
     
     print('Club microservice response:', club_members_matric)
@@ -48,9 +49,10 @@ def processStudents(clubID):
     print('\n\n------Invoking Student microservice------')
     # response = requests.post(student_URL, data=json.dumps(club_members_matric['data']), headers={'Content-Type': 'application/json'})
     # club_members_full = response.json()
-    
+    print("\nData sent to Student microservice:", club_members_matric['data'])
+
     club_members_full = invoke_http(student_URL, method="POST", json=club_members_matric['data'])
-    print('club members full details:', club_members_full)
+    print('Club members full details:', club_members_full)
 
     code = club_members_full["code"]
     if code not in range(200, 300): 
