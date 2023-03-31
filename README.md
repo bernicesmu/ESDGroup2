@@ -13,7 +13,18 @@ To start the backend:
 | Docker Images | Docker Containers |
 | --------------------------- | --------------------------- |
 | bernicesmu/event:1.0  | event  |
-| bernicesmu/upload_signup:1.0  | upload_signup-ms  |
+| bernicesmu/auth  | exco  |
+| bernicesmu/upload_signup:1.0  | upload_signup-ms |
+| bernicesmu/attendance:1.0  | attendance |
+| bernicesmu/generatetoken  | generatetoken |
+| bernicesmu/amqplistener  | amqplistener-service  |
+| bernicesmu/clumsybot  | clumsybot-service  |
+| bernicesmu/springboot-studentservice  | student |
+| mysql:latest | telesqldb-service  |
+| mysql:latest | mysql_db  |
+| mysql | mysqldb  |
+| postgres:13 | eventDb  |
+| bernicesmu/event:1.0 | eventMigration |
 
 To start the frontend: 
 - File directory: ESDGroup2/frontend/main-app 
