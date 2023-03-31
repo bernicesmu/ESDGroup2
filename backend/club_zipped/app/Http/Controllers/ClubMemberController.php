@@ -148,9 +148,7 @@ class ClubMemberController extends Controller
     foreach ($clubMembers as $clubMember) {
         $matricNumbers[] = $clubMember->studentMatricNum;
     }
-
-    return response()->json(['code'=>200,'data' => $matricNumbers], 200);
-}
+    return response()->json(['code' => 200, 'data' => $matricNumbers], 200);
     
 
     /**
