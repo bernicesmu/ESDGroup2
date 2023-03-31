@@ -37,6 +37,7 @@ app.post('/getToken', async (req,res) => {
         const alluserData = allinfo.data;
         const admin = alluserData.clubadminList;
         const member = alluserData.clubmemberList;
+        const matricNum = alluserData.matricNum;
         // let oldjwttoken = alluserData.token;
         
         // res.send(allinfo.data);    
@@ -83,6 +84,7 @@ app.post('/getToken', async (req,res) => {
                 {
                     adminclubnames,
                     memberclubnames,
+                    matricNum,
                     "adminRights" : true
                 },
                 'userlogin',
@@ -95,6 +97,7 @@ app.post('/getToken', async (req,res) => {
                 "data": {
                     adminclubnames,
                     memberclubnames,
+                    matricNum,
                     token
                 },
                 "message" : "Authentication successful, admin token generated."
@@ -105,6 +108,7 @@ app.post('/getToken', async (req,res) => {
                 {
                     adminclubnames,
                     memberclubnames,
+                    matricNum,
                     "adminRights" : false
                 },
                 'userlogin',
@@ -117,6 +121,7 @@ app.post('/getToken', async (req,res) => {
                 "data": {
                     adminclubnames,
                     memberclubnames,
+                    matricNum,
                     token
                 },
                 "message" : "Authentication successful, member token generated."
