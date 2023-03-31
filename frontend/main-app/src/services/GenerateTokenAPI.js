@@ -41,7 +41,5 @@ export function checkToken() {
             console.log("Error: ")
             console.log(err)
         }
-        jwt.verify(authtoken, 'userlogin')
-        const tokeninfo = decodeToken(authtoken)
     }
 }

@@ -72,6 +72,7 @@ app.post('/authentication', (req, res) => {
                 let id = user.id;
                 let admins = user.clubAdmin;
                 let clubs = user.clubs;
+                let matricNum = user.matricNum;
                 if (admins.includes(true)){
                     console.log('admin');
                     for (let i = 0; i < admins.length; i++) {
@@ -99,6 +100,7 @@ app.post('/authentication', (req, res) => {
                         "data" : {
                             clubadminList, 
                             clubmemberList,
+                            matricNum,
                             token
                         },
                         "message" : "Admin login successful, jwt token created."
@@ -122,6 +124,7 @@ app.post('/authentication', (req, res) => {
                         "data" : {
                             clubadminList,
                             clubmemberList,
+                            matricNum,
                             token
                         },
                         "message" : "Member login successful, jwt token created."
