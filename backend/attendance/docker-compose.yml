@@ -1,28 +1,70 @@
 version: "3.8"
 
-
 services:
+  mysqldb:
+    image: mysql
+    restart: always
+    volumes:
+      - attendancedb_data:/var/lib/mysql
+    environment:
+      # not sure about the user and password being root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: attendancedb
+      hostname: mysqldb
+    networks:
+      attendance-mysql-net:
+        aliases:
+          - mysql
 
-  # Attendance: The Attendance microservice
   attendance:
-    # container: attendance
     image: bernicesmu/attendance:1.0
     build: .
     restart: always
-    # build: .
-    # command: python app.py runserver 0.0.0.0:8000
-    # volumes:
-    #   - .:/code
     ports:
       - 5101:5105
-    # networks:
-    #   - clumsy-net
-    # depends_on:
-    #   - eventDb
-    #   - eventMigration
+    depends_on:
+      - mysqldb
     environment:
-      dbURL: mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance
-      # dbURL: mysql+mysqlconnector://is213@localhost:8889/attendance
+      dbURL: mysql+mysqlconnector://root:root@mysqldb:3306/attendancedb
+      dbname: attendancedb
+    networks:
+      attendance-mysql-net:
 
+networks:
+  attendance-mysql-net:
+    driver: bridge
+
+volumes:
+  attendancedb_data:
+
+
+
+
+# previous version below
+# version: "3.8"
+# services:
+
+#   # Attendance: The Attendance microservice
+#   attendance:
+#     # container: attendance
+#     image: bernicesmu/attendance:1.0
+#     build: .
+#     restart: always
+#     # build: .
+#     # command: python app.py runserver 0.0.0.0:8000
+#     # volumes:
+#     #   - .:/code
+#     ports:
+#       - 5101:5105
+#     # networks:
+#     #   - clumsy-net
+#     # depends_on:
+#     #   - eventDb
+#     #   - eventMigration
+#     environment:
+#       dbURL: mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance
+#       # dbURL: mysql+mysqlconnector://is213@localhost:8889/attendance
 
 
