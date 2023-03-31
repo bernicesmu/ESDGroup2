@@ -1,4 +1,5 @@
 import axios from 'axios';
+import jwt from 'jsonwebtoken'
 
 export async function generateToken(data) {
     let api_url = 'http://localhost:5109/getToken';
@@ -18,4 +19,29 @@ export function decodeToken(token) {
     }).join(''));
 
     return JSON.parse(base64);
+}
+
+export function setToken(adminclubs, memberclubs, token) {
+    window.localStorage.setItem('authtoken', JSON.stringify({
+        adminclubnames: adminclubs,
+        memberclubnames: memberclubs,
+        authtoken : token
+    }))
+}
+
+export function checkToken() {
+    const token = window.localStorage.getItem('authtoken');
+    if (token) {
+        const authtoken = token.authtoken
+        try {
+            const decoded = jwt.verify(jwt_token, 'userlogin');
+            console.log('Token Verified')
+        }
+        catch (err) {
+            console.log("Error: ")
+            console.log(err)
+        }
+        jwt.verify(authtoken, 'userlogin')
+        const tokeninfo = decodeToken(authtoken)
+    }
 }
