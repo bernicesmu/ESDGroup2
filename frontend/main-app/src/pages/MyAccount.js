@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import MembersTable from "../components/MembersTable";
 import {Typography,Box,TextField,Select,MenuItem,Autocomplete,Checkbox, FormGroup,FormControlLabel,Grid,Avatar,autocompleteClasses,Button} from '@mui/material';
 import { Form } from "react-router-dom";
@@ -5,13 +6,34 @@ import MemberCreateForm from "../components/MemberCreateForm";
 import UserProfileImg from "../assets/Atrayee.png";
 import { minWidth, width } from "@mui/system";
 // import EditButton from './EditButton';
+import { getStudentByMatric } from '../services/StudentAPI';
 
 export default function MemberCreate() {
+  const [matricNum, setMatricNum] = useState('1420382'); 
+  const [studentDetails, setStudentDetails] = useState({ 
+    matriculatedName: '',
+    smuEmail: '',
+    matricNum: '', 
+    telegramUser: '',
+    phoneNum: '',
+  })
+
   const centerStyle = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   };
+
+  useEffect(() => { 
+    getStudentByMatric(matricNum) 
+      .then(response => { 
+        console.log(response);
+        setStudentDetails(response)
+      })
+      .catch(error => { 
+        console.log(error.message); 
+      })
+  }, [])
 
   return (
     <div style={{justifyContent:'center'}}>
@@ -73,20 +95,20 @@ export default function MemberCreate() {
               marginRight: '2rem',
               fontWeight: 'bold'
           }}>
-            <div style={{ marginBottom: '1rem' }}>First Name:</div>
-            <div style={{ marginBottom: '1rem' }}>Last Name:</div>
-            <div style={{ marginBottom: '1rem' }}>Gender:</div>
-            <div style={{ marginBottom: '1rem' }}>SMU Email:</div>
+            <div style={{ marginBottom: '1rem' }}>Name:</div>
             <div style={{ marginBottom: '1rem' }}>Matriculation ID:</div>
-            <div>Faculty:</div>
+            <div style={{ marginBottom: '1rem' }}>SMU Email:</div>
+            <div style={{ marginBottom: '1rem' }}>Phone Number:</div>
+            <div style={{ marginBottom: '1rem' }}>Telegram:</div>
+            {/* <div>Faculty:</div> */}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ marginBottom: '1rem' }}>John</div>
-            <div style={{ marginBottom: '1rem' }}>Doe</div>
-            <div style={{ marginBottom: '1rem' }}>Male</div>
-            <div style={{ marginBottom: '1rem' }}>john.doe.2021@scis.smu.edu.sg</div>
-            <div style={{ marginBottom: '1rem' }}>12345678</div>
-            <div>SCIS</div>
+            <div style={{ marginBottom: '1rem' }}>{studentDetails.matriculatedName}</div>
+            <div style={{ marginBottom: '1rem' }}>{matricNum}</div>
+            <div style={{ marginBottom: '1rem' }}>{studentDetails.smuEmail}</div>
+            <div style={{ marginBottom: '1rem' }}>{studentDetails.phoneNum}</div>
+            <div style={{ marginBottom: '1rem' }}>{studentDetails.telegramUser}</div>
+            {/* <div>SCIS</div> */}
           </div>
         </div>
       </div>

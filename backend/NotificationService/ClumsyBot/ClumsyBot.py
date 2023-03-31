@@ -1,6 +1,7 @@
 import os
 import telebot
 from telebot import types
+from os import environ 
 
 from dotenv import load_dotenv
 import mysql.connector
@@ -8,10 +9,10 @@ import MySQLdb
 
 load_dotenv()
 bot_token = os.getenv("BOT_TOKEN")
-host_name = os.getenv("DB_NAME")
-user = os.getenv("MYSQL_USER")
-pw = os.getenv("MYSQL_PASSWORD")
-db = os.getenv("MYSQL_DATABASE")
+host_name = environ.get("DB_NAME")
+user = environ.get("MYSQL_USER")
+pw = environ.get("MYSQL_PASSWORD")
+db = environ.get("MYSQL_DATABASE")
 
 def main():
     bot = telebot.TeleBot(bot_token)

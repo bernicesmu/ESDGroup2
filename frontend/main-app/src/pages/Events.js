@@ -15,6 +15,7 @@ export default function Events() {
     const [searchValue, setSearchValue] = useState("");
     const [viewValue, setViewValue] = useState(0);
     const [allEvents, setAllEvents] = useState(events); 
+    const [pageHeader, setPageHeader] = useState('All SMU Events'); 
 
     useEffect(() => { 
       const queryString = window.location.search;
@@ -91,8 +92,8 @@ export default function Events() {
                 <Button variant='contained' component='a' href='/MyClubs'>Go Back to My Clubs</Button>
               </div>
               <div className="text-center">
-                <Typography variant='h4'>SMUBIA's Events</Typography>
-                <Typography variant='p'>View all the exciting events that your club has done or planned</Typography>
+                <Typography variant='h4'>{pageHeader}</Typography>
+                <Typography variant='p'>View all the exciting events that we have so far</Typography>
               </div>
               <div className="my-auto">
                 <Button variant='contained' component='a' href='/EventCreate'>Create Event</Button>

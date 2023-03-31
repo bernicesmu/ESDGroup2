@@ -5,20 +5,31 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 import AttendanceTable from '../components/AttendanceTable';
 import { MuiFileInput } from 'mui-file-input'
 import { uploadSignUps, getSignUpByEventId, broadcastMessage } from '../services/UploadSignUpAPI'; 
+import { getEventById } from '../services/EventAPI';
 
 export default function Attendance() {
   const [messageTextArea, setMessageTextArea] = useState(null);
+  const [messageNote, setMessageNote] = useState(null);
   const [attendanceData, setAttendanceData] = useState(['']);
   const [attendanceTable, setAttendanceTable] = useState(null);
   const [fileUploaded, setFileUploaded] = useState(null);
   const [listOfStudentMatric, setListOfStudentMatric] = useState(Array(0));
   const [eventId, setEventId] = useState('');
+  const [eventDetails, setEventDetails] = useState('');
 
   useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const eventIdFromURL = urlParams.get('eventId')
     setEventId(eventIdFromURL)
+    getEventById(eventIdFromURL) 
+      .then(response => { 
+        setEventDetails(response[0]); 
+        console.log(response[0])
+      })
+      .catch(error => { 
+        console.log(error.message);
+      })
     getSignUpByEventId(eventIdFromURL)
       .then(response => { 
         setAttendanceData(response); 
@@ -42,6 +53,11 @@ export default function Attendance() {
         <TextField id="messageText" name="messageText" size="small" placeholder='Broadcast a message to all' fullWidth sx={{ marginX: 3 }}></TextField>
         <Button type="submit" variant="contained" color='secondary'>Send</Button>
       </Box>
+    )
+    setMessageNote(
+      <div className='mx-5 mt-2'> 
+        <Typography>Students must start and enter their matriculation number at CLUMSY's Telegram Bot @clumy_notibot to receive the message!</Typography>
+      </div>
     )
   }
 
@@ -125,10 +141,10 @@ export default function Attendance() {
     <div>
       <div className="mx-5 mb-5 justify-content-between d-flex my-5">
         <div className="my-auto">
-          <Button variant='contained' component='a' href='/Event'>Go Back to Datathon 2023</Button>
+          <Button variant='contained' component='a' href={'/Event?eventId=' + eventId}>Go Back to Event Details</Button>
           </div>
           <div className="text-center">
-          <Typography variant='h4'>XXX</Typography>
+          <Typography variant='h4'>{eventDetails.eventName}</Typography>
           <Typography variant='p'>Look at who are excited for this event!</Typography>
         </div>
         <div className="my-auto w-25">
@@ -143,6 +159,7 @@ export default function Attendance() {
         </Button>
         {messageTextArea}
       </div>
+      {messageNote}
       <div className="m-5">
         {attendanceTable}
         {/* <AttendanceTable data={attendanceData}></AttendanceTable> */}
