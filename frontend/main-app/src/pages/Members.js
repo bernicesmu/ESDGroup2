@@ -6,6 +6,7 @@ import MembersMedicalTable from '../components/MembersMedicalTable';
 
 export default function Members() {
     const [value, setValue] = useState(0);
+    const [clubName, setClubName] = useState('');
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
@@ -40,7 +41,7 @@ export default function Members() {
                 <Button variant='contained' component='a' href='/MyClubs'>Go Back to My Clubs</Button>
               </div>
               <div className="text-center">
-                <Typography variant='h4'>SMUBIA's Members Database</Typography>
+                <Typography variant='h4'>{clubName}'s Members Database</Typography>
                 <Typography variant='p'>View all the information about your club members</Typography>
               </div>
               <div className="my-auto">
