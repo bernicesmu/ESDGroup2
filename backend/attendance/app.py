@@ -96,7 +96,6 @@ def getAll():
 def upload():
     # with app.app_context():
     #     db.create_all()
-    print("oifjwoi")
     
     if request.is_json: 
         try: 
