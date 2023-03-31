@@ -182,6 +182,18 @@ services:
     networks:
       - clumsy-net
 
+  club-members:
+    container_name: get_club_members
+    build: ./getClubMembers
+    ports: 
+      - 5107:5107
+    depends_on:
+      - mysql_db
+    networks:
+      - clumsy-net
+    environment:
+      - PYTHONUNBUFFERED=1
+      
   telesqldb-service:
     image: mysql:latest
     hostname: telesqldb
