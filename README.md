@@ -6,7 +6,6 @@ Members: Atrayee Dutt, Bernice Teo, Bryan Lee, Ivan Yeo, Lim Xun Yi, Regine Tan
 The CLUMSY application can only work when both the backend and the frontend are running 
 
 To start the backend: 
-- Start your WAMP / MAMP 
 - File directory: ESDGroup2/backend 
 - Command line: docker-compose -f docker-compose-signup.yml up
 
