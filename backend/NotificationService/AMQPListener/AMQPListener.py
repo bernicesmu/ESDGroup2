@@ -29,7 +29,8 @@ connection = pika.BlockingConnection(parameters)
 channel = connection.channel()
 
 # Declare the queue to consume from
-queue_name = 'q_scis'
+# queue_name = 'q_scis'
+queue_name = 'q_notify'
 
 # Define the callback function to handle incoming messages
 def callback(ch, method, properties, body): # Body here should be the JSON 

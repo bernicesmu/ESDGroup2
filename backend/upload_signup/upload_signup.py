@@ -159,8 +159,10 @@ def broadcast():
 
     connection = pika.BlockingConnection(parameters)
     channel = connection.channel()
-    exchange="ex_events"
-    routing_key ="events.scis.wad"
+    # exchange="ex_events"
+    # routing_key ="events.scis.wad"
+    exchange="ex_broadcast"
+    routing_key="broadcast.notify"
     
     # message={"message":"Glory to God", "matricNums":["2154151", "31415", "Works"]}
     
