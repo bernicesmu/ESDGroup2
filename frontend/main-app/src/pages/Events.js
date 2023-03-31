@@ -4,6 +4,7 @@ import { Typography, Button, Grid, TextField, Box, Tab, Tabs } from '@mui/materi
 import CustomCard from '../components/CustomCard'
 import SearchIcon from '@mui/icons-material/Search';
 import { getAllEvents } from '../services/EventAPI'
+import { getClubNameById } from '../services/ClubAPI';
 
 export default function Events() {
     const events = [
@@ -15,8 +16,8 @@ export default function Events() {
     const [searchValue, setSearchValue] = useState("");
     const [viewValue, setViewValue] = useState(0);
     const [allEvents, setAllEvents] = useState(events); 
-    const [pageHeader, setPageHeader] = useState('All SMU Events'); 
-
+    const [headerElement, setHeaderElement] = useState(null);
+    
     useEffect(() => { 
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
@@ -40,6 +41,37 @@ export default function Events() {
         .catch(error => { 
           console.log(error.message);
         })
+      getClubNameById(clubIdFromURL)
+        .then(response => { 
+          if (clubIdFromURL) { 
+            setHeaderElement(
+              <div className="mx-5 mb-5 justify-content-between d-flex my-5">
+                  <div className="my-auto">
+                    <Button variant='contained' component='a' href='/MyClubs'>Go Back to My Clubs</Button>
+                  </div>
+                  <div className="text-center">
+                    <Typography variant='h4'>{"All " + response + "'s Events"}</Typography>
+                    <Typography variant='p'>View all the exciting events that we have so far</Typography>
+                  </div>
+                  <div className="my-auto">
+                    <Button variant='contained' component='a' href={'/EventCreate?clubId=' + clubIdFromURL}>Create Event</Button>
+                  </div>
+                </div>
+              )
+          } else { 
+            setHeaderElement(
+              <div className="mx-5 mb-5 justify-content-center d-flex my-5">
+                  <div className="text-center">
+                    <Typography variant='h4'>All SMU Events</Typography>
+                    <Typography variant='p'>View all the exciting events that we have so far</Typography>
+                  </div>
+                </div>
+              )
+          }
+        })
+        .catch(error => { 
+          console.log(error.message);
+        })
     }, []) 
 
     function handleSearchChange(event) { 
@@ -55,16 +87,16 @@ export default function Events() {
       }
     }
 
-    const handleViewChange = (event, newValue) => {
-      setViewValue(newValue);
-    };
+    // const handleViewChange = (event, newValue) => {
+    //   setViewValue(newValue);
+    // };
 
-    function a11yProps(index) {
-      return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-      };
-    }
+    // function a11yProps(index) {
+    //   return {
+    //     id: `simple-tab-${index}`,
+    //     'aria-controls': `simple-tabpanel-${index}`,
+    //   };
+    // }
 
     // function toDisplay() { 
     //   if (viewValue === 0) { 
@@ -87,18 +119,7 @@ export default function Events() {
 
     return ( 
         <div>
-            <div className="mx-5 mb-5 justify-content-between d-flex my-5">
-              <div className="my-auto">
-                <Button variant='contained' component='a' href='/MyClubs'>Go Back to My Clubs</Button>
-              </div>
-              <div className="text-center">
-                <Typography variant='h4'>{pageHeader}</Typography>
-                <Typography variant='p'>View all the exciting events that we have so far</Typography>
-              </div>
-              <div className="my-auto">
-                <Button variant='contained' component='a' href='/EventCreate'>Create Event</Button>
-              </div>
-            </div>
+            {headerElement}
             
             {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <Tabs value={viewValue} onChange={handleViewChange} aria-label="basic tabs example">

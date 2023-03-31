@@ -34,13 +34,17 @@ export default function Attendance() {
       .then(response => { 
         setAttendanceData(response); 
         console.log(response)
-        let student_details = response.data.student_result.details;
-        setAttendanceTable(<AttendanceTable data={student_details}></AttendanceTable>)
-        let newListofMatric = [] 
-        for (let stuDet of student_details) { 
-          newListofMatric.push(stuDet.matricNum); 
+        if (response.data.student_result.code === 501) { 
+          setAttendanceTable(<AttendanceTable data={[]}></AttendanceTable>)
+        } else { 
+          let student_details = response.data.student_result.details;
+          setAttendanceTable(<AttendanceTable data={student_details}></AttendanceTable>)
+          let newListofMatric = [] 
+          for (let stuDet of student_details) { 
+            newListofMatric.push(stuDet.matricNum); 
+          }
+          setListOfStudentMatric(newListofMatric);
         }
-        setListOfStudentMatric(newListofMatric);
       })
       .catch(error => {
         console.log(error.message);

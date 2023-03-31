@@ -34,7 +34,7 @@ export function checkToken() {
     if (token) {
         const authtoken = token.authtoken
         try {
-            const decoded = jwt.verify(jwt_token, 'userlogin');
+            const decoded = jwt.verify(authtoken, 'userlogin');
             console.log('Token Verified')
         }
         catch (err) {

@@ -6,7 +6,7 @@ import { createEvent } from '../services/EventAPI';
 
 export default function EventCreateForm(props) {
     const [eventDetails, setEventDetails] = useState({
-        clubName: "SMUBIA",
+        clubName: props.clubName,
         eventName: "",
         eventConfirmed: true, 
         eventType: "I",
