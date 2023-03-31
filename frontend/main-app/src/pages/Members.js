@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import MembersTable from "../components/MembersTable";
 import { Typography, Button, Box, Tab, Tabs } from '@mui/material';
 import MembersMedicalTable from '../components/MembersMedicalTable';
+import { getClubMemberDetails } from '../services/ClubMembersAPI';
+import { getClubNameById } from '../services/ClubAPI';
 
 export default function Members() {
     const [value, setValue] = useState(0);
     const [clubName, setClubName] = useState('');
+    const [memberDetails, setMemberDetails] = useState(null);
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
@@ -20,10 +23,10 @@ export default function Members() {
     }
 
     function toDisplay() { 
-      if (value === 0) { 
-        return <MembersTable/>
+      if (value === 0 && memberDetails !== null) { 
+        return <MembersTable memberDetails={memberDetails}/>
       } else if (value === 1) { 
-        return <MembersMedicalTable/>
+        return <MembersMedicalTable memberDetails={memberDetails}/>
       }
     }
 
@@ -32,7 +35,22 @@ export default function Members() {
       const urlParams = new URLSearchParams(queryString);
       const clubIdFromURL = urlParams.get('clubId'); 
       console.log(clubIdFromURL);
-    })
+      getClubMemberDetails(clubIdFromURL) 
+        .then(response => { 
+          console.log(response.data.club_members_full.details)
+          setMemberDetails(response.data.club_members_full.details)
+        })
+        .catch(error => { 
+          console.log(error.message)
+        })
+      getClubNameById(clubIdFromURL)
+        .then(response => { 
+          setClubName(response); 
+        })
+        .catch(error => { 
+          console.log(error.message);
+        })
+    }, [])
 
     return ( 
         <div>

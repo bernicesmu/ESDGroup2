@@ -134,22 +134,22 @@ class ClubMemberController extends Controller
 
     // Get list of student matric numbers from clubID
     public function show($id)
-{
-    $clubMembers = ClubMember::where('clubId',$id)->get();
+    {
+        $clubMembers = ClubMember::where('clubId',$id)->get();
 
-    if($clubMembers->isEmpty()){
-        return response()->json([
-            'code' => 404,
-            'message' => 'Club member not found!'
-        ],404);
-    }
+        if($clubMembers->isEmpty()){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Club member not found!'
+            ],404);
+        }
 
-    $matricNumbers = [];
-    foreach ($clubMembers as $clubMember) {
-        $matricNumbers[] = $clubMember->studentMatricNum;
+        $matricNumbers = [];
+        foreach ($clubMembers as $clubMember) {
+            $matricNumbers[] = $clubMember->studentMatricNum;
+        }
+        return response()->json(['code' => 200, 'data' => $matricNumbers], 200);
     }
-    return response()->json(['code' => 200, 'data' => $matricNumbers], 200);
-    
 
     /**
      * Show the form for editing the specified resource.

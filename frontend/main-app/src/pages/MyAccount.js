@@ -7,6 +7,7 @@ import UserProfileImg from "../assets/Atrayee.png";
 import { minWidth, width } from "@mui/system";
 // import EditButton from './EditButton';
 import { getStudentByMatric } from '../services/StudentAPI';
+// import { checkToken } from '../services/GenerateTokenAPI';
 
 export default function MemberCreate() {
   const [matricNum, setMatricNum] = useState('1420382'); 
@@ -25,6 +26,13 @@ export default function MemberCreate() {
   };
 
   useEffect(() => { 
+    // checkToken() 
+    //   .then(response => { 
+    //     console.log(response)
+    //   })
+    //   .catch(error => { 
+    //     console.log(error.message)
+    //   })
     getStudentByMatric(matricNum) 
       .then(response => { 
         console.log(response);
