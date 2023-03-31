@@ -132,7 +132,7 @@ app.post('/getToken', async (req,res) => {
         console.log(error);
         res.status(500).json({
             code: 500,
-            message: 'Connection Error'
+            message: error
         })
     }
 })
