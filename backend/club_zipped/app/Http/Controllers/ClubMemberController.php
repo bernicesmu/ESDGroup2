@@ -149,7 +149,7 @@ class ClubMemberController extends Controller
         $matricNumbers[] = $clubMember->studentMatricNum;
     }
 
-    return response()->json(['data' => $matricNumbers], 200);
+    return response()->json(['code' => 200, 'data' => $matricNumbers], 200);
 }
     
 
