@@ -113,6 +113,25 @@ class ClubExcoController extends Controller
         ],200);
     }
 
+    public function showDetails($id)
+    {
+        // Exco Detail 
+        $clubExco = ClubExco::where('clubMemberId',$id)->get();
+        // $clubExco = ClubExco::table('club_excos')->get();
+        if(!$clubExco){
+            return response()->json([
+                'code' => 404,
+                'message'=>'Club exco not found.'
+            ],404);
+        }
+
+        // Return Json Response
+        return response()->json([
+            'code' => 200,
+            'club_exco' => $clubExco
+        ],200);
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
