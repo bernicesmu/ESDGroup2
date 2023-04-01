@@ -1,5 +1,8 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken'
+import crypto from 'crypto-browserify'
+// const jwt = require('jsonwebtoken')
+// const crypto = require('crypto-browserify')
 
 export async function generateToken(data) {
     let api_url = 'http://localhost:5109/getToken';
@@ -22,6 +25,7 @@ export function decodeToken(token) {
 }
 
 export function setToken(adminclubs, memberclubs, token) {
+    jwt.crypto = crypto;
     window.localStorage.setItem('authtoken', JSON.stringify({
         adminclubnames: adminclubs,
         memberclubnames: memberclubs,
@@ -29,17 +33,20 @@ export function setToken(adminclubs, memberclubs, token) {
     }))
 }
 
-export function checkToken() {
-    const token = window.localStorage.getItem('authtoken');
+export function checkToken(token) {
+    // const token = window.localStorage.getItem('authtoken');
+    jwt.crypto = crypto;
     if (token) {
         const authtoken = token.authtoken
         try {
             const decoded = jwt.verify(authtoken, 'userlogin');
-            console.log('Token Verified')
+            // const decoded = jwt.verify(token, 'userlogin');
+            console.log(decoded);
+            console.log('Token Verified');
         }
         catch (err) {
-            console.log("Error: ")
-            console.log(err)
+            console.log("Error: ");
+            console.log(err);
         }
     }
 }
