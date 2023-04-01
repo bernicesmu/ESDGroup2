@@ -150,7 +150,23 @@ class ClubMemberController extends Controller
         }
         return response()->json(['code' => 200, 'data' => $matricNumbers], 200);
     }
-
+    // Get all details from entire
+    public function showDetails($id)
+    {
+        $clubMember = ClubMember::find($id);
+    
+        if (!$clubMember) {
+            return response()->json([
+                'code' => 404,
+                'message' => 'Club member not found!'
+            ], 404);
+        }
+    
+        return response()->json([
+            'code' => 200,
+            'data' => $clubMember
+        ], 200);
+    }
     /**
      * Show the form for editing the specified resource.
      */
