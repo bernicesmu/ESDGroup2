@@ -116,6 +116,21 @@ services:
     environment:
       dbURL: mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance
 
+# unsure if this should be here or docker-compose-final
+  # attendanceDB:
+  #   # container_name: attendanceDB
+  #   volumes:
+  #     - attendancedb_data:/var/lib/mysql
+  #   image: mysql:8.0.19 
+  #   restart: always 
+  #   environment: 
+  #     MYSQL_DB: 
+  #     MYSQL_PW: root
+  #   ports:
+  #     - 5101:5105
+  #   networks:
+  #     - attendance-mysql-net
+
   laravel-docker:
     container_name: club_database
     build: ./club_zipped
