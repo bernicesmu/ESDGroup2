@@ -15,6 +15,7 @@ services:
 
   springboot-container:
     image: springboot-studentservice
+    restart: always
     build: .
     environment:
       dbname: mysqldb
