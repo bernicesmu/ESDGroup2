@@ -10,6 +10,7 @@ CORS(app)
 
 # bernice to fill
 club_URL = "http://laravel-docker:80/api/club_members"
+club_exco_URL = "http://laravel-docker:80/api/club_excos"
 student_URL = "http://student:8080/student/group"
 error_URL = "" 
 
@@ -51,21 +52,43 @@ def processStudents(clubID):
     # response = requests.post(student_URL, data=json.dumps(club_members_matric['data']), headers={'Content-Type': 'application/json'})
     # club_members_full = response.json()
     print("\nData sent to Student microservice:", club_members_matric['data'])
-
+    
+    ## Invoking student microservice to get full student details of club members
     club_members_full = invoke_http(student_URL, method="POST", json=club_members_matric['data'])
     print(club_members_full)
+
+    ## Invoking club members to get full club member details of club members
     club_members_details = invoke_http(f"{club_URL}/details/{clubID}", method="GET")
     print(club_members_details)
+
     # Extracting the yearJoined data from club_members_details
-    year_joined_data = club_members_details["data"]
+    club_members_details = club_members_details["data"]
 
     # Creating a dictionary with studentMatricNum as the key and yearJoined as the value
-    year_joined_dict = {member["studentMatricNum"]: member["yearJoined"] for member in year_joined_data}
+    year_joined_dict = {member["studentMatricNum"]: member["yearJoined"] for member in club_members_details}
+    
+    # Creating a dictionary with studentMatricNum as the key and club_member id as the value
+    club_member_dict = {member["studentMatricNum"]: member["id"] for member in club_members_details}
+    
+    # Creating a dictionary with club_member_id as key and club position as value
+    club_exco_roles = {}
+    for member in club_members_details:
+        club_member_id = member["id"]
+        exco_details = invoke_http(f"{club_exco_URL}/by_member/{club_member_id}", method="GET")
+        print("Printing exco_details", exco_details)
+        if exco_details["code"] in range(200, 300) and exco_details["club_exco"]:
+            club_exco_roles[club_member_id] = exco_details["club_exco"][0]["role"]
+    ## Invoking club exco to get club exco details of club members
+    # club_excos_details = invoke_http(f"{club_exco_URL}/{clubID}", method="GET")
 
-    # Updating club_members_full with the yearJoined data
+    ## Updating club_members_full with the yearJoined, position
     for member in club_members_full.get("details", []):
         member["yearJoined"] = year_joined_dict.get(member["matricNum"], None)
-
+        club_member_id = club_member_dict.get(member["matricNum"], None)
+        print("Club_member_id: ", club_member_id)
+        print("Club_member_full: ", club_members_full)
+        if club_member_id:
+            member["clubPosition"] = club_exco_roles.get(club_member_id, None)
     print('Club members full details:', club_members_full)
 
 
