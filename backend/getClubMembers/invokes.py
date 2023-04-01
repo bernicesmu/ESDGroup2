@@ -31,6 +31,7 @@ def invoke_http(url, method='GET', json=None, **kwargs):
         code = r.status_code
     try:
         result = r.json() if len(r.content)>0 else ""
+        print(f"Response from {url}: {result}")  # Add this line
     except Exception as e:
         code = 500
         result = {"code": code, "message": "Invalid JSON output from service: " + url + ". " + str(e)}

@@ -153,9 +153,9 @@ class ClubMemberController extends Controller
     // Get all details from entire
     public function showDetails($id)
     {
-        $clubMember = ClubMember::find($id);
+        $clubMembers = ClubMember::where('clubId',$id)->get();
     
-        if (!$clubMember) {
+        if (!$clubMembers) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Club member not found!'
@@ -164,7 +164,7 @@ class ClubMemberController extends Controller
     
         return response()->json([
             'code' => 200,
-            'data' => $clubMember
+            'data' => $clubMembers
         ], 200);
     }
     /**

@@ -18,6 +18,7 @@ def getClubMembersDetails(clubID):
     print("\nReceived Club ID: " + clubID)
     try: 
         result = processStudents(clubID)
+        print("Result from processStudents:", result)
         return jsonify(result), result['code']
     except Exception as e:
         return jsonify({
@@ -27,9 +28,9 @@ def getClubMembersDetails(clubID):
         
 def processStudents(clubID): 
     print('\n\n------Invoking Club microservice------')
-    print("invoke_http function:", invoke_http)
+    # print("invoke_http function:", invoke_http)
     club_members_matric = invoke_http(f"{club_URL}/{clubID}", method="GET")
-    
+
     print('Club microservice response:', club_members_matric)
     print('Club members matric num:', club_members_matric['data'])
  
@@ -52,7 +53,21 @@ def processStudents(clubID):
     print("\nData sent to Student microservice:", club_members_matric['data'])
 
     club_members_full = invoke_http(student_URL, method="POST", json=club_members_matric['data'])
+    print(club_members_full)
+    club_members_details = invoke_http(f"{club_URL}/details/{clubID}", method="GET")
+    print(club_members_details)
+    # Extracting the yearJoined data from club_members_details
+    year_joined_data = club_members_details["data"]
+
+    # Creating a dictionary with studentMatricNum as the key and yearJoined as the value
+    year_joined_dict = {member["studentMatricNum"]: member["yearJoined"] for member in year_joined_data}
+
+    # Updating club_members_full with the yearJoined data
+    for member in club_members_full.get("details", []):
+        member["yearJoined"] = year_joined_dict.get(member["matricNum"], None)
+
     print('Club members full details:', club_members_full)
+
 
     code = club_members_full["code"]
     if code not in range(200, 300): 
@@ -73,7 +88,7 @@ def processStudents(clubID):
         "code": 201, 
         "data": { 
             "club_members_matric": club_members_matric,
-            "club_members_full": club_members_full
+            "club_members_full": club_members_full["details"]
         }
     }
 
