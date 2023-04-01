@@ -6,12 +6,12 @@ import { createEvent } from '../services/EventAPI';
 
 export default function EventCreateForm(props) {
     const [eventDetails, setEventDetails] = useState({
-        clubName: "SMUBIA",
+        clubName: props.clubName,
         eventName: "",
         eventConfirmed: true, 
         eventType: "I",
         eventLocation: "",
-        eventDate: "2023-01-01",
+        eventDate: new Date(new Date().getTime() + 172800000).toISOString().split('T')[0],
         eventFromTime: "00:00:00", 
         eventToTime: "00:00:00", 
         eventSignUpForm: "",

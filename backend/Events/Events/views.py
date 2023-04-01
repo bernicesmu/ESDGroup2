@@ -13,6 +13,18 @@ from .forms import getEventID
 class eventViewset(viewsets.ModelViewSet):
     serializer_class=eventSerialiser
     queryset=Event.objects.all()
+
+### bernice 
+class eventIdViewset(viewsets.ModelViewSet): 
+    serializer_class=eventSerialiser
+    queryset=Event.objects.all()
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        event_id = self.request.query_params.get('id', None)
+        if event_id:
+            queryset = queryset.filter(id=event_id)
+        return queryset
     
     # def get_queryset(self):
     #     eid = self.kwargs['id']

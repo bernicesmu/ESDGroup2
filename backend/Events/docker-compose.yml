@@ -1,7 +1,7 @@
 version: "4.15"
 
 networks:
-  clumsy-net:
+  clumsynetwork:
     driver: bridge
 
 services:
@@ -15,7 +15,7 @@ services:
     ports:
       - 8000:8000
     networks:
-      - clumsy-net
+      - clumsynetwork
     depends_on:
       - eventDb
       - eventMigration
@@ -28,7 +28,7 @@ services:
     volumes:
       - .:/code
     networks:
-      - clumsy-net
+      - clumsynetwork
     depends_on:
       - eventDb
   
@@ -45,7 +45,7 @@ services:
     ports:
       - "8080:5432"
     networks:
-      - clumsy-net
+      - clumsynetwork
 
 volumes:
   event_postgres_data:

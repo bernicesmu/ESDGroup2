@@ -28,5 +28,4 @@ public interface StudentRepository extends JpaRepository<Student,Integer>{ //Typ
     void deleteBySID(int id);
 
 
-
 }

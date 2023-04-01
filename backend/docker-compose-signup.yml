@@ -9,6 +9,7 @@ networks:
 volumes:
   studentdb_data:
   event_postgres_data:
+  telesqldb_data:
 
 services: 
   upload_signup: 
@@ -75,7 +76,7 @@ services:
     build: ./Events
     image: bernicesmu/event:1.0
     command: python manage.py migrate --noinput
-    restart: always
+    # restart: always
     volumes:
       - .:/code
     networks:
@@ -98,12 +99,14 @@ services:
     networks:
       - clumsy-net
 
-  # exco:
-  #   image: bernicesmu/auth
-  #   build: ./authentication
-  #   restart: always
-  #   ports:
-  #     - 5104:3010
+  exco:
+    image: bernicesmu/auth
+    build: ./authentication
+    restart: always
+    ports:
+      - 5104:3010
+    networks: 
+      - clumsy-net
 
   attendance:
     image: bernicesmu/attendance:1.0
@@ -152,7 +155,7 @@ services:
   laravel-migrations:
     container_name: club_migrations
     build: ./club_zipped
-    command: sh -c "sleep 30 && php /var/www/html/club_zipped/artisan migrate"
+    command: sh -c "sleep 30 && php /var/www/html/club_zipped/artisan migrate --force"
     working_dir: /var/www/html/club_zipped
     volumes:
       - ./:/var/www/html
@@ -176,3 +179,76 @@ services:
       - 8889:3306
     networks:
       - clumsy-net
+
+  generatetoken: 
+    image: bernicesmu/generatetoken 
+    build: ./generateToken 
+    environment: 
+      - EXCO_HOST=exco
+      - CLUB_HOST=laravel-docker
+      - EXCO_URL=http://exco:3010/
+      - CLUB_URL=http://club_database:80/
+    ports: 
+      - 5109:3020 
+    depends_on: 
+      - exco 
+      - laravel-docker
+      - mysql_db 
+    networks:
+      - clumsy-net
+
+  club-members:
+    container_name: get_club_members
+    build: ./getClubMembers
+    ports: 
+      - 5107:5107
+    depends_on:
+      - mysql_db
+    networks:
+      - clumsy-net
+    environment:
+      - PYTHONUNBUFFERED=1
+      
+  telesqldb-service:
+    image: mysql:latest
+    hostname: telesqldb
+    restart: always
+    volumes:
+      - telesqldb_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_USER: a
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: telesessiondb
+    networks:
+      - clumsy-net
+
+  amqplistener-service:
+    image: bernicesmu/amqplistener
+    build: ./NotificationService/AMQPListener
+    # environment:
+    #   db_name: telesqldb
+    # ports:
+    #   - "8080:8080" #Expose docker port 
+    depends_on:
+      - telesqldb-service
+    networks:
+      - clumsy-net
+    volumes:
+      - telesqldb_data:/var/lib/mysql
+
+  clumsybot-service:
+    image: bernicesmu/clumsybot
+    build: ./NotificationService/ClumsyBot/
+    environment:
+      db_name: telesqldb
+      DB_NAME: telesqldb
+      MYSQL_USER: a
+      MYSQL_DATABASE: telesessiondb
+      MYSQL_PASSWORD: 1234
+    depends_on:
+      - telesqldb-service
+    networks:
+      - clumsy-net
+    volumes:
+      - telesqldb_data:/var/lib/mysql

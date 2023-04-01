@@ -19,9 +19,6 @@ def invoke_http(url, method='GET', json=None, **kwargs):
         if method.upper() in SUPPORTED_HTTP_METHODS:
             r = requests.request(method, url, json = json, **kwargs)
             print("---invoke working---")
-            print(r)
-            print('what is r?')
-            print(type(r))
         else:
             raise Exception("HTTP method {} unsupported.".format(method))
     except Exception as e:

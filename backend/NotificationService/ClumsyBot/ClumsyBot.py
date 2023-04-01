@@ -1,6 +1,7 @@
 import os
 import telebot
 from telebot import types
+from os import environ 
 
 from dotenv import load_dotenv
 import mysql.connector
@@ -8,10 +9,10 @@ import MySQLdb
 
 load_dotenv()
 bot_token = os.getenv("BOT_TOKEN")
-host_name = os.getenv("DB_NAME")
-user = os.getenv("MYSQL_USER")
-pw = os.getenv("MYSQL_PASSWORD")
-db = os.getenv("MYSQL_DATABASE")
+host_name = environ.get("DB_NAME")
+user = environ.get("MYSQL_USER")
+pw = environ.get("MYSQL_PASSWORD")
+db = environ.get("MYSQL_DATABASE")
 
 def main():
     bot = telebot.TeleBot(bot_token)
@@ -50,9 +51,9 @@ def main():
             conn_mysql.commit()
             conn_mysql.close()
             matricNums = [matricNum, matricNum]
-            bot.reply_to(message, f"Your sid is {sid, type(sid)} matricNum is {matricNum}")
-            bot.reply_to(message, f"Your sid is {getSid(matricNums)}, matricNum is {matricNum}")
-            bot.reply_to(message, "Thank you! You have successfully registered for ClumsyBot notification services! Stay tuned.")
+            # bot.reply_to(message, f"Your sid is {sid, type(sid)} matricNum is {matricNum}")
+            # bot.reply_to(message, f"Your sid is {getSid(matricNums)}, matricNum is {matricNum}")
+            bot.reply_to(message, "Thank you! You have successfully registered for ClumsyBot notification services! Updates will be automatically sent.")
         except Exception as error:
             bot.reply_to(message, error)
             print(f"Cause: {error}")
