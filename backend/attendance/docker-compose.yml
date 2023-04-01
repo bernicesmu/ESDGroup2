@@ -2,38 +2,43 @@ version: "3.8"
 
 # rewrote the code below, pls help
 services:
-  attendanceDB:
-    container_name: attendanceDB
+  attendancesqldb:
     image: mysql
+    build:
+      context: .
+      dockerfile: Dockerfile-db
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_DATABASE: attendancedb
-      hostname: mysqldb
-    ports:
-      - 5101:5105
-    networks:
-      - attendance-mysql-net
     volumes:
       - attendancedb_data:/var/lib/mysql
-
-  attendance:
+    environment:
+      MYSQL_ROOT_PASSWORD: 2312
+      MYSQL_USER: esd
+      MYSQL_PASSWORD: 2312
+      MYSQL_DATABASE: attendancedb
+      hostname: attendancesqldb
+    networks:
+      - attendance-mysql-net
+    ports:
+      - 5111:3306
+    
+  attendance-container:
     image: bernicesmu/attendance:1.0
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile-flask
+    environment:
+      dbURL: mysql+mysqlconnector://root:root@attendancesqldb:5111/attendancesqldb
+      # dbURL: mysql+mysqlconnector://root:root@attendancesqldb:3306/attendancesqldb
+      dbname: attendancesqldb
     restart: always
     ports:
       - 5101:5105
     depends_on:
-      - attendanceDB
-    environment:
-      dbURL: mysql+mysqlconnector://root:root@mysqldb:3306/attendancedb
-      dbname: attendancedb
+      - attendancesqldb
     networks:
-      attendance-mysql-net:
+      - attendance-mysql-net
     volumes: 
-      - attendancedb_data
+      - attendancedb_data:/var/lib/mysql
 
 networks:
   attendance-mysql-net:
@@ -41,6 +46,7 @@ networks:
 
 volumes:
   attendancedb_data:
+
 
 # version: "3.8"
 

@@ -9,6 +9,8 @@ from os import environ
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+#check if the db uri below is correct
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://esd:2312@attendancesqldb:5111/attendancesqldb'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance' 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://is213@localhost:8889/attendance' 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
