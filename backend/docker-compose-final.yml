@@ -62,6 +62,21 @@ services:
       MYSQL_DB: 
       MYSQL_PW: root 
 
+# unsure if this should be here or docker-compose-signup
+  # attendanceDB:
+  #   # container_name: attendanceDB
+  #   volumes:
+  #     - attendancedb_data:/var/lib/mysql
+  #   image: mysql:8.0.19 
+  #   restart: always 
+  #   environment: 
+  #     MYSQL_DB: 
+  #     MYSQL_PW: root
+  #   ports:
+  #     - 5101:5105
+  #   networks:
+  #     - attendance-mysql-net
+
   notifications: 
     build: notifications:1.0 
     restart: always 
