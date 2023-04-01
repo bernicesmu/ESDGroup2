@@ -12,22 +12,22 @@ volumes:
   telesqldb_data:
 
 services: 
-  upload_signup: 
-    container_name: upload_signup-ms 
-    image: bernicesmu/upload_signup:1.0
-    build: ./upload_signup
-    command: python upload_signup.py 
-    restart: always 
-    ports: 
-      - 5108:5110 
-    networks: 
-      - clumsy-net 
-    environment: 
-      attendanceURL: "http://attendance:5105/"
-      studentURL: "http://student:8080/student/"
-    depends_on:
-      - student 
-      - attendance 
+  # upload_signup: 
+  #   container_name: upload_signup-ms 
+  #   image: bernicesmu/upload_signup:1.0
+  #   build: ./upload_signup
+  #   command: python upload_signup.py 
+  #   restart: always 
+  #   ports: 
+  #     - 5108:5110 
+  #   networks: 
+  #     - clumsy-net 
+  #   environment: 
+  #     attendanceURL: "http://attendance:5105/"
+  #     studentURL: "http://student:8080/student/"
+  #   depends_on:
+  #     - student 
+  #     - attendance 
 
   mysqldb:
     image: mysql
@@ -108,16 +108,16 @@ services:
     networks: 
       - clumsy-net
 
-  attendance:
-    image: bernicesmu/attendance:1.0
-    build: ./attendance
-    restart: always
-    networks: 
-      - clumsy-net 
-    ports:
-      - 5101:5105
-    environment:
-      dbURL: mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance
+  # attendance:
+  #   image: bernicesmu/attendance:1.0
+  #   build: ./attendance
+  #   restart: always
+  #   networks: 
+  #     - clumsy-net 
+  #   ports:
+  #     - 5101:5105
+  #   environment:
+  #     dbURL: mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance
 
 # unsure if this should be here or docker-compose-final
   # attendanceDB:

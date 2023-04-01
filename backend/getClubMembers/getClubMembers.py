@@ -14,7 +14,7 @@ club_exco_URL = "http://laravel-docker:80/api/club_excos"
 student_URL = "http://student:8080/student/group"
 error_URL = "" 
 
-@app.route("/club_members/<clubID>", methods=['GET'])
+@app.route("/get_club_members/<clubID>", methods=['GET'])
 def getClubMembersDetails(clubID): 
     print("\nReceived Club ID: " + clubID)
     try: 
@@ -75,7 +75,7 @@ def processStudents(clubID):
     for member in club_members_details:
         club_member_id = member["id"]
         exco_details = invoke_http(f"{club_exco_URL}/by_member/{club_member_id}", method="GET")
-        print("Printing exco_details", exco_details)
+        # print("Printing exco_details", exco_details)
         if exco_details["code"] in range(200, 300) and exco_details["club_exco"]:
             club_exco_roles[club_member_id] = exco_details["club_exco"][0]["role"]
     ## Invoking club exco to get club exco details of club members
