@@ -71,19 +71,10 @@ app.post('/authentication', (req, res) => {
                 let user = users[0];
                 let id = user.id;
                 let admins = user.clubAdmin;
-                let clubs = user.clubs;
                 let matricNum = user.matricNum;
-                if (admins.includes(true)){
+                
+                if ( admins.length != 0 ) {
                     console.log('admin');
-                    for (let i = 0; i < admins.length; i++) {
-                        if (admins[i] == true){
-                            clubadminList.push(clubs[i]);
-                        }
-                        else if (admins[i] == false) {
-                            clubmemberList.push(clubs[i]);
-                        }
-                    }
-
                     let token = jwt.sign(
                         {
                             clubadminList,
@@ -98,8 +89,7 @@ app.post('/authentication', (req, res) => {
                     res.status(200).json({
                         "code" : 200,
                         "data" : {
-                            clubadminList, 
-                            clubmemberList,
+                            admins,
                             matricNum,
                             token
                         },
@@ -108,10 +98,9 @@ app.post('/authentication', (req, res) => {
                 }
                 else {
                     console.log('member');
-                    let clubmemberList = user.clubs;
                     let token = jwt.sign(
                         {
-                            clubadminList,
+                            admins,
                             "adminRights" : false
                         },
                         'userlogin',
@@ -122,14 +111,71 @@ app.post('/authentication', (req, res) => {
                     res.status(200).json({
                         "code": 200,
                         "data" : {
-                            clubadminList,
-                            clubmemberList,
+                            admins,
                             matricNum,
                             token
                         },
                         "message" : "Member login successful, jwt token created."
                     });
                 }
+                // let clubs = user.clubs;
+                // if (admins.includes(true)){
+                //     console.log('admin');
+                //     for (let i = 0; i < admins.length; i++) {
+                //         if (admins[i] == true){
+                //             clubadminList.push(clubs[i]);
+                //         }
+                //         else if (admins[i] == false) {
+                //             clubmemberList.push(clubs[i]);
+                //         }
+                //     }
+
+                //     let token = jwt.sign(
+                //         {
+                //             clubadminList,
+                //             "adminRights" : true
+                //         },
+                //         'userlogin',
+                //         {
+                //             expiresIn: "3600000",
+                //         }
+                //     );
+
+                //     res.status(200).json({
+                //         "code" : 200,
+                //         "data" : {
+                //             clubadminList, 
+                //             clubmemberList,
+                //             matricNum,
+                //             token
+                //         },
+                //         "message" : "Admin login successful, jwt token created."
+                //     });
+                // }
+                // else {
+                //     console.log('member');
+                //     let clubmemberList = user.clubs;
+                //     let token = jwt.sign(
+                //         {
+                //             clubadminList,
+                //             "adminRights" : false
+                //         },
+                //         'userlogin',
+                //         {
+                //             expiresIn: "3600000",
+                //         }
+                //     );
+                //     res.status(200).json({
+                //         "code": 200,
+                //         "data" : {
+                //             clubadminList,
+                //             clubmemberList,
+                //             matricNum,
+                //             token
+                //         },
+                //         "message" : "Member login successful, jwt token created."
+                //     });
+                // }
             })
         })
         .catch((err) => {
