@@ -35,8 +35,10 @@ app.post('/getToken', async (req,res) => {
             })
         }
         const alluserData = allinfo.data;
-        const admin = alluserData.clubadminList;
-        const member = alluserData.clubmemberList;
+        const admins = alluserData.admins;
+        console.log(admins);
+        // const admin = alluserData.clubadminList;
+        // const member = alluserData.clubmemberList;
         const matricNum = alluserData.matricNum;
         // let oldjwttoken = alluserData.token;
         
@@ -52,14 +54,14 @@ app.post('/getToken', async (req,res) => {
 
         //Need to send admin, member, jwt token
         const adminclubnames = []
-        const memberclubnames = []
+        // const memberclubnames = []
         // res.send(allclubs);
         //find clubname of admin
-        if ( admin.length != 0 ) {
-            for ( let i = 0; i<admin.length; i++ ) {
+        if ( admins.length != 0 ) {
+            for ( let i = 0; i<admins.length; i++ ) {
                 for ( let j = 0; j < allclubs.length; j++ ) {
                     let club = allclubs[j];
-                    if ( club.id == admin[i] ) {
+                    if ( club.id == admins[i] ) {
                         adminclubnames.push(club.clubName);
                     }
                 }
@@ -67,23 +69,22 @@ app.post('/getToken', async (req,res) => {
         }
 
         //find clubname of member
-        if ( member.length != 0 ) {
-            for ( let i = 0; i<member.length; i++) {
-                for ( let j=0; j < allclubs.length; j++ ) {
-                    let club = allclubs[j];
-                    if ( club.id == member[i] ) {
-                        memberclubnames.push(club.clubName);
-                    }
-                }
-            }
-        }        
+        // if ( member.length != 0 ) {
+        //     for ( let i = 0; i<member.length; i++) {
+        //         for ( let j=0; j < allclubs.length; j++ ) {
+        //             let club = allclubs[j];
+        //             if ( club.id == member[i] ) {
+        //                 memberclubnames.push(club.clubName);
+        //             }
+        //         }
+        //     }
+        // }        
 
         //compile everything into jwt token
         if ( adminclubnames.length != 0 ) {
             let token = jwt.sign(
                 {
                     adminclubnames,
-                    memberclubnames,
                     matricNum,
                     "adminRights" : true
                 },
@@ -96,7 +97,6 @@ app.post('/getToken', async (req,res) => {
                 "code": 200,
                 "data": {
                     adminclubnames,
-                    memberclubnames,
                     matricNum,
                     token
                 },
@@ -107,7 +107,6 @@ app.post('/getToken', async (req,res) => {
             let token = jwt.sign(
                 {
                     adminclubnames,
-                    memberclubnames,
                     matricNum,
                     "adminRights" : false
                 },
@@ -120,7 +119,6 @@ app.post('/getToken', async (req,res) => {
                 "code": 200,
                 "data": {
                     adminclubnames,
-                    memberclubnames,
                     matricNum,
                     token
                 },
