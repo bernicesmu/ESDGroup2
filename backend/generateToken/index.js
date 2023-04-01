@@ -96,7 +96,7 @@ app.post('/getToken', async (req,res) => {
             res.status(200).json({
                 "code": 200,
                 "data": {
-                    admins,
+                    adminclubnames,
                     matricNum,
                     token
                 },
@@ -118,7 +118,7 @@ app.post('/getToken', async (req,res) => {
             res.status(200).json({
                 "code": 200,
                 "data": {
-                    admins,
+                    adminclubnames,
                     matricNum,
                     token
                 },
