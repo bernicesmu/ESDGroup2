@@ -48,3 +48,4 @@ Route::get('/club_members/{id}', [ClubMemberController::class, 'show']);
 Route::post('/club_members', [ClubMemberController::class, 'store']);
 Route::put('/club_members/{id}', [ClubMemberController::class, 'update']);
 Route::delete('/club_members/{id}', [ClubMemberController::class, 'destroy']);
+Route::get('club_members/details/{id}', [ClubMemberController::class, 'showDetails']);
