@@ -1,6 +1,6 @@
 services:
   mysqldb:
-    image: mysql
+    image: mysql:latest
     restart: always
     volumes:
       - studentdb_data:/var/lib/mysql

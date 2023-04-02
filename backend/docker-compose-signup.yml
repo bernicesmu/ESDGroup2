@@ -251,10 +251,13 @@ services:
   amqplistener-service:
     image: bernicesmu/amqplistener
     build: ./NotificationService/AMQPListener
-    # environment:
-    #   db_name: telesqldb
-    # ports:
-    #   - "8080:8080" #Expose docker port 
+    environment:
+      HOST_NAME: telesqldb
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_USER: a
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: telesessiondb
+      BOT_TOKEN: 6294207840:AAHzxcCi7HFYCoVsSBMCWLkpcAhvda28krI
     depends_on:
       - telesqldb-service
     networks:
@@ -266,11 +269,12 @@ services:
     image: bernicesmu/clumsybot
     build: ./NotificationService/ClumsyBot/
     environment:
-      db_name: telesqldb
-      DB_NAME: telesqldb
+      HOST_NAME: telesqldb
+      MYSQL_ROOT_PASSWORD: 1234
       MYSQL_USER: a
-      MYSQL_DATABASE: telesessiondb
       MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: telesessiondb
+      BOT_TOKEN: 6294207840:AAHzxcCi7HFYCoVsSBMCWLkpcAhvda28krI
     depends_on:
       - telesqldb-service
     networks:
