@@ -3,3 +3,7 @@ Flask-Cors==3.0.10
 mysql-connector-python==8.0.32
 pandas==1.5.3
 Flask-SQLAlchemy==3.0.2
+asgiref==3.6.0
+pytz==2022.7.1
+sqlparse==0.4.3
+psycopg2-binary==2.9.5

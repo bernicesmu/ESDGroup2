@@ -10,9 +10,12 @@ from os import environ
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 #check if the db uri below is correct
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://esd:2312@attendancesqldb:5111/attendancesqldb'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://is213@host.docker.internal:3306/attendancedb'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance' 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://is213@localhost:8889/attendance' 
+## reg's db replacement
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:rootroot@attendancesqldb/attendance-db'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -62,11 +65,11 @@ with app.app_context():
 
 
 # Get the values of the environment variables
-db_host = os.environ.get('db_host', 'localhost')
+db_host = os.environ.get('db_host', 'host.docker.internal')
 db_port = os.environ.get('db_port', '3306')
 db_user = os.environ.get('db_user', 'is213')
 db_password = os.environ.get('db_password', '')
-db_name = os.environ.get('db_name', 'attendance')
+db_name = os.environ.get('db_name', 'attendancedb')
 
 @app.route('/')
 def upload_form():
