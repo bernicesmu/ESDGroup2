@@ -1,83 +1,91 @@
-version: '3.8'
+version: '3.9'
+
+# services:
+#   database:
+#     image: mysql:latest
+#     container_name: club_database
+#     restart: unless-stopped
+#     environment:
+  
+#       MYSQL_DATABASE: club
+#       MYSQL_USER: root
+#       MYSQL_PASSWORD: root
+ 
+#     volumes:
+#       - ./mysql-data:/var/lib/mysql
+#     ports:`
+#       - '5102:5102'
+#   php-apache:
+#     container_name: php-apache
+#     build:
+#       context: .
+#     ports:
+#         - '8890:80'
+#     volumes:
+#       - ./Applications/MAMP/htdocs/ESD/ESDGroup2/backend/club:/var/www/laravel_docker
+#       - ./apache/default.conf:/etc/apache2/sites-enabled/000-default.conf
+#     depends_on:
+#       - database
+
+
 services:
-    laravel.test:
-        build:
-            context: ./vendor/laravel/sail/runtimes/8.2
-            dockerfile: Dockerfile
-            args:
-                WWWGROUP: '${WWWGROUP}'
-        image: sail-8.2/app
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
-        ports:
-            - '${APP_PORT:-5102}:80'
-            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
-        environment:
-            WWWUSER: '${WWWUSER}'
-            LARAVEL_SAIL: 1
-            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
-            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
-        volumes:
-            - '.:/var/www/html'
-        networks:
-            - sail
-        depends_on:
-            - mysql
-            # - redis
-            # - meilisearch
-            # - mailpit
-            # - selenium
 
-    # ## ivan's original 
-    # mysql:
-    #     image: 'mysql/mysql-server:8.0'
-    #     ports:
-    #         - '${FORWARD_DB_PORT:-3307}:3306'
-    #     environment:
-    #         MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-    #         MYSQL_ROOT_HOST: '%'
-    #         MYSQL_DATABASE: '${DB_DATABASE}'
-    #         MYSQL_USER: '${DB_USERNAME}'
-    #         MYSQL_PASSWORD: '${DB_PASSWORD}'
-    #         MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    #     volumes:
-    #         - 'sail-mysql:/var/lib/mysql'
-    #         - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
-    #     networks:
-    #         - sail
+  laravel-docker:
+    container_name: club_database
+    build: .
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 5102:80
+    depends_on:
+      - mysql_db
+    environment:
+      - DB_HOST=mysql_db
+      - DB_PORT=3306
+      - APP_URL=http://localhost:5102
+    networks:
+      - club_net
+    command: php artisan serve --host=0.0.0.0 --port=80
 
-    ## bernice test 
-    mysql:
-        image: mysql
-        restart: always
-        ports:
-            - '${FORWARD_DB_PORT:-3307}:3306'
-        volumes:
-            - 'sail-mysql:/var/lib/mysql'
-            - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
-        environment:
-            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ROOT_HOST: '%'
-            MYSQL_DATABASE: '${DB_DATABASE}'
-            MYSQL_USER: '${DB_USERNAME}'
-            MYSQL_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ALLOW_EMPTY_PASSWORD: 1
-            # MYSQL_ROOT_PASSWORD: 1234
-            # MYSQL_ROOT_HOST: '%'
-            # MYSQL_ALLOW_EMPTY_PASSWORD: 1
-            # MYSQL_USER: a
-            # MYSQL_PASSWORD: 1234
-            # MYSQL_DATABASE: clubdb
-        networks:
-            - sail
+  laravel-migrations:
+    container_name: club_migrations
+    build: .
+    command: sh -c "sleep 30 && php artisan migrate"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - mysql_db
+    environment:
+      - DB_HOST=mysql_db
+      - DB_PORT=3306
+    networks:
+      - club_net
 
+  mysql_db:
+    image: mysql:latest
+    container_name: mysql_db
+    hostname: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: club
+    ports:
+      - 8889:3306
+    networks:
+      - club_net
+  
+  # phpmyadmin:
+  #   image: phpmyadmin:latest
+  #   container_name : phpmyadmin
+  #   ports:
+  #     - 9000:80
+  #   environment:
+  #     - PMA_ARBITRARY=1
+  #     - PMA_HOST=mysql_db
+  #     - PMA_PORT=3306
+  #   depends_on:
+  #     - mysql_db
+  #   networks:
+  #     - club_net
 networks:
-    sail:
-        driver: bridge
-volumes:
-    sail-mysql:
-        driver: local
-    # sail-redis:
-    #     driver: local
-    # sail-meilisearch:
-    #     driver: local
+  club_net:
+    driver: bridge
