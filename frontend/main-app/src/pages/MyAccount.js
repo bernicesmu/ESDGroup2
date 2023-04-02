@@ -7,7 +7,7 @@ import UserProfileImg from "../assets/Atrayee.png";
 import { minWidth, width } from "@mui/system";
 // import EditButton from './EditButton';
 import { getStudentByMatric } from '../services/StudentAPI';
-import { checkToken, decodeToken } from '../services/GenerateTokenAPI';
+import { checkToken, decodeToken, deleteToken } from '../services/GenerateTokenAPI';
 
 export default function MemberCreate() {
   const [matricNum, setMatricNum] = useState('1301938'); 
@@ -39,6 +39,11 @@ export default function MemberCreate() {
       })
   }, [])
 
+  function logout() { 
+    deleteToken(); 
+    window.location.href = '/'
+  }
+
   return (
     <div style={{justifyContent:'center'}}>
       {/* <div style={{ display: "flex" }} className="my-3 mx-3">
@@ -53,7 +58,11 @@ export default function MemberCreate() {
       </div> */}
 
       <div className="mx-5 mb-5 justify-content-between d-flex my-5 text-center">
-        <div className="d-block" style={{width:132, height:3}}></div>
+        <div className="my-auto float-left">
+          <Button variant='contained' color="primary" style={{ marginLeft: "auto", float: 'right'}} onClick={logout}>
+            Logout
+          </Button>
+        </div>
         <div className="mx-auto">
           <Typography variant='h4'>My Account</Typography>
           <Typography variant='p'>Everything about you, and only you!</Typography>
