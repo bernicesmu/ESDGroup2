@@ -69,6 +69,7 @@ export default function Attendance() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
+      message:"Fking work",
       messageText: data.get('messageText'),
       //matricNums: (['01234', '54672'])
       matricNums: listOfStudentMatric
