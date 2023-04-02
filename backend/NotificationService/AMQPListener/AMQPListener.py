@@ -37,8 +37,8 @@ def callback(ch, method, properties, body): # Body here should be the JSON
     # Callback here will call send_reminder_telebot with parameters
     # print(f"Received message: {body}, type is {type(body)}")
     # Decode body
-    bodyStr = body.decode("utf-8")
-    bodyJson =json.loads(bodyStr)
+    # bodyStr = body.decode("utf-8")
+    bodyJson =json.loads(body)
     # jsonObj = {
     #     "matricNums":["132151", "0143892", "314dnsjvnaj"], # Look up db to get unique SID
     #     "message":str(body)
@@ -64,7 +64,7 @@ def getSid(matricNums:list) -> list:
 def send_reminder_telebot(data:dict)->None:
     chatIds = getSid(data["matricNums"]) # Converts matricNums to SIDS
     for id in chatIds:
-        url = f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={id}&text={data['message']}"
+        url = f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={id}&text={data}"
         response = requests.get(url)
     # return response.json()
     return 

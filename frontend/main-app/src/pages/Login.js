@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { generateToken, setToken } from '../services/GenerateTokenAPI';
 
 function Copyright(props) {
   return (
@@ -32,10 +33,18 @@ export default function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    let loginData = {
       email: data.get('email'),
       password: data.get('password'),
-    });
+    };
+    generateToken(loginData) 
+      .then(response => { 
+        let token = response.data.token;
+        setToken(token)
+      })
+      .catch(error => { 
+        console.log(error.message);
+      })
   };
 
   return (
