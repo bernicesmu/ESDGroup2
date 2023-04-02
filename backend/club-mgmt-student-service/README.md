@@ -52,7 +52,6 @@ MySQL User: dockeruser pw:1234
 ```
 docker run --name mysqldb --network <networkname> -e MYSQL_ROOT_PASSWORD -d mysql:latest
 docker run --name mysqldb --network springboot-mysql-net --hostname mysqldb -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_USER=a -e MYSQL_PASSWORD=1234 -e MYSQL_DATABASE=studentdb -p 3306:3306  -d mysql:latest 
-
 ```
 
 

@@ -70,7 +70,8 @@ def getSid(matricNums:list) -> list:
 def send_reminder_telebot(data:dict)->None:
     chatIds = getSid(data["matricNums"]) # Converts matricNums to SIDS
     for id in chatIds:
-        url = f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={id}&text={data['message']}"
+        url = f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={id}&text={data}"
+        # url = f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={id}&text={data['message']}"
         response = requests.get(url)
     # return response.json()
     return 
