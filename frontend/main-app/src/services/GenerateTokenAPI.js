@@ -23,6 +23,10 @@ export function decodeToken(token) {
     return JSON.parse(base64);
 }
 
+export function deleteToken() {
+    window.localStorage.removeItem('authtoken');
+}
+
 export function setToken(token) {
     // jwt.crypto = crypto;
     window.localStorage.setItem('authtoken', JSON.stringify({

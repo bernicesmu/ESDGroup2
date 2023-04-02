@@ -41,6 +41,7 @@ export default function Login() {
       .then(response => { 
         let token = response.data.token;
         setToken(token)
+        window.location.href = '/';
       })
       .catch(error => { 
         console.log(error.message);
