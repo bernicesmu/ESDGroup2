@@ -68,16 +68,12 @@ export default function Attendance() {
   const handleBroadcastSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      messageText: data.get('messageText'),
-      //matricNums: (['01234', '54672'])
-      matricNums: listOfStudentMatric
-    });
     let messageData = {
-      messageText: data.get('messageText'),
+      message: data.get('messageText'),
       //matricNums: (['01234', '54672'])
       matricNums: listOfStudentMatric
     }; 
+    console.log(messageData)
     
     broadcastMessage(messageData) 
       .then(response => { 

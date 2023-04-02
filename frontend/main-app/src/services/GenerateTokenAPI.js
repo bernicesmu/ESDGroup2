@@ -23,17 +23,15 @@ export function decodeToken(token) {
     return JSON.parse(base64);
 }
 
-export function setToken(adminclubs, memberclubs, token) {
-    jwt.crypto = crypto;
+export function setToken(token) {
+    // jwt.crypto = crypto;
     window.localStorage.setItem('authtoken', JSON.stringify({
-        adminclubnames: adminclubs,
-        memberclubnames: memberclubs,
         authtoken : token
     }))
 }
 
-export function checkToken(token) {
-    // const token = window.localStorage.getItem('authtoken');
+export function checkToken() {
+    const token = window.localStorage.getItem('authtoken');
     if (token) {
         var base64Url = token.split('.')[1];
         var base64 = decodeURIComponent(atob(base64Url).split('').map((c) => {
