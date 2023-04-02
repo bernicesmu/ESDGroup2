@@ -62,7 +62,8 @@ app.post('/getToken', async (req,res) => {
                 for ( let j = 0; j < allclubs.length; j++ ) {
                     let club = allclubs[j];
                     if ( club.id == admins[i] ) {
-                        adminclubnames.push(club.clubName);
+                        let clubList = [club.id, club.clubName];
+                        adminclubnames.push(clubList);
                     }
                 }
             }
