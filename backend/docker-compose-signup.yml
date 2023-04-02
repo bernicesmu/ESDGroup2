@@ -5,8 +5,8 @@ version: "3.8"
 networks:
   clumsy-net:
     driver: bridge
-  # attendance-mysql-net:
-  #   driver: bridge
+  attendance-mysql-net:
+    driver: bridge
 
 
 
@@ -14,7 +14,7 @@ volumes:
   studentdb_data:
   event_postgres_data:
   telesqldb_data:
-  # attendancedb_data:
+  attendancedb_data:
 
 services: 
   upload_signup: 
@@ -32,7 +32,7 @@ services:
       studentURL: "http://student:8080/student/"
     depends_on:
       - student 
-      - attendance 
+      - attendance-container 
 
   mysqldb:
     image: mysql
@@ -113,58 +113,53 @@ services:
     networks: 
       - clumsy-net
 
-  # most recent one below
-  # attendance-container:
-  #   image: bernicesmu/attendance:1.0
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile-flask
-  #   environment:
-  #     dbURL: mysql+mysqlconnector://root:root@attendancesqldb:5111/attendancesqldb
-  #     # dbURL: mysql+mysqlconnector://root:root@attendancesqldb:3306/attendancesqldb
-  #     dbname: attendancesqldb
-  #   restart: always
-  #   ports:
-  #     - 5101:5105
-  #   depends_on:
-  #     - attendancesqldb
-  #   networks:
-  #     - attendance-mysql-net
-  #   volumes: 
-  #     - attendancedb_data:/var/lib/mysql
-
-
-  attendance:
+  attendance-container:
     image: bernicesmu/attendance:1.0
-    build: ./attendance
+    build:
+      context: ./attendance/attendance-ms
+      dockerfile: Dockerfile
+    environment:
+      dbURL: mysql+mysqlconnector://root:root@attendancesqldb:5111/attendancesqldb
+      # dbURL: mysql+mysqlconnector://root:root@attendancesqldb:3306/attendancesqldb
+      dbname: attendancesqldb
     restart: always
-    networks: 
-      - clumsy-net 
     ports:
       - 5101:5105
-    environment:
-      dbURL: mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance
+    depends_on:
+      - attendancesqldb
+    networks:
+      - attendance-mysql-net
+    volumes: 
+      - attendancedb_data:/var/lib/mysql
 
-  # attendancesqldb:
-  #   image: mysql
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile-db
+
+  # attendance:
+  #   image: bernicesmu/attendance:1.0
+  #   build: ./attendance
   #   restart: always
-  #   volumes:
-  #     - attendancedb_data:/var/lib/mysql
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: 2312
-  #     MYSQL_USER: esd
-  #     MYSQL_PASSWORD: 2312
-  #     MYSQL_DATABASE: attendancedb
-  #     hostname: attendancesqldb
-  #   networks:
-  #     - attendance-mysql-net
+  #   networks: 
+  #     - clumsy-net 
   #   ports:
-  #     - 5111:3306
+  #     - 5101:5105
+  #   environment:
+  #     dbURL: mysql+mysqlconnector://root:root@host.docker.internal:3306/attendance
 
-# unsure if the above should be here or docker-compose-final
+  attendancesqldb:
+    image: mysql
+    build:
+      context: ./attendance/attendance-db
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - attendancedb_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 2312
+      MYSQL_USER: esd
+      MYSQL_PASSWORD: 2312
+      MYSQL_DATABASE: attendancedb
+    networks:
+      - attendance-mysql-net
+    
   
   laravel-docker:
     container_name: club_database

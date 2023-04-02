@@ -15,11 +15,9 @@ services:
       MYSQL_USER: esd
       MYSQL_PASSWORD: 2312
       MYSQL_DATABASE: attendancedb
-      hostname: attendancesqldb
     networks:
       - attendance-mysql-net
-    ports:
-      - 5111:3306
+    
     
   attendance-container:
     image: bernicesmu/attendance:1.0
