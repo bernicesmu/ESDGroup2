@@ -6,11 +6,17 @@ import MySQLdb
 from dotenv import load_dotenv
 
 load_dotenv()
-bot_token = os.getenv("BOT_TOKEN")
-host_name = os.getenv("DB_NAME")
-user = os.getenv("MYSQL_USER")
-pw = os.getenv("MYSQL_PASSWORD")
-db = os.getenv("MYSQL_DATABASE")
+# bot_token = os.getenv("BOT_TOKEN")
+# host_name = os.getenv("DB_NAME")
+# user = os.getenv("MYSQL_USER")
+# pw = os.getenv("MYSQL_PASSWORD")
+# db = os.getenv("MYSQL_DATABASE")
+
+bot_token = os.environ.get("BOT_TOKEN")
+host_name = os.environ.get("HOST_NAME")
+user = os.environ.get("MYSQL_USER")
+pw = os.environ.get("MYSQL_PASSWORD")
+db = os.environ.get("MYSQL_DATABASE")
 
 hostname = 'mustang-01.rmq.cloudamqp.com'
 port = 5672
