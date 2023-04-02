@@ -8,11 +8,17 @@ import mysql.connector
 import MySQLdb
 
 load_dotenv()
-bot_token = os.getenv("BOT_TOKEN")
-host_name = environ.get("DB_NAME")
-user = environ.get("MYSQL_USER")
-pw = environ.get("MYSQL_PASSWORD")
-db = environ.get("MYSQL_DATABASE")
+# bot_token = os.getenv("BOT_TOKEN")
+# host_name = os.getenv("HOST_NAME")
+# user = os.getenv("MYSQL_USER")
+# pw = os.getenv("MYSQL_PASSWORD")
+# db = os.getenv("DB_NAME")
+
+bot_token = os.environ.get("BOT_TOKEN")
+host_name = os.environ.get("HOST_NAME")
+user = os.environ.get("MYSQL_USER")
+pw = os.environ.get("MYSQL_PASSWORD")
+db = os.environ.get("MYSQL_DATABASE")
 
 def main():
     bot = telebot.TeleBot(bot_token)
@@ -33,7 +39,7 @@ def main():
     @bot.message_handler(func=lambda m: True)
     def getMatricNum(message:str) -> None:
         try:
-            # bot.reply_to(message, f"Hey dont work bro, {host_name, user,pw,db}")
+            bot.reply_to(message, f"Hey dont work bro, {host_name, user,pw,db,bot_token}")
             conn_mysql = MySQLdb.connect(host=host_name,user=user,passwd=pw,database=db)
             cursor = conn_mysql.cursor()
             query = "SELECT * FROM  " + str(db)

@@ -34,7 +34,6 @@ public class StudentConfig {
                 repository.save(emily);
                 repository.save(david);
             }
-      
             };
         }
 }
