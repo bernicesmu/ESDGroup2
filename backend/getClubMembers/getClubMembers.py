@@ -58,7 +58,7 @@ def processStudents(clubID):
     print(club_members_full)
 
     ## Invoking club members to get full club member details of club members
-    club_members_details = invoke_http(f"{club_URL}/details/{clubID}", method="GET")
+    club_members_details = invoke_http(f"{club_URL}/{clubID}", method="GET")
     print(club_members_details)
 
     # Extracting the yearJoined data from club_members_details

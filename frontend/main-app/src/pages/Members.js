@@ -37,7 +37,7 @@ export default function Members() {
       console.log(clubIdFromURL);
       getClubMemberDetails(clubIdFromURL) 
         .then(response => { 
-          console.log(response.data.club_members_full.details)
+          console.log(response)
           setMemberDetails(response.data.club_members_full.details)
         })
         .catch(error => { 
