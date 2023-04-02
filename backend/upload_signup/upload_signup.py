@@ -140,7 +140,7 @@ def broadcast():
     
     
     #changed from telehandles
-    message = request.json.get('messageText')
+    message = request.json.get('message')
     matricNums = request.json.get('matricNums')
 
     # data = combine message + matricNums

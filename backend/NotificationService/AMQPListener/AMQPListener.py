@@ -43,8 +43,8 @@ def callback(ch, method, properties, body): # Body here should be the JSON
     # Callback here will call send_reminder_telebot with parameters
     # print(f"Received message: {body}, type is {type(body)}")
     # Decode body
-    bodyStr = body.decode("utf-8")
-    bodyJson =json.loads(bodyStr)
+    # bodyStr = body.decode("utf-8")
+    bodyJson =json.loads(body)
     # jsonObj = {
     #     "matricNums":["132151", "0143892", "314dnsjvnaj"], # Look up db to get unique SID
     #     "message":str(body)

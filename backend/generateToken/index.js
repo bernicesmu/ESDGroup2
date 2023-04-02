@@ -2,10 +2,11 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
-
+import cors from 'cors'
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 const port = 3020;
 // const exco_host = process.env.EXCO_HOST;
 // const club_host = process.env.CLUB_HOST;
@@ -62,7 +63,8 @@ app.post('/getToken', async (req,res) => {
                 for ( let j = 0; j < allclubs.length; j++ ) {
                     let club = allclubs[j];
                     if ( club.id == admins[i] ) {
-                        adminclubnames.push(club.clubName);
+                        let clubList = [club.id, club.clubName];
+                        adminclubnames.push(clubList);
                     }
                 }
             }

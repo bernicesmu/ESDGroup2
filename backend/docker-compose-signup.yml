@@ -14,6 +14,7 @@ volumes:
   studentdb_data:
   event_postgres_data:
   telesqldb_data:
+  clubdb_data:
   # attendancedb_data:
 
 services: 
@@ -28,7 +29,7 @@ services:
     networks: 
       - clumsy-net 
     environment: 
-      attendanceURL: "http://attendance:5105/"
+      attendanceURL: "http://attendance-container:5105/"
       studentURL: "http://student:8080/student/"
     depends_on:
       - student 
@@ -197,6 +198,8 @@ services:
     build: ./club_zipped
     container_name: mysql_db
     hostname: mysql_db
+    volumes:
+      - clubdb_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: club
@@ -257,7 +260,7 @@ services:
       MYSQL_USER: a
       MYSQL_PASSWORD: 1234
       MYSQL_DATABASE: telesessiondb
-      BOT_TOKEN: 6294207840:AAHzxcCi7HFYCoVsSBMCWLkpcAhvda28krI
+      BOT_TOKEN: 6294207840:AAH_9_2Kr3qITOXdMeiahXOCTPU1HiPRXNQ
     depends_on:
       - telesqldb-service
     networks:
@@ -274,10 +277,40 @@ services:
       MYSQL_USER: a
       MYSQL_PASSWORD: 1234
       MYSQL_DATABASE: telesessiondb
-      BOT_TOKEN: 6294207840:AAHzxcCi7HFYCoVsSBMCWLkpcAhvda28krI
+      BOT_TOKEN: 6294207840:AAH_9_2Kr3qITOXdMeiahXOCTPU1HiPRXNQ
     depends_on:
       - telesqldb-service
     networks:
       - clumsy-net
     volumes:
       - telesqldb_data:/var/lib/mysql
+
+  # amqplistener-service:
+  #   image: bernicesmu/amqplistener
+  #   build: ./NotificationService/AMQPListener
+  #   # environment:
+  #   #   db_name: telesqldb
+  #   # ports:
+  #   #   - "8080:8080" #Expose docker port 
+  #   depends_on:
+  #     - telesqldb-service
+  #   networks:
+  #     - clumsy-net
+  #   volumes:
+  #     - telesqldb_data:/var/lib/mysql
+
+  # clumsybot-service:
+  #   image: bernicesmu/clumsybot
+  #   build: ./NotificationService/ClumsyBot/
+  #   environment:
+  #     db_name: telesqldb
+  #     DB_NAME: telesqldb
+  #     MYSQL_USER: a
+  #     MYSQL_DATABASE: telesessiondb
+  #     MYSQL_PASSWORD: 1234
+  #   depends_on:
+  #     - telesqldb-service
+  #   networks:
+  #     - clumsy-net
+  #   volumes:
+  #     - telesqldb_data:/var/lib/mysql

@@ -4,18 +4,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CustomCard from '../components/CustomCard';
 import ClubNotFound from '../assets/ClubNotFound.png';
 import { getAllClubs } from '../services/ClubAPI'; 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { checkToken, decodeToken } from '../services/GenerateTokenAPI';
 
 const cards = ['SMUBIA', 'Volleyball', 'Samba Masala', '.Hack'];
 const clubs = [
@@ -31,6 +20,7 @@ const theme = createTheme();
 export default function MyClubs() {
   const [searchValue, setSearchValue] = useState("");
   const [allClubs, setAllClubs] = useState(Array(0));
+  const [tokenInfo, setTokenInfo] = useState({}); 
 
   function handleSearchChange(event) { 
     setSearchValue(event.target.value.toLowerCase()); 
@@ -46,9 +36,22 @@ export default function MyClubs() {
   }
 
   useEffect(() => { 
+    let tokenInfo = decodeToken(window.localStorage.getItem('authtoken'))
+    console.log(tokenInfo)
+    setTokenInfo(tokenInfo)
+    let adminClubId = []; 
+    for (let clubPair of tokenInfo.adminclubnames) { 
+      adminClubId.push(clubPair[0])
+    }
     getAllClubs()
       .then(response => {
-        setAllClubs(response.clubs); 
+        let myClubs = []
+        for (let club of response.clubs) { 
+          if (adminClubId.includes(club.id)) { 
+            myClubs.push(club)
+          }
+        }
+        setAllClubs(myClubs); 
       })
       .catch(error => { 
         console.log(error.message);

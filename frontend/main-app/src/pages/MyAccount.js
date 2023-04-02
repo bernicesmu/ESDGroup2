@@ -7,10 +7,10 @@ import UserProfileImg from "../assets/Atrayee.png";
 import { minWidth, width } from "@mui/system";
 // import EditButton from './EditButton';
 import { getStudentByMatric } from '../services/StudentAPI';
-// import { checkToken } from '../services/GenerateTokenAPI';
+import { checkToken, decodeToken, deleteToken } from '../services/GenerateTokenAPI';
 
 export default function MemberCreate() {
-  const [matricNum, setMatricNum] = useState('1420382'); 
+  const [matricNum, setMatricNum] = useState('1301938'); 
   const [studentDetails, setStudentDetails] = useState({ 
     matriculatedName: '',
     smuEmail: '',
@@ -26,14 +26,10 @@ export default function MemberCreate() {
   };
 
   useEffect(() => { 
-    // checkToken() 
-    //   .then(response => { 
-    //     console.log(response)
-    //   })
-    //   .catch(error => { 
-    //     console.log(error.message)
-    //   })
-    getStudentByMatric(matricNum) 
+    let tokenInfo = decodeToken(window.localStorage.getItem('authtoken'))
+    console.log(tokenInfo)
+    setMatricNum(tokenInfo.matricNum)
+    getStudentByMatric(tokenInfo.matricNum) 
       .then(response => { 
         console.log(response);
         setStudentDetails(response)
@@ -42,6 +38,11 @@ export default function MemberCreate() {
         console.log(error.message); 
       })
   }, [])
+
+  function logout() { 
+    deleteToken(); 
+    window.location.href = '/'
+  }
 
   return (
     <div style={{justifyContent:'center'}}>
@@ -57,7 +58,11 @@ export default function MemberCreate() {
       </div> */}
 
       <div className="mx-5 mb-5 justify-content-between d-flex my-5 text-center">
-        <div className="d-block" style={{width:132, height:3}}></div>
+        <div className="my-auto float-left">
+          <Button variant='contained' color="primary" style={{ marginLeft: "auto", float: 'right'}} onClick={logout}>
+            Logout
+          </Button>
+        </div>
         <div className="mx-auto">
           <Typography variant='h4'>My Account</Typography>
           <Typography variant='p'>Everything about you, and only you!</Typography>
