@@ -38,7 +38,17 @@ export default function Members() {
       getClubMemberDetails(clubIdFromURL) 
         .then(response => { 
           console.log(response.data)
-          setMemberDetails(response.data.club_members_full)
+          let cleanedMembers = [] 
+          for (let clubMem of response.data.club_members_full) { 
+            console.log(parseInt(clubMem.yearJoined), new Date().getFullYear())
+            if (parseInt(clubMem.yearJoined) < new Date().getFullYear() - 2) { 
+              clubMem.active = false;
+            } else { 
+              clubMem.active = true;
+            }
+            cleanedMembers.push(clubMem)
+          }
+          setMemberDetails(cleanedMembers)
         })
         .catch(error => { 
           console.log(error.message)

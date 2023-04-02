@@ -13,7 +13,7 @@ networks:
 volumes:
   studentdb_data:
   event_postgres_data:
-  telesqldb_data:
+  clumsybot_data:
   clubdb_data:
   # attendancedb_data:
 
@@ -242,7 +242,7 @@ services:
     hostname: telesqldb
     restart: always
     volumes:
-      - telesqldb_data:/var/lib/mysql
+      - clumsybot_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_USER: a
@@ -266,7 +266,7 @@ services:
     networks:
       - clumsy-net
     volumes:
-      - telesqldb_data:/var/lib/mysql
+      - clumsybot_data:/var/lib/mysql
 
   clumsybot-service:
     image: bernicesmu/clumsybot
@@ -283,7 +283,7 @@ services:
     networks:
       - clumsy-net
     volumes:
-      - telesqldb_data:/var/lib/mysql
+      - clumsybot_data:/var/lib/mysql
 
   # amqplistener-service:
   #   image: bernicesmu/amqplistener
@@ -297,7 +297,7 @@ services:
   #   networks:
   #     - clumsy-net
   #   volumes:
-  #     - telesqldb_data:/var/lib/mysql
+  #     - clumsybot_data:/var/lib/mysql
 
   # clumsybot-service:
   #   image: bernicesmu/clumsybot
@@ -313,4 +313,4 @@ services:
   #   networks:
   #     - clumsy-net
   #   volumes:
-  #     - telesqldb_data:/var/lib/mysql
+  #     - clumsybot_data:/var/lib/mysql

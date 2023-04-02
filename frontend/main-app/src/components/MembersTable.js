@@ -5,10 +5,12 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { Chip, Box } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import MemberPositionPill from './MemberPositionsPill';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import Title from './Title';
 
 // Generate Order Data
@@ -47,16 +49,20 @@ export default function MembersTable(props) {
       editable: false, 
     }, 
 
-    // {
-    //   field: 'positions',
-    //   headerClassName: 'bg-secondary text-white',
-    //   headerName: 'Positions',
-    //   flex: 4,
-    //   editable: false, 
-    //   renderCell: (params) => { 
-    //     return (<MemberPositionPill positions={params}/>)
-    //   },
-    // }, 
+    {
+      field: 'clubPosition',
+      headerClassName: 'bg-secondary text-white',
+      headerName: 'Positions',
+      flex: 3,
+      editable: false, 
+      renderCell: (params) => { 
+        if (params.formattedValue) { 
+          return (<Chip label={params.formattedValue} sx={{mr: 1}} color={'secondary'} key={params.id}/>)
+        } else { 
+          return (<SentimentVeryDissatisfiedIcon color='secondary'></SentimentVeryDissatisfiedIcon>)
+        }
+      },
+    }, 
 
     {
       field: 'active',
@@ -65,6 +71,7 @@ export default function MembersTable(props) {
       flex: 1,
       editable: false, 
       renderCell: (params) => { 
+        // console.log(params)
         return (
           isActive(params)
         )

@@ -44,7 +44,7 @@ function Navbar() {
           <Box sx={{ flexGrow: 1, display: 'flex' }}>
             {pages.map((page) => (
               <Button
-                href={checkToken() ? '/' + page.replace(/ /g, '').replace('Home', '') : "/Login"}
+                href={checkToken() === 'Token valid' ? '/' + page.replace(/ /g, '').replace('Home', '') : "/Login"}
                 key={page.replace(/ /g, '')}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block', ":hover": {color: "secondary.main"} }}
@@ -53,7 +53,7 @@ function Navbar() {
               </Button>
             ))}
           </Box>
-          <Box component='a' href={checkToken() ? "/MyAccount" : "/Login"}>
+          <Box component='a' href={checkToken() === 'Token valid' ? "/MyAccount" : "/Login"}>
             <Box component='img' src={Atrayee} height={43} borderRadius='50%' bgcolor='white' marginRight={0}></Box>
           </Box>
         </Toolbar>
