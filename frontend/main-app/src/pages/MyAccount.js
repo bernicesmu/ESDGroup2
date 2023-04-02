@@ -7,10 +7,10 @@ import UserProfileImg from "../assets/Atrayee.png";
 import { minWidth, width } from "@mui/system";
 // import EditButton from './EditButton';
 import { getStudentByMatric } from '../services/StudentAPI';
-// import { checkToken } from '../services/GenerateTokenAPI';
+import { checkToken } from '../services/GenerateTokenAPI';
 
 export default function MemberCreate() {
-  const [matricNum, setMatricNum] = useState('1420382'); 
+  const [matricNum, setMatricNum] = useState('1301938'); 
   const [studentDetails, setStudentDetails] = useState({ 
     matriculatedName: '',
     smuEmail: '',
@@ -26,13 +26,13 @@ export default function MemberCreate() {
   };
 
   useEffect(() => { 
-    // checkToken() 
-    //   .then(response => { 
-    //     console.log(response)
-    //   })
-    //   .catch(error => { 
-    //     console.log(error.message)
-    //   })
+    checkToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbnMiOltdLCJhZG1pblJpZ2h0cyI6ZmFsc2UsImlhdCI6MTY4MDQ0NTgxNCwiZXhwIjoxNjgwNDQ5NDE0fQ.o_Ys5Yhcy-LyWQjP9Ad9ZI1ENHqTKk0vJifBBao20mc") 
+      // .then(response => { 
+      //   console.log(response)
+      // })
+      // .catch(error => { 
+      //   console.log(error.message)
+      // })
     getStudentByMatric(matricNum) 
       .then(response => { 
         console.log(response);

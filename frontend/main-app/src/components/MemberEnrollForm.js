@@ -30,7 +30,7 @@ export default function MemberEnrollForm(props) {
     const [showError, setError] = useState(false);
     const [data, setData] = useState([]);
     const getMemberInfo = () => {
-      fetch('http://localhost:8080/student/', {
+      fetch('http://localhost:5103/student/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
