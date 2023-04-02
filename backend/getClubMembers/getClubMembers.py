@@ -70,18 +70,19 @@ def processStudents(clubID):
     # Creating a dictionary with studentMatricNum as the key and club_member id as the value
     club_member_dict = {member["studentMatricNum"]: member["id"] for member in club_members_details}
     print(club_member_dict)
+
     # Creating a dictionary with club_member_id as key and club position as value
     club_exco_roles = {}
     for member in club_members_details:
-        club_member_id = member["studentMatricNum"]
+        club_member_id = member["id"]
         print("Club Member ID: " + str(club_member_id))
         exco_details = invoke_http(f"{club_exco_URL}/by_member/{club_member_id}", method="GET")
-        # print("Printing exco_details", exco_details)
+        print("Printing exco_details", exco_details)
         if exco_details["code"] in range(200, 300) and exco_details["club_exco"]:
             club_exco_roles[club_member_id] = exco_details["club_exco"][0]["role"]
     ## Invoking club exco to get club exco details of club members
     # club_excos_details = invoke_http(f"{club_exco_URL}/{clubID}", method="GET")
-
+    # print("Club exco roles:", club_exco_roles)
     ## Updating club_members_full with the yearJoined, position
     for member in club_members_full.get("details", []):
         member["yearJoined"] = year_joined_dict.get(member["matricNum"], None)
