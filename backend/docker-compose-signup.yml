@@ -14,6 +14,7 @@ volumes:
   studentdb_data:
   event_postgres_data:
   telesqldb_data:
+  clubdb_data:
   # attendancedb_data:
 
 services: 
@@ -197,6 +198,8 @@ services:
     build: ./club_zipped
     container_name: mysql_db
     hostname: mysql_db
+    volumes:
+      - clubdb_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: club
