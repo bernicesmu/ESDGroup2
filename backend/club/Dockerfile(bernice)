@@ -1,0 +1,17 @@
+FROM php:8.2.4-cli-alpine
+
+# Install required PHP extensions
+# RUN docker-php-ext-install pdo pdo_mysql
+RUN docker-php-ext-install gettext intl pdo_mysql gd
+
+RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Copy the local Laravel directory into the container
+COPY . /app
+
+# Run the PHP built-in web server on port 8000
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=80"]
