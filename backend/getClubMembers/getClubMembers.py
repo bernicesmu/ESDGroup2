@@ -14,7 +14,7 @@ club_exco_URL = "http://laravel-docker:80/api/club_excos"
 student_URL = "http://student:8080/student/group"
 error_URL = "" 
 
-@app.route("/club_members/<clubID>", methods=['GET'])
+@app.route("/get_club_members/<clubID>", methods=['GET'])
 def getClubMembersDetails(clubID): 
     print("\nReceived Club ID: " + clubID)
     try: 
@@ -69,20 +69,26 @@ def processStudents(clubID):
     
     # Creating a dictionary with studentMatricNum as the key and club_member id as the value
     club_member_dict = {member["studentMatricNum"]: member["id"] for member in club_members_details}
+    
+    # Creating a dictionary with club_member_id as key and club position as value
     club_exco_roles = {}
     for member in club_members_details:
         club_member_id = member["id"]
         exco_details = invoke_http(f"{club_exco_URL}/by_member/{club_member_id}", method="GET")
-        if exco_details["code"] in range(200, 300) and exco_details["data"]:
-            club_exco_roles[club_member_id] = exco_details["data"]["role"]
+        # print("Printing exco_details", exco_details)
+        if exco_details["code"] in range(200, 300) and exco_details["club_exco"]:
+            club_exco_roles[club_member_id] = exco_details["club_exco"][0]["role"]
     ## Invoking club exco to get club exco details of club members
     # club_excos_details = invoke_http(f"{club_exco_URL}/{clubID}", method="GET")
-    # Updating club_members_full with the yearJoined data
+
+    ## Updating club_members_full with the yearJoined, position
     for member in club_members_full.get("details", []):
         member["yearJoined"] = year_joined_dict.get(member["matricNum"], None)
         club_member_id = club_member_dict.get(member["matricNum"], None)
+        print("Club_member_id: ", club_member_id)
+        print("Club_member_full: ", club_members_full)
         if club_member_id:
-            member["role"] = club_exco_roles.get(club_member_id, None)
+            member["clubPosition"] = club_exco_roles.get(club_member_id, None)
     print('Club members full details:', club_members_full)
 
 
