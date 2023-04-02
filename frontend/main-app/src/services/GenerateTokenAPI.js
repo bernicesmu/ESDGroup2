@@ -24,7 +24,7 @@ export function decodeToken(token) {
 }
 
 export function setToken(adminclubs, memberclubs, token) {
-    jwt.crypto = crypto;
+    // jwt.crypto = crypto;
     window.localStorage.setItem('authtoken', JSON.stringify({
         adminclubnames: adminclubs,
         memberclubnames: memberclubs,
