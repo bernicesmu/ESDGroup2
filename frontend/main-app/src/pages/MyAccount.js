@@ -10,7 +10,7 @@ import { getStudentByMatric } from '../services/StudentAPI';
 import { checkToken } from '../services/GenerateTokenAPI';
 
 export default function MemberCreate() {
-  const [matricNum, setMatricNum] = useState('1420382'); 
+  const [matricNum, setMatricNum] = useState('1301938'); 
   const [studentDetails, setStudentDetails] = useState({ 
     matriculatedName: '',
     smuEmail: '',
