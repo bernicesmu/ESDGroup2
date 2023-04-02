@@ -2,34 +2,51 @@ version: "3.8"
 
 # rewrote the code below, pls help
 services:
+  # attendancesqldb:
+  #   image: mysql
+  #   build:
+  #     context: .
+  #     # dockerfile: Dockerfile-db
+  #   # restart: always
+  #   volumes:
+  #     - attendancedb_data:/var/lib/mysql
+  #   environment:
+  #     # MYSQL_ROOT_PASSWORD: 2312
+  #     # MYSQL_USER: esd
+  #     # MYSQL_PASSWORD: 2312
+  #     # MYSQL_DATABASE: attendancedb
+  #     # hostname: attendancesqldb
+  #     dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/attendancedb
+  #   networks:
+  #     - attendance-mysql-net
+  #   # ports:
+  #   #   - 5111:3306
+
+  ## reg's postgres
   attendancesqldb:
-    image: mysql
-    build:
-      context: .
-      dockerfile: Dockerfile-db
-    restart: always
-    volumes:
-      - attendancedb_data:/var/lib/mysql
+    container_name: attendancesqldb
+    image: postgres:13
+    # volumes:
+    #   - attendance_postgres_data:/var/lib/postgresql/data/
     environment:
-      MYSQL_ROOT_PASSWORD: 2312
-      MYSQL_USER: esd
-      MYSQL_PASSWORD: 2312
-      MYSQL_DATABASE: attendancedb
-      hostname: attendancesqldb
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: attendance-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: rootroot
     networks:
       - attendance-mysql-net
     ports:
-      - 5111:3306
+      - 5111:5432
     
   attendance-container:
     image: bernicesmu/attendance:1.0
     build:
       context: .
       dockerfile: Dockerfile-flask
-    environment:
-      dbURL: mysql+mysqlconnector://root:root@attendancesqldb:5111/attendancesqldb
-      # dbURL: mysql+mysqlconnector://root:root@attendancesqldb:3306/attendancesqldb
-      dbname: attendancesqldb
+    # environment:
+    #   dbURL: mysql+mysqlconnector://root:root@host.docker.internal:3306/attendancesqldb
+    #   # dbURL: mysql+mysqlconnector://root:root@attendancesqldb:3306/attendancesqldb
+    #   dbname: attendancesqldb
     restart: always
     ports:
       - 5101:5105

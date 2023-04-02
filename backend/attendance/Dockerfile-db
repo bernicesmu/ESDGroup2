@@ -1,10 +1,10 @@
-FROM mysql:latest
+# FROM mysql:latest
 
-COPY attendance_db.sql /docker-entrypoint-initdb.d/
+# COPY attendance_db.sql /docker-entrypoint-initdb.d/
 
-ENV MYSQL_ROOT_PASSWORD=2312
-ENV MYSQL_USER=esd
-ENV MYSQL_PASSWORD=2312
-ENV MYSQL_DATABASE=attendancesqldb
+# ENV MYSQL_ROOT_PASSWORD=2312
+# ENV MYSQL_USER=esd
+# ENV MYSQL_PASSWORD=2312
+# ENV MYSQL_DATABASE=attendancedb
 
-EXPOSE 3306
+# EXPOSE 3306
