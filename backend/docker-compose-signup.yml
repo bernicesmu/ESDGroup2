@@ -28,7 +28,7 @@ services:
     networks: 
       - clumsy-net 
     environment: 
-      attendanceURL: "http://attendance:5105/"
+      attendanceURL: "http://attendance-container:5105/"
       studentURL: "http://student:8080/student/"
     depends_on:
       - student 
