@@ -116,7 +116,7 @@ services:
   attendance-container:
     image: bernicesmu/attendance:1.0
     build:
-      context: .
+      context: ./attendance
       dockerfile: Dockerfile-flask
     restart: always
     ports:
