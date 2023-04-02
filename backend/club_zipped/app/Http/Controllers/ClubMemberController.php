@@ -24,32 +24,6 @@ class ClubMemberController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    // public function create(ClubMemberRequest $request)
-    // {
-    //     try {
-
-    //         // Create Club
-    //         ClubMember::create([
-    //             'clubId' => $request->clubId,
-    //             'studentMatricNum' => $request -> studentMatricNum,
-    //             'yearJoined' => $request->yearJoined
-    //         ]);
-    
-    //         // Return Json Response
-    //         return response()->json([
-    //             'message' => "Congratulations, club member successfully created."
-    //         ],200);
-    //     } catch (\Exception $e) {
-    //         // Return Json Response
-    //         return response()->json([
-    //             'message' => "Opps.. Something went wrong! Your club member could not be created!"
-    //         ],500);
-    //     }
-    // }
-
-    /**
      * Store a newly created resource in storage.
      */
 
@@ -87,50 +61,6 @@ class ClubMemberController extends Controller
             ], 500);
         }
     }
-    /**
-     * Display the specified resource.
-     */
-    // Getting club member by matric number
-    // public function show( $id)
-    // {
-    //     //
-    //     // $clubMember = ClubMember::find($id);
-    //     // $clubMember = ClubMember::where('studentMatricNum', $id)->get();
-    //     $clubMember = ClubMember::where($id, 'studentMatricNum', $id)->get();
-    //     if(!$clubMember){
-    //       return response()->json([
-    //          'message'=>'Club member not found!'
-    //       ],404);
-    //     }
-     
-    //     // Return Json Response
-    //     return response()->json([
-    //        'club_members' => $clubMember
-    //     ],200);
-        
-    // }
-
-    // CODE THAT WORKS
-    // Get club member by passing club id
-    // public function show($id)
-    // {
-    //     //
-    //     // $clubMember = ClubMember::find($id);
-    //     // $clubMember = ClubMember::where('studentMatricNum', $id)->get();
-        // Code to get club members by club ID
-    //     $clubMember = ClubMember::where('clubId',$id)->get();
-    //     if(!$clubMember){
-    //       return response()->json([
-    //          'message'=>'Club member not found!'
-    //       ],404);
-    //     }
-     
-    //     // Return Json Response
-    //     return response()->json([
-    //        'club_members' => $clubMember
-    //     ],200);
-
-    // }
 
     // Get list of student matric numbers from clubID
     public function show($id)

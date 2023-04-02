@@ -2,14 +2,19 @@ version: "3.8"
 
 ## not done, waiting for atrayee's docker compose 
 
-networks: 
- clumsy-net: 
-  driver: bridge 
+networks:
+  clumsy-net:
+    driver: bridge
+  # attendance-mysql-net:
+  #   driver: bridge
+
+
 
 volumes:
   studentdb_data:
   event_postgres_data:
   telesqldb_data:
+  # attendancedb_data:
 
 services: 
   upload_signup: 
@@ -135,21 +140,25 @@ services:
       - clumsy-net
     ports:
       - 5111:5432
+      
 # unsure if this should be here or docker-compose-final
   # attendanceDB:
   #   # container_name: attendanceDB
   #   volumes:
   #     - attendancedb_data:/var/lib/mysql
-  #   image: mysql:8.0.19 
-  #   restart: always 
-  #   environment: 
-  #     MYSQL_DB: 
-  #     MYSQL_PW: root
-  #   ports:
-  #     - 5101:5105
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: 2312
+  #     MYSQL_USER: esd
+  #     MYSQL_PASSWORD: 2312
+  #     MYSQL_DATABASE: attendancedb
+  #     hostname: attendancesqldb
   #   networks:
   #     - attendance-mysql-net
+  #   ports:
+  #     - 5111:3306
 
+# unsure if the above should be here or docker-compose-final
+  
   laravel-docker:
     container_name: club_database
     build: ./club_zipped
