@@ -95,7 +95,7 @@ export default function MembersMedicalTable(props) {
   function hasAllergies(param) { 
     console.log(param)
     if (param) { 
-      if (param.formattedValue.length === 0) { 
+      if (param.formattedValue.length === 0 || param.formattedValue === null) { 
         return (<InsertEmoticonIcon color='warning'></InsertEmoticonIcon>)
       }
     }
