@@ -5,7 +5,7 @@ Members: Atrayee Dutt, Bernice Teo, Bryan Lee, Ivan Yeo, Lim Xun Yi, Regine Tan
 
 The CLUMSY application can only work when both the backend and the frontend are running 
 
-### To start the backend: 
+### To start the backend
 - File directory: ESDGroup2/backend 
 - Command line: docker-compose -f docker-compose-signup.yml up
 
@@ -25,23 +25,23 @@ The CLUMSY application can only work when both the backend and the frontend are 
 | postgres:13 | eventDb  |
 | bernicesmu/event:1.0 | eventMigration |
 
-### To start the frontend: 
+### To start the frontend
 - File directory: ESDGroup2/frontend/main-app 
 - Command line: npm run start 
 
-### Accounts to login to CLUMSY 
+### Accounts to login to CLUMSY
 | Email | Password |
 | ------------- | ------------- |
 | bryan.lee.2021@scis.smu.edu.sg  | chicken123  |
 
 ___
-### Signing up for Telegram Bot
+### Signing up for CLUMSY's Telegram Bot (@clumy_notibot)
 1. Ensure backend has been started and Notification service is running.
 2. Search `@clumy_notibot` on Telegram.
 3. Enter `/start` and follow bot's instructions. 
 4. Ensure that the matric number keyed in is sent on the front-end service.
 
-### Clearing DB
+### Clearing Database 
 This is only applicable to services that uses `volumes` in `docker` to persist data through restarts. 
 1. Ensure that the relevant containers have been deleted. Use `docker-compose down`. 
 2. Go to volume tab inside **Docker Desktop** and locate the relevant volumes. Delete those volumes.
