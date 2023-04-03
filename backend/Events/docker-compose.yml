@@ -10,6 +10,7 @@ services:
     image: regineshalom/event:1.0
     build: .
     command: python manage.py runserver 0.0.0.0:8000
+    restart: always
     volumes:
       - .:/code
     ports:
@@ -25,7 +26,7 @@ services:
     build: .
     image: regineshalom/event:1.0
     command: python manage.py migrate
-    # restart: always
+    restart: always
     volumes:
       - .:/code
     networks:
@@ -49,6 +50,7 @@ services:
     build: . 
     image: regineshalom/event:1.0
     command: python manage.py loaddata initial_data.json
+    restart: always
     volumes:
       - .:/code
     networks:
