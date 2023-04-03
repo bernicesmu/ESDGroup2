@@ -15,7 +15,7 @@ volumes:
   event_data2:
   clumsybot_data2:
   clubdb_data:
-  attendancedb_data:
+  attendance_postgres_data:
 
 services: 
   upload_signup: 
@@ -66,7 +66,7 @@ services:
   event:
     # container_name: event-ms
     image: bernicesmu/event:1.0
-    build: ./Events
+    build: ./events
     command: python manage.py runserver 0.0.0.0:8000 --settings=api.settings --noreload 
     volumes:
       - event_data2:/code
@@ -77,11 +77,25 @@ services:
     depends_on:
       - eventDb
       - eventMigration
+      - eventMakeMigration
 
   eventMigration:
     build: ./Events
     image: bernicesmu/event:1.0
     command: python manage.py migrate --noinput
+    # restart: always
+    volumes:
+      - .:/code
+    networks:
+      - clumsy-net
+    depends_on:
+      - eventDb
+      - eventMakeMigration
+
+  eventMakeMigration:
+    build: ./events
+    image: bernicesmu/event:1.0
+    command: python manage.py makemigrations 
     # restart: always
     volumes:
       - event_data2:/code
@@ -133,7 +147,7 @@ services:
     container_name: attendancesqldb
     image: postgres:13
     volumes:
-      - attendancedb_data:/var/lib/postgresql/data/
+      - attendance_postgres_data:/var/lib/postgresql/data/
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_DB: attendance-db
