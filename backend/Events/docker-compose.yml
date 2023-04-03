@@ -19,24 +19,37 @@ services:
     depends_on:
       - eventDb
       - eventMigration
+      - eventLoadData
 
   eventMigration:
     build: .
     image: regineshalom/event:1.0
     command: python manage.py migrate
-    restart: always
+    # restart: always
     volumes:
       - .:/code
     networks:
       - clumsynetwork
     depends_on:
       - eventDb
+
+  eventLoadData: 
+    build: . 
+    image: regineshalom/event:1.0
+    command: python manage.py loaddata initial_data.json
+    volumes:
+      - .:/code
+    networks:
+      - clumsynetwork
+    depends_on:
+      - eventDb
+      - eventMigration
   
   eventDb:
     container_name: eventDb
     image: postgres:13
     volumes:
-      - event_postgres_data:/var/lib/postgresql/data/
+      - event_postgres_data6:/var/lib/postgresql/data/
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_DB: event-db
@@ -48,4 +61,4 @@ services:
       - clumsynetwork
 
 volumes:
-  event_postgres_data:
+  event_postgres_data6:

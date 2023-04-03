@@ -1,0 +1,88 @@
+[
+    {
+       "model": "Events.Event",
+       "pk": 1,
+       "fields": {
+       "clubId": 1,
+       "eventName": "Datathon 2023",
+       "eventType": "I",
+       "eventConfirmed": true,
+       "eventDate": "2023-04-15",
+       "eventFromTime": "12:00",
+       "eventToTime": "20:00",
+       "eventLocation": "SMU Connexion Events.Event Space Level 5",
+       "eventSignUpForm": "https://forms.gle/v3HWfH1HTGFZyeHU7"}
+    },
+    {
+       "model": "Events.Event",
+       "pk": 2,
+       "fields": {
+       "clubId": 6,
+       "eventName": "Voice Personality Hunt 2023",
+       "eventType": "A",
+       "eventConfirmed": true,
+       "eventDate": "2023-05-25",
+       "eventFromTime": "08:00",
+       "eventToTime": "22:00",
+       "eventLocation": "Ngee Ann Kong Si Auditorium",
+       "eventSignUpForm": "https://forms.gle/v3HWfH1HTGFZyeHU7"}
+    },
+    {
+     "model": "Events.Event",
+     "pk": 3,
+     "fields": {
+     "clubId": 1,
+     "eventName": "Networking Night 2023",
+     "eventType": "I",
+     "eventConfirmed": true,
+     "eventDate": "2023-06-10",
+     "eventFromTime": "19:00",
+     "eventToTime": "22:00",
+     "eventLocation": "Alcove",
+     "eventSignUpForm": "https://forms.gle/v3HWfH1HTGFZyeHU7"}
+    },
+    {
+       "model": "Events.Event",
+       "pk": 4,
+       "fields":{ 
+       "clubId": 4,
+       "eventName": "Friendly Match with NUS",
+       "eventType": "S",
+       "eventConfirmed": true,
+       "eventDate": "2023-05-13",
+       "eventFromTime": "09:00",
+       "eventToTime": "12:00",
+       "eventLocation": "Admin Building Multi Purpose Hall",
+       "eventSignUpForm": "https://forms.gle/v3HWfH1HTGFZyeHU7"}
+    },
+    {
+       "model": "Events.Event",
+       "pk": 5,
+       "fields":{
+           "clubId": 5,
+           "eventName": "Welfare Drive 2023",
+           "eventType": "O",
+           "eventConfirmed": true,
+           "eventDate": "2023-04-17",
+           "eventFromTime": "13:00",
+           "eventToTime": "16:00",
+           "eventLocation": "SOA GSR 2-5",
+           "eventSignUpForm": "https://forms.gle/v3HWfH1HTGFZyeHU7"}
+    },
+    {
+       "model": "Events.Event",
+       "pk": 6,
+       "fields":
+           {
+           "clubId": 10,
+           "eventName": "National Debate Competition 2023",
+           "eventType": "O",
+           "eventConfirmed": true,
+           "eventDate": "2023-06-30",
+           "eventFromTime": "08:00",
+           "eventToTime": "19:00",
+           "eventLocation": "SMU Law Basement",
+           "eventSignUpForm": "https://forms.gle/v3HWfH1HTGFZyeHU7"
+       }
+    }
+   ]
