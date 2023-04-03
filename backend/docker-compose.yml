@@ -12,10 +12,10 @@ networks:
 
 volumes:
   studentdb_data:
-  event_postgres_data:
-  clumsybot_data:
+  event_data2:
+  clumsybot_data2:
   clubdb_data:
-  # attendancedb_data:
+  attendancedb_data:
 
 services: 
   upload_signup: 
@@ -69,7 +69,7 @@ services:
     build: ./Events
     command: python manage.py runserver 0.0.0.0:8000 --settings=api.settings --noreload 
     volumes:
-      - .:/code
+      - event_data2:/code
     ports:
       - 5105:8000
     networks:
@@ -84,7 +84,7 @@ services:
     command: python manage.py migrate --noinput
     # restart: always
     volumes:
-      - .:/code
+      - event_data2:/code
     networks:
       - clumsy-net
     depends_on:
@@ -94,7 +94,7 @@ services:
     # container_name: eventDb
     image: postgres:13
     volumes:
-      - event_postgres_data:/var/lib/postgresql/data/
+      - event_data2:/var/lib/postgresql/data/
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_DB: event-db
@@ -124,14 +124,16 @@ services:
       - 5101:5105
     depends_on:
       - attendancesqldb
+    volumes:
+      - attendancedb_data:/var/lib/postgresql/data/
     networks: 
       - clumsy-net
 
   attendancesqldb:
     container_name: attendancesqldb
     image: postgres:13
-    # volumes:
-    #   - attendance_postgres_data:/var/lib/postgresql/data/
+    volumes:
+      - attendancedb_data:/var/lib/postgresql/data/
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_DB: attendance-db
@@ -242,7 +244,7 @@ services:
     hostname: telesqldb
     restart: always
     volumes:
-      - clumsybot_data:/var/lib/mysql
+      - clumsybot_data2:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_USER: a
@@ -260,13 +262,13 @@ services:
       MYSQL_USER: a
       MYSQL_PASSWORD: 1234
       MYSQL_DATABASE: telesessiondb
-      BOT_TOKEN: 6294207840:AAH_9_2Kr3qITOXdMeiahXOCTPU1HiPRXNQ
+      BOT_TOKEN: 
     depends_on:
       - telesqldb-service
     networks:
       - clumsy-net
     volumes:
-      - clumsybot_data:/var/lib/mysql
+      - clumsybot_data2:/var/lib/mysql
 
   clumsybot-service:
     image: bernicesmu/clumsybot
@@ -277,13 +279,13 @@ services:
       MYSQL_USER: a
       MYSQL_PASSWORD: 1234
       MYSQL_DATABASE: telesessiondb
-      BOT_TOKEN: 6294207840:AAH_9_2Kr3qITOXdMeiahXOCTPU1HiPRXNQ
+      BOT_TOKEN: 
     depends_on:
       - telesqldb-service
     networks:
       - clumsy-net
     volumes:
-      - clumsybot_data:/var/lib/mysql
+      - clumsybot_data2:/var/lib/mysql
 
   # amqplistener-service:
   #   image: bernicesmu/amqplistener
@@ -297,7 +299,7 @@ services:
   #   networks:
   #     - clumsy-net
   #   volumes:
-  #     - clumsybot_data:/var/lib/mysql
+  #     - clumsybot_data2:/var/lib/mysql
 
   # clumsybot-service:
   #   image: bernicesmu/clumsybot
@@ -313,4 +315,4 @@ services:
   #   networks:
   #     - clumsy-net
   #   volumes:
-  #     - clumsybot_data:/var/lib/mysql
+  #     - clumsybot_data2:/var/lib/mysql

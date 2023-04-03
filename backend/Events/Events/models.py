@@ -57,3 +57,24 @@ class Event(models.Model):
     def __str__(self):
         return self.eventName
     
+    fixtures = ['initial_data.json']
+    
+# e1 = Event(clubId = 1, eventName = "Datathon 2023", eventConfirmed= True, eventType= "I", eventLocation= "SMU Connexion Event Space Level 5", eventDate= "2023-01-01", eventFromTime = "13:00:00", eventToTime = "20:00:00", eventSignUpForm = 'https://forms.gle/iitNdJiec8X4GqFK7')
+
+# e2 = Event(clubId = 6, eventName = "Voice Personality Hunt 2023", eventConfirmed= True, eventType= "A", eventLocation= "Ngee Ann Kong Si Auditorium", eventDate= "2023-01-01", eventFromTime = "13:00:00", eventToTime = "20:00:00", eventSignUpForm = 'https://forms.gle/iitNdJiec8X4GqFK7')
+
+# e3 = Event(clubId = 1, eventName = "Networking Night 2023", eventConfirmed= True, eventType= "I", eventLocation= "Alcove", eventDate= "2023-01-01", eventFromTime = "13:00:00", eventToTime = "20:00:00", eventSignUpForm = 'https://forms.gle/iitNdJiec8X4GqFK7')
+
+# e4 = Event(clubId = 4, eventName = "Friendly Match with NUS", eventConfirmed= True, eventType= "S", eventLocation= "Admin Building Multi Purpose Hall", eventDate= "2023-01-01", eventFromTime = "13:00:00", eventToTime = "20:00:00", eventSignUpForm = 'https://forms.gle/iitNdJiec8X4GqFK7')
+
+# e5 = Event(clubId = 5, eventName = "Welfare Drive 2023", eventConfirmed= True, eventType= "O", eventLocation= "SOA GSR 2-5", eventDate= "2023-01-01", eventFromTime = "13:00:00", eventToTime = "20:00:00", eventSignUpForm = 'https://forms.gle/iitNdJiec8X4GqFK7')
+
+# e6 = Event(clubId = 10, eventName = "National Debate Competition 2023", eventConfirmed= True, eventType= "O", eventLocation= "National Debate Competition 2023", eventDate= "2023-01-01", eventFromTime = "13:00:00", eventToTime = "20:00:00", eventSignUpForm = 'https://forms.gle/iitNdJiec8X4GqFK7')
+
+# e1.save()
+# e2.save()
+# e3.save()
+# e4.save()
+# e5.save()
+# e6.save()
+    

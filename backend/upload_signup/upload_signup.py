@@ -11,6 +11,13 @@ from os import environ
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
+# @app.after_request
+# def add_cors_headers(response):
+#     response.headers.add('Access-Control-Allow-Origin', '*')
+#     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+#     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+#     return response
+
 studentURL = environ.get('studentURL')
 attendanceURL = environ.get('attendanceURL')
 # studentURL = "http://localhost:8080/student/"
@@ -99,6 +106,7 @@ def processUploadSignUps(fileRowData, fileName, eventId):
     }
 
 @app.route("/getSignUpDetails/<string:eventID>")
+@cross_origin()
 def getSignUpDetails(eventID): 
     print('\n\n-----Invoking attendance microservice-----')
     attendance_result = invoke_http(attendanceURL + 'getSignUpsByEventId/' + eventID)
@@ -136,12 +144,13 @@ def getSignUpDetails(eventID):
     }
 
 @app.route('/broadcast', methods=['POST'])
+@cross_origin()
 def broadcast():
-    
-    
+    print('1')
     #changed from telehandles
     message = request.json.get('message')
     matricNums = request.json.get('matricNums')
+    print('2')
 
     # data = combine message + matricNums
     data = {'message': message, 'matricNums': matricNums}
@@ -151,11 +160,12 @@ def broadcast():
     port = 5672
     virtual_host = 'zmclntbl'
     username = 'zmclntbl'
-    password = 'ZpPr261W3iWCxoIy1IKCeINZGxK5pXAL'
+    password = ''
 
     # Connect to RabbitMQ
     credentials = pika.PlainCredentials(username, password)
     parameters = pika.ConnectionParameters(hostname, port, virtual_host, credentials)
+    print('3')
 
     connection = pika.BlockingConnection(parameters)
     channel = connection.channel()
@@ -163,6 +173,7 @@ def broadcast():
     # routing_key ="events.scis.wad"
     exchange="ex_broadcast"
     routing_key="broadcast.notify"
+    print('4')
     
     # message={"message":"Glory to God", "matricNums":["2154151", "31415", "Works"]}
     

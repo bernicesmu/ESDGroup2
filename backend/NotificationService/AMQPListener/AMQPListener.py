@@ -22,7 +22,7 @@ hostname = 'mustang-01.rmq.cloudamqp.com'
 port = 5672
 virtual_host = 'zmclntbl'
 username = 'zmclntbl'
-password = 'ZpPr261W3iWCxoIy1IKCeINZGxK5pXAL'
+password = ''
 
 credentials = pika.PlainCredentials(username, password)
 parameters = pika.ConnectionParameters(hostname, port, virtual_host, credentials)
