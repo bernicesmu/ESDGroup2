@@ -10,7 +10,7 @@ class ClubMembersTableSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run()
     {
         //
         if (ClubMember::count() == 0) {
