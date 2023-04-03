@@ -17,109 +17,109 @@ class ClubMembersTableSeeder extends Seeder
             // Insert your data
             ClubMember::create([
                 'clubId' => 1,
-                'studentMatricNum' => '01429384',
+                'studentMatricNum' => '1429384',
                 'yearJoined' => '2022'
             ]);
 
             ClubMember::create([
                 'clubId' => 7,
-                'studentMatricNum' => '01429384',
+                'studentMatricNum' => '1429384',
                 'yearJoined' => '2023'
             ]);
 
             ClubMember::create([
                 'clubId' => 2,
-                'studentMatricNum' => '01338329',
+                'studentMatricNum' => '1338329',
                 'yearJoined' => '2021'
             ]);
 
             ClubMember::create([
                 'clubId' => 1,
-                'studentMatricNum' => '01338329',
+                'studentMatricNum' => '1338329',
                 'yearJoined' => '2022'
             ]);
 
             ClubMember::create([
                 'clubId' => 3,
-                'studentMatricNum' => '01301938',
+                'studentMatricNum' => '1301938',
                 'yearJoined' => '2021'
             ]);
 
             ClubMember::create([
                 'clubId' => 4,
-                'studentMatricNum' => '01301938',
+                'studentMatricNum' => '1301938',
                 'yearJoined' => '2021'
             ]);
 
             ClubMember::create([
                 'clubId' => 5,
-                'studentMatricNum' => '01449284',
+                'studentMatricNum' => '1449284',
                 'yearJoined' => '2023'
             ]);
 
             ClubMember::create([
                 'clubId' => 6,
-                'studentMatricNum' => '01449284',
+                'studentMatricNum' => '1449284',
                 'yearJoined' => '2021'
             ]);
 
             ClubMember::create([
                 'clubId' => 9,
-                'studentMatricNum' => '01302934',
+                'studentMatricNum' => '1302934',
                 'yearJoined' => '2023'
             ]);
 
             ClubMember::create([
                 'clubId' => 1,
-                'studentMatricNum' => '01419345',
+                'studentMatricNum' => '1419345',
                 'yearJoined' => '2022'
             ]);
 
             ClubMember::create([
                 'clubId' => 6,
-                'studentMatricNum' => '01419345',
+                'studentMatricNum' => '1419345',
                 'yearJoined' => '2023'
             ]);
 
             ClubMember::create([
                 'clubId' => 8,
-                'studentMatricNum' => '01986754',
+                'studentMatricNum' => '1986754',
                 'yearJoined' => '2021'
             ]);
 
             ClubMember::create([
                 'clubId' => 11,
-                'studentMatricNum' => '01986754',
+                'studentMatricNum' => '1986754',
                 'yearJoined' => '2021'
             ]);
 
             ClubMember::create([
                 'clubId' => 10,
-                'studentMatricNum' => '01237819',
+                'studentMatricNum' => '1237819',
                 'yearJoined' => '2019'
             ]);
 
             ClubMember::create([
                 'clubId' => 3,
-                'studentMatricNum' => '01815063',
+                'studentMatricNum' => '1815063',
                 'yearJoined' => '2020'
             ]);
 
             ClubMember::create([
                 'clubId' => 7,
-                'studentMatricNum' => '01429605',
+                'studentMatricNum' => '1429605',
                 'yearJoined' => '2021'
             ]);
 
             ClubMember::create([
                 'clubId' => 2,
-                'studentMatricNum' => '01760382',
+                'studentMatricNum' => '1760382',
                 'yearJoined' => '2022'
             ]);
 
             ClubMember::create([
                 'clubId' => 5,
-                'studentMatricNum' => '01760382',
+                'studentMatricNum' => '1760382',
                 'yearJoined' => '2023'
             ]);
         }
