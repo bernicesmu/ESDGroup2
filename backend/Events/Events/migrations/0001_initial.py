@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             name='event',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('clubName', models.CharField(max_length=255, validators=[Events.models.validate_notempty])),
+                ('clubId', models.CharField(max_length=255, validators=[Events.models.validate_notempty])),
                 ('eventName', models.CharField(max_length=255, validators=[Events.models.validate_notempty])),
                 ('eventConfirmed', models.BooleanField()),
                 ('eventType', models.CharField(choices=[('S', 'SMU Sports Union'), ('G', 'Arts and Fraternity Club'), ('P', 'Institute of Innovation and Entrepreneurship'), ('M', 'Managerial Committee'), ('O', 'Other')], max_length=255)),

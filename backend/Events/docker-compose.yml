@@ -33,6 +33,18 @@ services:
     depends_on:
       - eventDb
 
+  # eventMakeMigration:
+  #   build: .
+  #   image: regineshalom/event:1.0
+  #   command: python manage.py makemigrations
+  #   # restart: always
+  #   volumes:
+  #     - .:/code
+  #   networks:
+  #     - clumsynetwork
+  #   depends_on:
+  #     - eventDb
+
   eventLoadData: 
     build: . 
     image: regineshalom/event:1.0

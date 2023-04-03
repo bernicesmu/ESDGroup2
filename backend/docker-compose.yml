@@ -138,7 +138,7 @@ services:
     depends_on:
       - attendancesqldb
     volumes:
-      - attendancedb_data:/var/lib/postgresql/data/
+      - attendance_postgres_data:/var/lib/postgresql/data/
     networks: 
       - clumsy-net
 
