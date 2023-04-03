@@ -181,7 +181,7 @@ services:
   laravel-migrations:
     container_name: club_migrations
     build: ./club_zipped
-    command: sh -c "sleep 30 && php /var/www/html/club_zipped/artisan migrate --force"
+    command: sh -c "sleep 30 && php /var/www/html/club_zipped/artisan migrate --force && php /var/www/html/club_zipped/artisan db:seed --force"
     working_dir: /var/www/html/club_zipped
     volumes:
       - ./:/var/www/html
