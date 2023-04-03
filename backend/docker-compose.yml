@@ -275,7 +275,7 @@ services:
       MYSQL_USER: a
       MYSQL_PASSWORD: 1234
       MYSQL_DATABASE: telesessiondb
-      BOT_TOKEN: 
+      BOT_TOKEN: 6294207840:AAHlQtLMTUnUxQKtiWTRorUGPBMD1cuoUuo
     depends_on:
       - telesqldb-service
     networks:
@@ -292,7 +292,7 @@ services:
       MYSQL_USER: a
       MYSQL_PASSWORD: 1234
       MYSQL_DATABASE: telesessiondb
-      BOT_TOKEN: 
+      BOT_TOKEN: 6294207840:AAHlQtLMTUnUxQKtiWTRorUGPBMD1cuoUuo
     depends_on:
       - telesqldb-service
     networks:

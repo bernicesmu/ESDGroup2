@@ -57,7 +57,7 @@ def main():
             conn_mysql.close()
             matricNums = [matricNum, matricNum]
             # bot.reply_to(message, f"Your sid is {sid, type(sid)} matricNum is {matricNum}")
-            bot.reply_to(message, f"Your sid is {getSid(matricNums)}, matricNum is {matricNum}")
+            # bot.reply_to(message, f"Your sid is {getSid(matricNums)}, matricNum is {matricNum}")
             bot.reply_to(message, "Thank you! You have successfully registered for ClumsyBot notification services! Updates will be automatically sent.")
         except Exception as error:
             bot.reply_to(message, f"Hey dont work bro, {host_name, user,pw,db,bot_token}")
