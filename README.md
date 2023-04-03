@@ -29,12 +29,13 @@ The CLUMSY application can only work when both the backend and the frontend are 
 - File directory: ESDGroup2/frontend/main-app 
 - Command line: npm run start 
 
+___
+
 ### Accounts to login to CLUMSY
 | Email | Password |
 | ------------- | ------------- |
 | bryan.lee.2021@scis.smu.edu.sg  | chicken123  |
 
-___
 ### Signing up for CLUMSY's Telegram Bot (@clumy_notibot)
 1. Ensure backend has been started and Notification service is running.
 2. Search `@clumy_notibot` on Telegram.
