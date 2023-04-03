@@ -7,7 +7,7 @@ The CLUMSY application can only work when both the backend and the frontend are 
 
 ### To start the backend
 - File directory: ESDGroup2/backend 
-- Command line: docker-compose -f docker-compose-signup.yml up
+- Command line: docker-compose up
 
 | Docker Images | Docker Containers |
 | --------------------------- | --------------------------- |
