@@ -11,10 +11,10 @@ services:
     volumes:
       - attendancedb_data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: 2312
-      MYSQL_USER: esd
-      MYSQL_PASSWORD: 2312
-      MYSQL_DATABASE: attendancedb
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: attendance-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: rootroot
     networks:
       - attendance-mysql-net
     
