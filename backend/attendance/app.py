@@ -55,8 +55,6 @@ with app.app_context():
         a17 = Attendance(eventId=4, studentMatricNum=1419345, signUp=1)
         a20 = Attendance(eventId=5, studentMatricNum=1302934, signUp=1)
         a21 = Attendance(eventId=6, studentMatricNum=1301938, signUp=1)
-        a24 = Attendance(eventId=6, studentMatricNum=1429605, signUp=1)
-        
 
         db.session.add(a1)
         db.session.add(a2)
@@ -71,7 +69,6 @@ with app.app_context():
         db.session.add(a17)
         db.session.add(a20)
         db.session.add(a21)
-        db.session.add(a24)
         db.session.commit()
 # def attendance_serializer(db):
 #     if isinstance(db, Attendance):
