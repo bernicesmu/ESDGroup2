@@ -1,4 +1,4 @@
-# ESDGroup2
+# ESD G3T2
 ESD Project for AY22/23 Sem 2
 
 Members: Atrayee Dutt, Bernice Teo, Bryan Lee, Ivan Yeo, Lim Xun Yi, Regine Tan 
@@ -39,7 +39,7 @@ ___
 1. Ensure backend has been started and Notification service is running.
 2. Search `@clumy_notibot` on Telegram.
 3. Enter `/start` and follow bot's instructions. 
-4. Ensure that the matric number keyed in is sent on the front-end service.
+4. Key in a matriculation number that is available on the frontend pages. 
 
 ### Clearing Database 
 This is only applicable to services that uses `volumes` in `docker` to persist data through restarts. 
