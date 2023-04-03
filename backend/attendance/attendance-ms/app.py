@@ -5,6 +5,8 @@ from flask_cors import CORS
 import os, sys
 from flask_sqlalchemy import SQLAlchemy
 from os import environ
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 
 app = Flask(__name__)
@@ -49,7 +51,41 @@ with app.app_context():
 # # Convert your Attendance object to JSON using your custom serializer
 # attendance_json = json.dumps(Attendance, default=attendance_serializer)
 
+#start session
+    
+    attendance1 = Attendance(eventId=1, studentMatricNum=1429384, signUp=True)
+    attendance2 = Attendance(eventId=1, studentMatricNum=1338329, signUp=True)
+    attendance3 = Attendance(eventId=1, studentMatricNum=1301938, signUp=True)
+    attendance4 = Attendance(eventId=1, studentMatricNum=1237819, signUp=True)
+    attendance5 = Attendance(eventId=1, studentMatricNum=1815063, signUp=True)
+    attendance6 = Attendance(eventId=1, studentMatricNum=1429605, signUp=True)
+    attendance7 = Attendance(eventId=1, studentMatricNum=1760382, signUp=True)
+    attendance8 = Attendance(eventId=2, studentMatricNum=1338329, signUp=True)
+    attendance9 = Attendance(eventId=2, studentMatricNum=1301938, signUp=True)
+    attendance10 = Attendance(eventId=3, studentMatricNum=1338329, signUp=True)
+    attendance11 = Attendance(eventId=3, studentMatricNum=1301938, signUp=True)
+    attendance12 = Attendance(eventId=3, studentMatricNum=1338329, signUp=True)
+    attendance13 = Attendance(eventId=3, studentMatricNum=1301938, signUp=True)
+    attendance14 = Attendance(eventId=3, studentMatricNum=1302934, signUp=True)
+    attendance15 = Attendance(eventId=4, studentMatricNum=1338329, signUp=True)
+    attendance16 = Attendance(eventId=4, studentMatricNum=1301938, signUp=True)
+    attendance17 = Attendance(eventId=4, studentMatricNum=1419345, signUp=True)
+    attendance18 = Attendance(eventId=4, studentMatricNum=1986754, signUp=True)
+    attendance19 = Attendance(eventId=4, studentMatricNum=1237819, signUp=True)
+    attendance20 = Attendance(eventId=5, studentMatricNum=1302934, signUp=True)
+    attendance21 = Attendance(eventId=6, studentMatricNum=1301938, signUp=True)
+    attendance22 = Attendance(eventId=6, studentMatricNum=1338329, signUp=True)
+    attendance23 = Attendance(eventId=6, studentMatricNum=1301938, signUp=True)
+    attendance24 = Attendance(eventId=6, studentMatricNum=1429605, signUp=True)
+    attendance25 = Attendance(eventId=6, studentMatricNum=1760382, signUp=True)
 
+    engine = create_engine('sqlite:///attendancesqldb.db')
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    session.add_all([attendance1, attendance2, attendance3, attendance4,attendance5,attendance6,attendance7,attendance8,attendance9,attendance10,attendance11,attendance12,attendance13,attendance14,attendance15,attendance16,attendance17,attendance18,attendance19,attendance20,attendance21,attendance22,attendance23,attendance24,attendance25 ])
+    session.commit()
+    #session end
 
     # # Create a new user
     # new_user = User(name='is213')
