@@ -29,7 +29,7 @@ The CLUMSY application can only work when both the backend and the frontend are 
 - File directory: ESDGroup2/frontend/main-app 
 - Command line: npm run start 
 
-Accounts to login to CLUMSY 
+### Accounts to login to CLUMSY 
 | Email | Password |
 | ------------- | ------------- |
 | bryan.lee.2021@scis.smu.edu.sg  | chicken123  |
