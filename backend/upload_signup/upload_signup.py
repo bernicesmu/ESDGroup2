@@ -160,7 +160,7 @@ def broadcast():
     port = 5672
     virtual_host = 'zmclntbl'
     username = 'zmclntbl'
-    password = 'RHdJcUdZOqnw15vsjSiJAFrtNIC2lR6-'
+    password = ''
 
     # Connect to RabbitMQ
     credentials = pika.PlainCredentials(username, password)
