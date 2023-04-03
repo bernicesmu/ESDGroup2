@@ -15,7 +15,7 @@ volumes:
   event_postgres_data:
   clumsybot_data:
   clubdb_data:
-  # attendancedb_data:
+  attendance_postgres_data:
 
 services: 
   upload_signup: 
@@ -66,7 +66,7 @@ services:
   event:
     # container_name: event-ms
     image: bernicesmu/event:1.0
-    build: ./Events
+    build: ./events
     command: python manage.py runserver 0.0.0.0:8000 --settings=api.settings --noreload 
     volumes:
       - .:/code
@@ -77,11 +77,25 @@ services:
     depends_on:
       - eventDb
       - eventMigration
+      - eventMakeMigration
 
   eventMigration:
-    build: ./Events
+    build: ./events
     image: bernicesmu/event:1.0
-    command: python manage.py migrate --noinput
+    command: python manage.py migrate
+    # restart: always
+    volumes:
+      - .:/code
+    networks:
+      - clumsy-net
+    depends_on:
+      - eventDb
+      - eventMakeMigration
+
+  eventMakeMigration:
+    build: ./events
+    image: bernicesmu/event:1.0
+    command: python manage.py makemigrations 
     # restart: always
     volumes:
       - .:/code
@@ -130,8 +144,8 @@ services:
   attendancesqldb:
     container_name: attendancesqldb
     image: postgres:13
-    # volumes:
-    #   - attendance_postgres_data:/var/lib/postgresql/data/
+    volumes:
+      - attendance_postgres_data:/var/lib/postgresql/data/
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_DB: attendance-db
@@ -237,53 +251,53 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       
-  telesqldb-service:
-    image: mysql:latest
-    hostname: telesqldb
-    restart: always
-    volumes:
-      - clumsybot_data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_USER: a
-      MYSQL_PASSWORD: 1234
-      MYSQL_DATABASE: telesessiondb
-    networks:
-      - clumsy-net
+  # telesqldb-service:
+  #   image: mysql:latest
+  #   hostname: telesqldb
+  #   restart: always
+  #   volumes:
+  #     - clumsybot_data:/var/lib/mysql
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: 1234
+  #     MYSQL_USER: a
+  #     MYSQL_PASSWORD: 1234
+  #     MYSQL_DATABASE: telesessiondb
+  #   networks:
+  #     - clumsy-net
 
-  amqplistener-service:
-    image: bernicesmu/amqplistener
-    build: ./NotificationService/AMQPListener
-    environment:
-      HOST_NAME: telesqldb
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_USER: a
-      MYSQL_PASSWORD: 1234
-      MYSQL_DATABASE: telesessiondb
-      BOT_TOKEN: 6294207840:AAH_9_2Kr3qITOXdMeiahXOCTPU1HiPRXNQ
-    depends_on:
-      - telesqldb-service
-    networks:
-      - clumsy-net
-    volumes:
-      - clumsybot_data:/var/lib/mysql
+  # amqplistener-service:
+  #   image: bernicesmu/amqplistener
+  #   build: ./NotificationService/AMQPListener
+  #   environment:
+  #     HOST_NAME: telesqldb
+  #     MYSQL_ROOT_PASSWORD: 1234
+  #     MYSQL_USER: a
+  #     MYSQL_PASSWORD: 1234
+  #     MYSQL_DATABASE: telesessiondb
+  #     BOT_TOKEN: 6294207840:AAH_9_2Kr3qITOXdMeiahXOCTPU1HiPRXNQ
+  #   depends_on:
+  #     - telesqldb-service
+  #   networks:
+  #     - clumsy-net
+  #   volumes:
+  #     - clumsybot_data:/var/lib/mysql
 
-  clumsybot-service:
-    image: bernicesmu/clumsybot
-    build: ./NotificationService/ClumsyBot/
-    environment:
-      HOST_NAME: telesqldb
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_USER: a
-      MYSQL_PASSWORD: 1234
-      MYSQL_DATABASE: telesessiondb
-      BOT_TOKEN: 6294207840:AAH_9_2Kr3qITOXdMeiahXOCTPU1HiPRXNQ
-    depends_on:
-      - telesqldb-service
-    networks:
-      - clumsy-net
-    volumes:
-      - clumsybot_data:/var/lib/mysql
+  # clumsybot-service:
+  #   image: bernicesmu/clumsybot
+  #   build: ./NotificationService/ClumsyBot/
+  #   environment:
+  #     HOST_NAME: telesqldb
+  #     MYSQL_ROOT_PASSWORD: 1234
+  #     MYSQL_USER: a
+  #     MYSQL_PASSWORD: 1234
+  #     MYSQL_DATABASE: telesessiondb
+  #     BOT_TOKEN: 6294207840:AAH_9_2Kr3qITOXdMeiahXOCTPU1HiPRXNQ
+  #   depends_on:
+  #     - telesqldb-service
+  #   networks:
+  #     - clumsy-net
+  #   volumes:
+  #     - clumsybot_data:/var/lib/mysql
 
   # amqplistener-service:
   #   image: bernicesmu/amqplistener

@@ -40,6 +40,39 @@ class Attendance(db.Model):
 
 with app.app_context():
     db.create_all()
+    
+    if len(Attendance.query.all()) == 0:
+        a1 = Attendance(eventId=1, studentMatricNum=1429384, signUp=1)
+        a2 = Attendance(eventId=1, studentMatricNum=1338329, signUp=1)
+        a3 = Attendance(eventId=1, studentMatricNum=1301938, signUp=1)
+        a8 = Attendance(eventId=2, studentMatricNum=1338329, signUp=1)
+        a9 = Attendance(eventId=2, studentMatricNum=1301938, signUp=1)
+        a10 = Attendance(eventId=3, studentMatricNum=1338329, signUp=1)
+        a11 = Attendance(eventId=3, studentMatricNum=1301938, signUp=1)
+        a14 = Attendance(eventId=3, studentMatricNum=1302934, signUp=1)
+        a15 = Attendance(eventId=4, studentMatricNum=1338329, signUp=1)
+        a16 = Attendance(eventId=4, studentMatricNum=1301938, signUp=1)
+        a17 = Attendance(eventId=4, studentMatricNum=1419345, signUp=1)
+        a20 = Attendance(eventId=5, studentMatricNum=1302934, signUp=1)
+        a21 = Attendance(eventId=6, studentMatricNum=1301938, signUp=1)
+        a24 = Attendance(eventId=6, studentMatricNum=1429605, signUp=1)
+        
+
+        db.session.add(a1)
+        db.session.add(a2)
+        db.session.add(a3)
+        db.session.add(a8)
+        db.session.add(a9)
+        db.session.add(a10)
+        db.session.add(a11)
+        db.session.add(a14)
+        db.session.add(a15)
+        db.session.add(a16)
+        db.session.add(a17)
+        db.session.add(a20)
+        db.session.add(a21)
+        db.session.add(a24)
+        db.session.commit()
 # def attendance_serializer(db):
 #     if isinstance(db, Attendance):
 #         return {
