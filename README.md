@@ -6,8 +6,8 @@ Members: Atrayee Dutt, Bernice Teo, Bryan Lee, Ivan Yeo, Lim Xun Yi, Regine Tan
 The CLUMSY application can only work when both the backend and the frontend are running 
 
 ### To start the backend
-- File directory: ESDGroup2/backend 
-- Command line: docker-compose up
+- File directory: `ESDGroup2/backend` 
+- Command line: `docker-compose up`
 
 | Docker Images | Docker Containers |
 | --------------------------- | --------------------------- |
@@ -26,8 +26,8 @@ The CLUMSY application can only work when both the backend and the frontend are 
 | bernicesmu/event:1.0 | eventMigration |
 
 ### To start the frontend
-- File directory: ESDGroup2/frontend/main-app 
-- Command line: npm run start 
+- File directory: `ESDGroup2/frontend/main-app`
+- Command line: `npm run start`
 
 ___
 
