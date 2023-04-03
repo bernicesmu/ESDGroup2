@@ -35,12 +35,16 @@ ___
 | Email | Password |
 | ------------- | ------------- |
 | bryan.lee.2021@scis.smu.edu.sg  | chicken123  |
+| bernice.teo.2021@scis.smu.edu.sg  | chicken123  |
 
 ### Signing up for CLUMSY's Telegram Bot (@clumy_notibot)
 1. Ensure backend has been started and Notification service is running.
 2. Search `@clumy_notibot` on Telegram.
 3. Enter `/start` and follow bot's instructions. 
 4. Key in a matriculation number that is available on the frontend pages. 
+
+### Uploading a sign up sheet 
+Please use the Excel file `Sign Up Sheet.xlsx` located in `ESDGroup2/frontend/main-app/src/assets` to test out the upload sign up sheet feature in the Attendance UI.
 
 ### Clearing Database 
 This is only applicable to services that uses `volumes` in `docker` to persist data through restarts. 
