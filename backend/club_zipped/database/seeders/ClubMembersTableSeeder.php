@@ -80,48 +80,6 @@ class ClubMembersTableSeeder extends Seeder
                 'studentMatricNum' => '1419345',
                 'yearJoined' => '2023'
             ]);
-
-            ClubMember::create([
-                'clubId' => 8,
-                'studentMatricNum' => '1986754',
-                'yearJoined' => '2021'
-            ]);
-
-            ClubMember::create([
-                'clubId' => 11,
-                'studentMatricNum' => '1986754',
-                'yearJoined' => '2021'
-            ]);
-
-            ClubMember::create([
-                'clubId' => 10,
-                'studentMatricNum' => '1237819',
-                'yearJoined' => '2019'
-            ]);
-
-            ClubMember::create([
-                'clubId' => 3,
-                'studentMatricNum' => '1815063',
-                'yearJoined' => '2020'
-            ]);
-
-            ClubMember::create([
-                'clubId' => 7,
-                'studentMatricNum' => '1429605',
-                'yearJoined' => '2021'
-            ]);
-
-            ClubMember::create([
-                'clubId' => 2,
-                'studentMatricNum' => '1760382',
-                'yearJoined' => '2022'
-            ]);
-
-            ClubMember::create([
-                'clubId' => 5,
-                'studentMatricNum' => '1760382',
-                'yearJoined' => '2023'
-            ]);
         }
     }
 }
