@@ -51,3 +51,6 @@ This is only applicable to services that uses `volumes` in `docker` to persist d
 1. Ensure that the relevant containers have been deleted. Use `docker-compose down`. 
 2. Go to volume tab inside **Docker Desktop** and locate the relevant volumes. Delete those volumes.
 3. Additionally, ensure that `restart: always` is set on the service tied with the deleted volume / database. This is to prevent instances where `docker` takes longer to initialize the db and your service is unable to connect to it.
+
+### Notes 
+The credentials for the AMQP and Telegram Bot set up is not included in this GitHub repository for security reasons. 
