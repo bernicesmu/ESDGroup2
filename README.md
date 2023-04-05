@@ -53,4 +53,4 @@ This is only applicable to services that uses `volumes` in `docker` to persist d
 3. Additionally, ensure that `restart: always` is set on the service tied with the deleted volume / database. This is to prevent instances where `docker` takes longer to initialize the db and your service is unable to connect to it.
 
 ### Notes 
-The credentials for the AMQP and Telegram Bot set up is not included in this GitHub repository for security reasons. 
+The credentials for the AMQP and Telegram Bot set up are not included in this GitHub repository for security reasons. 
